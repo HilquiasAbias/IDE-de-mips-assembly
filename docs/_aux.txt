@@ -1,0 +1,183 @@
+
+iType {
+    type a = op, rt, rs, imm -> 7 instructions
+    type b = op, rs, rt, label -> 2 instructions
+    type c = op, rs, label (rt = 00001) -> 1 instruction
+    type d = op, rs, label (rt = 00000) -> 3 instructions
+    type e = op, rt, imm(rs) -> 10 instructions
+    type f = op, rt, imm -> 1 instruction
+}
+
+rType {
+    type a = fn, rd, rs, rt -> 10 instructions
+    type b = fn -> 2 instructions
+    type c = fn, rs, rt -> 4 instructions
+    type d = fn, rd -> 2 instructions
+    type e = fn, rd, rt, sa -> 3 instructions
+    type f = fn, rd, rt, rs -> 3 instructions
+    type g = fn, rs -> 3 instructions
+    type h = fn, rd, rs -> 1 instruction
+}
+
+jType {
+    label, op, coded address of label -> 2 instructions
+}
+
+
+# code #
+
+addi $2, $0, 5
+syscall
+add $4, $2, $2
+addi $2, $0, 1
+syscall
+addi $2, $0, 10
+syscall
+
+# systemMounted #
+
+sys {
+    memory: {
+        $0: 0, $1: 0, $2: 0, $3: 0, $4: 0, $5: 0, $6: 0, $7: 0, $8: 0, $9: 0,
+        $10: 0, $11: 0, $12: 0, $13: 0, $14: 0, $15: 0, $16: 0, $17: 0, $18: 0, $19: 0,
+        $20: 0, $21: 0, $22: 0, $23: 0, $24: 0, $25: 0, $26: 0, $27: 0, $28: 0, $29: 0,
+        $30: 0, $31: 0, pc: 4, hi: 0, lo: 0
+    },
+    addressCount: 0,
+    instructions: [
+        {
+            address: '0x00000004', 
+            hex: '0x20020005', 
+            registers: {
+                destinationRegister: "$2",
+                operands:  {first: '$0', second: 5}
+            }, 
+            typing: {
+                org:  "a",
+                type: "i"
+            }, 
+            do: ƒ
+        },
+        {
+            address: '0x00000008', 
+            hex: '0x0000000c', 
+            typing: {type: 'r', org: 'b'}, 
+            syscall: true}
+        {
+            address: '0x0000000c', 
+            hex: '0x00422020', 
+            registers: {…}, 
+            typing: {…}, 
+            do: ƒ
+        },
+        {
+            address: '0x00000010', 
+            hex: '0x20020001', 
+            registers: {…}, 
+            typing: {…}, 
+            do: ƒ
+        },
+        {
+            address: '0x00000014', 
+            hex: '0x0000000c', 
+            typing: {…}, 
+            syscall: true}
+        {
+            address: '0x00000018', 
+            hex: '0x2002000a', 
+            registers: {…}, 
+            typing: {…}, 
+            do: ƒ
+        },
+        {
+            address: '0x0000001c', 
+            hex: '0x0000000c', 
+            typing: {…}, 
+            syscall: true
+        }
+    ],
+    memoryStackTimeline: [],
+    viewInformations: [
+        {address: '0x00000004', hex: '0x20020005', line: 1}
+        {address: '0x00000008', hex: '0x0000000c', line: 2}
+        {address: '0x0000000c', hex: '0x00422020', line: 3}
+        {address: '0x00000010', hex: '0x20020001', line: 4}
+        {address: '0x00000014', hex: '0x0000000c', line: 5}
+        {address: '0x00000018', hex: '0x2002000a', line: 6}
+        {address: '0x0000001c', hex: '0x0000000c', line: 7}
+    ],
+    lastInstructionExecuted: 0
+}
+
+1º
+main:  addi $2, $0, 5
+       syscall
+       add $4, $2, $2
+       addi $2, $0, 1
+       syscall
+       addi $2, $0, 10
+       syscall
+
+2º
+['main:addi', '$2,', '$0,', '5']
+['syscall']
+['add', '$4,' ',$2,', '$2']
+['addi', '$2,', '$0,', '1']
+['syscall']
+['addi', '$2,', '$0,', '10']
+['syscall']
+
+3º
+[
+    { func: 'addi', values: [ '$2,', '$0,', '5' ], label: 'main', line: 1 },
+    { func: 'syscall', values: null, label: '', line: 2 },
+    { func: 'add', values: [ '$4,' ',$2,', '$2' ], label: '', line: 3 },
+    { func: 'addi', values: [ '$2,', '$0,', '1' ], label: '', line: 4 },
+    { func: 'syscall', values: null, label: '', line: 5 },
+    { func: 'addi', values: [ '$2,', '$0,', '10' ], label: '', line: 6 },
+    { func: 'syscall', values: null, label: '', line: 7 }
+]
+
+4º
+[ 
+    {
+        address: '0x00000004', 
+        hex: '0x20020005', 
+        registers: {
+            destinationRegister: '$2', 
+            operands: { 
+                first: '$0', 
+                second: 5
+            } 
+        }, 
+        typing: {
+            type: 'i',
+            org: 'a'
+        },
+        label: 'main',
+        do: ƒ,
+    },
+    {address: '0x00000008', hex: '0x0000000c', typing: {…}, syscall: true},
+    {address: '0x0000000c', hex: '0x00422020', registers: {…}, typing: {…}, do: ƒ,},
+    {address: '0x00000010', hex: '0x20020001', registers: {…}, typing: {…}, do: ƒ,},
+    {address: '0x00000014', hex: '0x0000000c', typing: {…}, syscall: true},
+    {address: '0x00000018', hex: '0x2002000a', registers: {…}, typing: {…}, do: ƒ,},
+    {address: '0x0000001c', hex: '0x0000000c', typing: {…}, syscall: true}
+]
+
+main:  addi $2, $0, 5
+       syscall
+       add $4, $2, $2
+print:
+       addi $2, $0, 1
+       syscall
+end:   addi $2, $0, 10
+       syscall
+
+
+main:  addi $2, $0, 5
+ 
+print:
+
+       addi $2, $0, 1
+end:   addi $2, $0, 10

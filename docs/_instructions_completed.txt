@@ -1,0 +1,73 @@
+i type = {
+    complete: [
+        addi,
+        andi,
+        ori,
+        slti,
+        sltiu,
+        xori
+    ],
+    incomplete: [
+        addiu, 
+        beq, 
+        bgez, 
+        bgtz, 
+        blez, 
+        bltz, 
+        bne,
+        lb,
+        lbu,	
+        lh,
+        lhu,
+        lui, 
+        lw,
+        lwc1,
+        sb,
+        sh,	
+        sw,
+        swc1
+    ]
+}
+
+
+r type {
+    complete: [
+        add,
+        addu,
+        and,
+        or,
+        nor,
+        slt,
+        sub,
+
+    ],
+    incomplete: [
+        break,
+        div,
+        divu,
+        jalr,
+        jr,
+        mfhi,
+        mflo,
+        mthi,
+        mtlo,
+        mult,
+        multu,
+        sll,
+        sllv,
+        sltu,
+        sra,
+        srav,
+        srl,
+        srlv,
+        subu,
+        syscall,
+        xor,
+    ]
+}
+
+j type {
+    j ->
+    jal ->
+}
+
