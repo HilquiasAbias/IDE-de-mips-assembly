@@ -5,11 +5,15 @@
 
 
 
+
+
 > #### Deve possuir:
 >
 > - Tratamento de erros.
 > - Exibir registradores, pilha de memória e pilha dos códigos de execução em hexadecimal.
 > - Simular execução em processador MIPS32.
+
+
 
 
 
