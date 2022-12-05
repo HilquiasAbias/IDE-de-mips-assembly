@@ -1,7 +1,7 @@
 import instructions from "./instructions.js";
 
 export default function operationInstruction(instruction) {
-    console.log(instruction);
+    //console.log(instruction);
     
     if ( instructions[ instruction.func ].type === 'a' ) {
         return {

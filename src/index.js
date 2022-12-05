@@ -17,13 +17,13 @@ mount.addEventListener('click', () => {
     // TODO: Função para receber o input e tratar todos os casos de escrita.
     //       como erros, espaços em branco na mesma linha, espaço em branco entrelinhas, case sensitive, etc...
 
-    //sys.Clean();
+    sys.Clean();
 
     const inputInstructions = formatting.handleUserInput(input.value)
     const organizedInstructions = formatting.organizeInstructions(inputInstructions)
     
-    console.log(inputInstructions);
-    console.log(organizedInstructions);
+    // console.log(inputInstructions);
+    // console.log(organizedInstructions);
     
 
     organizedInstructions.forEach( (instruction, index) => {

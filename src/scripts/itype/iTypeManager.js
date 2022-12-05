@@ -16,7 +16,7 @@ export function isTypeI(op) {
     return instructions[op] !== undefined;
 }
 
-export function formatInstruction(instruction, memorySpace) { // ['addi', '$2,', '$0,', '5'], 8
+export function formatInstruction(instruction, memorySpace) { // { label: null, func: 'addi', values: ['$2', '$0', '5'] }, 4
     const binaryInstrution = selectOrganizationType( // '001000000100000000101'
         instructions[ instruction.func ].type, // i
         formatting.formatInstructionsInBinary( [ instruction.func, ...instruction.values ] ) // ['001000', '00010', '00000', '00101']
