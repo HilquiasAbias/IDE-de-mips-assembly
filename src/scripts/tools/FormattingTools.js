@@ -1,3 +1,7 @@
+import { isTypeI } from "../itype/iTypeManager.js";
+import { isTypeR } from "../rtype/rTypeManager.js";
+//import { isTypeJ } from "../jtype/jTypeManager";
+
 export function convertDecimalToBin(dec) {
     return dec.toString(2);
 }
@@ -51,7 +55,7 @@ export function convertBinInstructionToHex(binaryInstrution) {
     const array = [];
     let i = 0;
     while (i++ !== 8) array.push(arrayFromBinary.splice(0, 4).join(''));
-    return array.map(element => convertBinToHex(element)).join('');
+    return '0x' + array.map(element => convertBinToHex(element)).join('');
 }
 
 export function formatAddress(addressCount) {
@@ -74,24 +78,29 @@ export function organizeInstructions(instructions) {
     return instructions.map( instruction => structureInstruction(instruction) )
 }
 
-export function structureInstruction(instruction) {
-    let obj = {}, aux
+export function structureInstruction(instruction) { // 'main:    addi $2, $0, 5'
+    const properties = {
+        label: null,
+        func: null,
+        values: null
+    }
+
     instruction = instruction.trim()
 
     if (instruction.includes(':')) {
-        aux = instruction.split(':')
-        obj.label = aux[0]
+        let aux = instruction.split(':') // ['main:', '   addi $2, $0, 5']
+        properties.label = aux[0]
         aux = aux[1].trim().split(' ').map(el => el.trim())
-        obj.func = aux.length > 1 ? aux[0] : null
-        obj.values = aux.length > 1 ? cleanInstruction(aux.slice(1)) : null
+        properties.func = aux.length > 1 ? aux[0] : null
+        properties.values = aux.length > 1 ? cleanInstruction(aux.slice(1)) : null
     }
 
     else {
-        obj.label = null
-        aux = instruction.trim().split(' ').map(el => el.trim())
-        obj.func = aux[0]
-        obj.values =  aux.length > 1 ? cleanInstruction(aux.slice(1)) : null
+        properties.label = null
+        let aux = instruction.trim().split(' ').map(el => el.trim())
+        properties.func = aux[0]
+        properties.values =  aux.length > 1 ? cleanInstruction(aux.slice(1)) : null
     }
 
-    return obj
+    return properties // { label: 'main', func: 'addi', values: ['$2', '$0', '5']}
 }

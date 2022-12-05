@@ -1,7 +1,7 @@
 import * as tools from "../tools/FormattingTools.js"
 import instructions from "./instructions.js"
 
-const formatAddress = {
+const formatAddress = { // talvez seja obsoleto, atente para a possibilidade de ter um "formatAddress" em cada organizationType
     op: '000000',
     rs: '00000',
     rt: '00000',
@@ -36,17 +36,20 @@ export function organizationTypeD(arr) {
     formatAddress.op = arr[0]
     formatAddress.rs = arr[1]
     formatAddress.immOrLabel = arr[2]
-    formatAddress.rt = '00000'
     return Object.values(formatAddress).join('')
 }
 
-export function organizationTypeE(arr) {
-    // ...
-    return Object.values(formatAddress).join('')
-}
-
-export function organizationTypeF(arr) {
+export function organizationTypeE(arr) { // ['100011', '01001', '01000', '0000000000000100']
     formatAddress.op = arr[0]
+    formatAddress.rs = arr[1]
+    formatAddress.rt = arr[2]
+    formatAddress.immOrLabel = arr[3]
+    return Object.values(formatAddress).join('')
+}
+
+export function organizationTypeF(arr) { // ['lui', '$8', '10']
+    formatAddress.op = arr[0]
+    formatAddress.rs = '00000'
     formatAddress.rt = arr[1]
     formatAddress.immOrLabel = arr[2]
     return Object.values(formatAddress).join('')
@@ -54,15 +57,26 @@ export function organizationTypeF(arr) {
 
 export function formatImmElement(imm) {
     let temp = parseInt(imm)
-    if (imm.includes('-')) temp += 65536; // pode dar erro pois o cleanElement talvez tire o sinal de menos
+    if (imm.includes('-')) temp += 65536 // pode dar erro pois o cleanElement talvez tire o sinal de menos
     return tools.completeImmLength(tools.convertDecimalToBin(temp))
 }
 
-export function formatInstructionsInBinary(binaryInstruction) {
-    const imm = formatImmElement( binaryInstruction.pop() )
-    const func = instructions[ binaryInstruction.shift() ].function
+export function formatInstructionsInBinary(instruction) { // ['addi', '$2', '$0', '5']      ['lw', '$8', '4($9)']
+    const lastElement = instruction.pop()
+    const func = instructions[ instruction.shift() ].function
 
-    const cleanedElements = binaryInstruction.map((element) => tools.convertDecimalToBin(parseInt(tools.cleanElement(element))))
+    const cleanedElements = instruction.map((element) => {
+        return tools.convertDecimalToBin( parseInt( tools.cleanElement(element) ) )
+    })
 
-    return [ func, ...tools.completeElementsLength(cleanedElements), imm ]; // [ '001000',  ]
+    if (lastElement.includes('(')) {
+        const rs = tools.convertDecimalToBin( parseInt( tools.cleanElement( lastElement.slice( lastElement.indexOf('$'), lastElement.indexOf(')') ) ) ) )
+        const imm = formatImmElement( lastElement.slice(0, lastElement.indexOf('(') ) ) 
+
+        return [ func, ...tools.completeElementsLength([rs]), ...tools.completeElementsLength(cleanedElements), imm ]
+    }
+
+    return [ func, ...tools.completeElementsLength(cleanedElements), formatImmElement(lastElement) ]; // [ '001000',  ]
 }
+
+// main:  lw $8, 4($9)

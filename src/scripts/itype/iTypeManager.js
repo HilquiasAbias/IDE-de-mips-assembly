@@ -3,17 +3,21 @@ import * as formatting from "./formatting.js";
 import instructions from "./instructions.js";
 import operateInstrucion from "./createOperationInstruction.js";
 
-function selectOrganizationType(type, arr) {
+function selectOrganizationType(type, arr) { // a, ['addi', '$2', '$0', '5']
     if (type === 'a') return formatting.organizationTypeA(arr);
     if (type === 'b') return formatting.organizationTypeB(arr);
     if (type === 'c') return formatting.organizationTypeC(arr);
-    if (type === 'd') return formatting.organizationTypeC(arr);
-    if (type === 'e') return formatting.organizationTypeC(arr);
-    if (type === 'f') return formatting.organizationTypeC(arr);
+    if (type === 'd') return formatting.organizationTypeD(arr);
+    if (type === 'e') return formatting.organizationTypeE(arr);
+    if (type === 'f') return formatting.organizationTypeF(arr);
 }
 
 export function isTypeI(op) {
     return instructions[op] !== undefined;
+}
+
+export function whichOrganization(op) {
+    return instructions[op].type
 }
 
 export function formatInstruction(instruction, memorySpace) { // { label: null, func: 'addi', values: ['$2', '$0', '5'] }, 4
@@ -24,9 +28,9 @@ export function formatInstruction(instruction, memorySpace) { // { label: null, 
 
     return {
         address: tools.formatAddress(memorySpace), // 0x00000004
-        hex: '0x' + tools.convertBinInstructionToHex(binaryInstrution), // 0x00040805
+        hex: tools.convertBinInstructionToHex(binaryInstrution), // 0x00040805
         do: instructions[ instruction.func ].does, // ( rs, imm) => rs + imm
-        registers: operateInstrucion(instruction),
+        GPR: operateInstrucion(instruction),
         typing: {
             type: 'i',
             org: instructions[ instruction.func ].type

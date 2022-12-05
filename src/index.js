@@ -26,7 +26,7 @@ mount.addEventListener('click', () => {
     // console.log(organizedInstructions);
     
 
-    organizedInstructions.forEach( (instruction, index) => {
+    organizedInstructions.forEach( (instruction, index) => { // [ { label: 'main', func: 'addi', values: ['$2', '$0', '5']}, {...}, {...}, ...]
         if ( iType.isTypeI( instruction.func ) ) {
             const res = iType.formatInstruction( instruction, sys.addressCount += 4 )
 
@@ -70,7 +70,6 @@ mount.addEventListener('click', () => {
             )
         }
     });
-
     sys.memory.pc = formatting.convertHexToDecimal( sys.instructions[ sys.lastInstructionExecuted ].address )
 
     // sys.viewInformations.forEach()

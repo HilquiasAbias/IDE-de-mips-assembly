@@ -59,8 +59,13 @@ export default {
         does: null 
     },
 
+    lw: {
+        function: '100011',
+        type: 'e',
+        does: null
+    },
     /*
-    lw	rt, imm(rs)	100011	
+    lw	rt, imm(rs)	100011
     lwc1	rt, imm(rs)	110001
     */
 
@@ -88,7 +93,7 @@ export default {
     /*
     sh	rt, imm(rs)	101001	
     sw	rt, imm(rs)	101011	
-    swc1	rt, imm(rs)	111001
+    swc1  rt, imm(rs)	111001
     */
     
     xori: { 
