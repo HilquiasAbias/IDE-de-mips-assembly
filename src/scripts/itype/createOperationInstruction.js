@@ -1,7 +1,8 @@
 import instructions from "./instructions.js";
+import { whichOrganization } from "./iTypeManager.js";
 
 export default function operationInstruction(instruction) { // { label: null, func: 'addi', values: ['$2', '$0', '5'] }
-    if ( instructions[ instruction.func ].type === 'a' ) { // 10 instructions
+    if ( whichOrganization(instruction.func) === 'a' ) { // 10 instructions
         return {
             rt: instruction.values[0],
             rs: instruction.values[1],
@@ -9,7 +10,7 @@ export default function operationInstruction(instruction) { // { label: null, fu
         };
     }
 
-    if ( instructions[ instruction.func ].type === 'b' ) { // 2 instructions
+    if ( whichOrganization(instruction.func) === 'b' ) { // 2 instructions
         return {
             rs: instruction.values[0],
             rt: instruction.values[1],
@@ -17,21 +18,21 @@ export default function operationInstruction(instruction) { // { label: null, fu
         }
     }
 
-    if ( instructions[ instruction.func ].type === 'c' ) { // 4 instructions
+    if ( whichOrganization(instruction.func) === 'c' ) { // 4 instructions
         return {
             rs: instruction.values[0],
             offset: instruction.values[1]
         }
     }
 
-    if ( instructions[ instruction.func ].type === 'd' ) {
+    if ( whichOrganization(instruction.func) === 'd' ) {
         return {
             rs: instruction.values[0],
             offset: instruction.values[1]
         }
     }
 
-    if ( instructions[ instruction.func ].type === 'e') {
+    if ( whichOrganization(instruction.func) === 'e') {
         return {
             rs: instruction.values[1].slice( instruction.values[1].indexOf('$'), instruction.values[1].indexOf(')') ),
             rt: instruction.values[0],
@@ -39,7 +40,7 @@ export default function operationInstruction(instruction) { // { label: null, fu
         }
     }
 
-    if ( instructions[ instruction.func ].type === 'f') {
+    if ( whichOrganization(instruction.func) === 'f') {
         return {
             rs: instruction.values[0],
             imm: parseInt( instruction.values[1] )
