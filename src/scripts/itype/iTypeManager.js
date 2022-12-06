@@ -4,6 +4,8 @@ import instructions from "./instructions.js";
 import operateInstrucion from "./createOperationInstruction.js";
 
 function selectOrganizationType(type, arr) { // a, ['addi', '$2', '$0', '5']
+    console.log(arr);
+
     if (type === 'a') return formatting.organizationTypeA(arr);
     if (type === 'b') return formatting.organizationTypeB(arr);
     if (type === 'c') return formatting.organizationTypeC(arr);

@@ -36,6 +36,7 @@ export function organizationTypeD(arr) {
     formatAddress.op = arr[0]
     formatAddress.rs = arr[1]
     formatAddress.immOrLabel = arr[2]
+    formatAddress.rt = '00000'
     return Object.values(formatAddress).join('')
 }
 
@@ -69,9 +70,16 @@ export function formatInstructionsInBinary(instruction) { // ['addi', '$2', '$0'
         return tools.convertDecimalToBin( parseInt( tools.cleanElement(element) ) )
     })
 
+    console.log(lastElement);
+    console.log(func);
+    console.log(cleanedElements);
+
     if (lastElement.includes('(')) {
         const rs = tools.convertDecimalToBin( parseInt( tools.cleanElement( lastElement.slice( lastElement.indexOf('$'), lastElement.indexOf(')') ) ) ) )
         const imm = formatImmElement( lastElement.slice(0, lastElement.indexOf('(') ) ) 
+
+        console.log(rs);
+        console.log(imm);
 
         return [ func, ...tools.completeElementsLength([rs]), ...tools.completeElementsLength(cleanedElements), imm ]
     }

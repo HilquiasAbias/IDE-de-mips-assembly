@@ -1,6 +1,12 @@
 .text
 
-main:  lw $8, 4($9)
+addi $8, $0, 5
+beq $8, $9, lbBeq
+bgez $10, lbBgez
+bgtz $11, lbBgtz
+lw $13, 4($12)
+lui $14, 100
 
-lui $8, 10
-
+lbBeq:
+lbBgez:
+lbBgtz:
