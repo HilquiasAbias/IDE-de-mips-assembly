@@ -33,8 +33,8 @@ mount.addEventListener('click', () => {
             sys.instructions.push(res);
             sys.viewInformations.push({
                 address: res.address,
+                line: index + 1,
                 hex: res.hex,
-                line: index + 1
             });
 
             return
