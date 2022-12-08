@@ -338,4 +338,19 @@ for (let i = 0; i < 7; i++) {
     bin = bin.slice(4)
 }
 
-console.log(arr);
+// console.log(arr);
+
+const test = {}
+
+
+function saveInMemory(address, value) {
+    const add = parseInt(address, 16) + 4
+    const ress = '0x' + add.toString(16)
+    test[ress] = value
+}
+
+saveInMemory('0x1001000', 5)
+saveInMemory('0x1001004', 10)
+saveInMemory('0x1001008', 15)
+
+console.log(test);
