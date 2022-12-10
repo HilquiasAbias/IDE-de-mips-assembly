@@ -1,3 +1,4 @@
+import memory from "./memory.js";
 import * as tools from "./FormattingTools.js";
 import { executeTypeI } from '../itype/execution.js'
 import { executeTypeR } from '../rtype/execution.js'
@@ -10,7 +11,7 @@ const sys = {
         $20: 0, $21: 0, $22: 0, $23: 0, $24: 0, $25: 0, $26: 0, $27: 0, $28: 0, $29: 0,
         $30: 0, $31: 0, pc: 0, hi: 5, lo: 6
     },
-    memory: {}, // { '0x10010000': 0 }
+    memory: memory, // { '0x10010000': 0 }
     addressCount: 0,
     instructions: [],
     regsStackTimeline: [],
@@ -18,10 +19,18 @@ const sys = {
     lastInstructionExecuted: 0
 }
 
+Object.prototype.Data = () => {}
+
+Object.prototype.Text = () => {}
+
+Object.prototype.Word = () => {}
+
+Object.prototype.ToOutput = (data) => {}
+
 Object.prototype.Call = () => {
     if (sys.regs.$2 === 1) console.log(sys.regs.$4); // integer to print
-    else if (sys.regs.$2 === 2) console.log(sys.regs.$4.toFixed(2)); // integer to float
-    else if (sys.regs.$2 === 3) console.log(sys.regs.$4.toFixed(1)); // integer to double
+    else if (sys.regs.$2 === 2) console.log(sys.regs.$4.toFixed(2)); // float to print
+    else if (sys.regs.$2 === 3) console.log(sys.regs.$4.toFixed(1)); // double to print
     else if (sys.regs.$2 === 5) sys.regs.$2 = parseInt(prompt()); // $2 contains integer read
     else if (sys.regs.$2 === 6) sys.regs.$2 = parseFloat(prompt()); // $2 contains float read
     else if (sys.regs.$2 === 7) sys.regs.$2 = parseFloat(prompt()); // $2 contains double read

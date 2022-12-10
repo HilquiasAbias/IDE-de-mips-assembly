@@ -22,7 +22,7 @@ mount.addEventListener('click', () => {
     const inputInstructions = formatting.handleUserInput(input.value)
     const organizedInstructions = formatting.organizeInstructions(inputInstructions)
     
-    // console.log(inputInstructions);
+    console.log(inputInstructions);
     // console.log(organizedInstructions);
     
 

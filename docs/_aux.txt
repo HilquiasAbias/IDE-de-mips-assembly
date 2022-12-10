@@ -165,6 +165,9 @@ main:  addi $2, $0, 5
     {address: '0x0000001c', hex: '0x0000000c', typing: {…}, syscall: true}
 ]
 
+*****************************************
+.text
+
 main:  addi $2, $0, 5
        syscall
        add $4, $2, $2
@@ -181,3 +184,54 @@ print:
 
        addi $2, $0, 1
 end:   addi $2, $0, 10
+
+*****************************************
+
+.data
+
+.word 67 117 33
+
+.text
+
+main:	lui $8, 0x1001
+
+	lw $4, 0($8)
+	addi $2, $0, 11
+	syscall
+	
+	addi $8, $8, 4
+	
+	lw $4, 0($8)
+	addi $2, $0, 11
+	syscall
+	
+	addi $8, $8, 4
+	
+	lw $4, 0($8)
+	addi $2, $0, 11
+	syscall
+	
+	addi $2, $0, 10
+	syscall
+
+*****************************************
+
+.data   -> se tiver '.data' na entrada, deve habilitar o uso da memória e se houver valores '.word' e '.text' precisa pegar esses valores e tratar.
+        -> buscar por erros
+        -> armazenar sequencialmente os valores na memória a partir de 0x10010000. (em '../src/scripts/tests/tests.js' tem um rascunho)
+
+
+.word   -> se tiver '.word' na entrada, deve procurar por '.data' antes de '.word'.
+        -> se não houver '.data' antes gerar um erro.
+        -> se houver, deve capturar os valores na mesma linha e linhas seguintes até chegar em '.text'
+
+
+.text   -> se não tiver '.text' na entrada deve gerar um erro.
+        -> se tiver e '.text' aparecer antes de '.word' ou '.data' deve gerar um erro
+
+
+
+
+
+
+
