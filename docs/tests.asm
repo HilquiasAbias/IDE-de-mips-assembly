@@ -1,30 +1,15 @@
-#.data 
-
-.word 67 'u' 33
+.data 
 
 .text
 
-main:	lui $8, 0x1001
+main:	lui $8, 4097
 
-	lw $4, 0($8)
-	addi $2, $0, 11
-	syscall
+	addi $9, $0, 15
 	
-	addi $8, $8, 4
+	sw $9, 40($8)
 	
-	lw $4, 0($8)
-	addi $2, $0, 11
-	syscall
+	lw $4, 40($8)
 	
-	addi $8, $8, 4
-	
-	lw $4, 0($8)
-	addi $2, $0, 11
-	syscall
-	
-	addi $8, $8, 4
-	
-	lw $4, 0($8)
 	addi $2, $0, 1
 	syscall
 	
