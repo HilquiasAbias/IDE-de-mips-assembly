@@ -22,7 +22,7 @@ export default {         // +4               +8               +c              +1
 lui $8, 4097
 addi $9, $0, 15
 
-sw $9, 40($8)   -> Code = 0xad090028 ( os 4 últimos digitos do endereço da memória, também serão os 4 últimos do código em hexadecimal)
+sw $9, 40($8)   -> Code = 0xad090028 (os 4 últimos digitos do endereço da memória, também serão os 4 últimos do código em hexadecimal)
 lw $4, 40($8)
 
 addi $2, $0, 1

@@ -2,6 +2,8 @@ import { isTypeI } from "../itype/iTypeManager.js";
 import { isTypeR } from "../rtype/rTypeManager.js";
 //import { isTypeJ } from "../jtype/jTypeManager";
 
+const addressBase = 4194304
+
 export function convertDecimalToBin(dec) {
     return dec.toString(2);
 }
@@ -59,9 +61,9 @@ export function convertBinInstructionToHex(binaryInstrution) {
 }
 
 export function formatAddress(addressCount) {
-    let address = convertDecimalToHex(addressCount);
-    while (address.length !== 8) address = '0'+address;
-    return '0x' + address;
+    let address = (addressBase + addressCount).toString(16)
+    while (address.length != 8) address = '0' + address
+    return '0x' + address
 }
 
 export function uInt(number) {

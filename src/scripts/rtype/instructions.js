@@ -1,5 +1,5 @@
-import sys from '../tools/sys.js'
-import { uInt } from '../tools/FormattingTools.js'
+import sys from '../system/sys.js'
+import { uInt } from '../system/toolkit.js'
 
 export default {
     add: { 

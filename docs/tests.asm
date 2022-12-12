@@ -2,16 +2,17 @@
 
 .text
 
-main:	lui $8, 4097
+main:  addi $2, $0, 5
 
-	addi $9, $0, 15
-	
-	sw $9, 40($8)
-	
-	lw $4, 40($8)
-	
-	addi $2, $0, 1
-	syscall
-	
+double:
+       add $4, $2, $2
+ 
+print:
+       addi $2, $0, 1
+       syscall
+       
+       j double
+       
+end:   
 	addi $2, $0, 10
 	syscall

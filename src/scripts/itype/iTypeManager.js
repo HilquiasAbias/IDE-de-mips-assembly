@@ -1,4 +1,4 @@
-import * as tools from "../tools/FormattingTools.js";
+import * as tools from "../system/toolkit.js";
 import * as formatting from "./formatting.js";
 import instructions from "./instructions.js";
 import operateInstrucion from "./createOperationInstruction.js";

@@ -1,5 +1,5 @@
 import memory from "./memory.js";
-import * as tools from "./FormattingTools.js";
+import * as tools from "./toolkit.js";
 import { executeTypeI } from '../itype/execution.js'
 import { executeTypeR } from '../rtype/execution.js'
 //import { executeTypeJ } from '../jtype/execution.js'
@@ -7,16 +7,17 @@ import { executeTypeR } from '../rtype/execution.js'
 const sys = { 
     regs: {
         $0: 0, $1: 0, $2: 0, $3: 0, $4: 0, $5: 0, $6: 0, $7: 0, $8: 0, $9: 0,
-        $10: 1, $11: 1, $12: 0, $13: 0, $14: 0, $15: 0, $16: 0, $17: 0, $18: 0, $19: 0,
+        $10: 0, $11: 0, $12: 0, $13: 0, $14: 0, $15: 0, $16: 0, $17: 0, $18: 0, $19: 0,
         $20: 0, $21: 0, $22: 0, $23: 0, $24: 0, $25: 0, $26: 0, $27: 0, $28: 0, $29: 0,
-        $30: 0, $31: 0, pc: 0, hi: 5, lo: 6
+        $30: 0, $31: 0, pc: 4194304, hi: 0, lo: 0
     },
     memory: memory, // { '0x10010000': 0 }
     addressCount: 0,
     instructions: [],
     regsStackTimeline: [],
     viewInformations: [],
-    lastInstructionExecuted: 0
+    lastInstructionExecuted: 0,
+    initialAssembly: true
 }
 
 Object.prototype.Data = () => {}
@@ -61,10 +62,7 @@ Object.prototype.Clean = () => {
 Object.prototype.OnlyLabel = (instruction, regsSpace) => {
     return {
         address: tools.formatAddress(regsSpace), // 0x00000004
-        hex: null,
-        do: null,
-        registers: null,
-        typing: null,
+        onlyLabel: true,
         label: instruction.label
     }
 }
@@ -74,7 +72,9 @@ Object.prototype.Execute = () => {
     const instruction = sys.instructions.find(
         instruction => instruction.address === tools.convertDecimalToAddressHex( sys.regs.pc )
     )
-    
+    console.log(instruction);
+    if (instruction.onlyLabel) { console.log('only label'); return; }
+
     if (instruction.do || instruction.syscall) {
         if (instruction.typing.type === "i") {
             return executeTypeI(instruction, sys)
@@ -85,7 +85,7 @@ Object.prototype.Execute = () => {
         }
     
         if (instruction.typing.type === "j") {
-            
+            // return executeTypeJ(instruction, sys)
         }
     }
 }
