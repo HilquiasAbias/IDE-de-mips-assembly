@@ -18,9 +18,11 @@ export function convertDecimalToHex(dec) {
 
 export function convertDecimalToAddressHex(dec) {
     let hex = dec.toString(16);
+
     while (hex.length !== 8) {
         hex = '0' + hex;
     }
+    
     return '0x' + hex;
 }
 
