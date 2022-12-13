@@ -108,3 +108,21 @@ export function structureInstruction(instruction) { // 'main:    addi $2, $0, 5'
 
     return properties // { label: 'main', func: 'addi', values: ['$2', '$0', '5']}
 }
+
+export function getLowOrder(num) {
+    let bin = convertDecimalToBin(num)
+
+    while (bin.length !== 32) 
+        bin = '0' + bin
+
+    return parseInt(bin.slice(15), 2)
+}
+
+export function getHighOrder(num) {
+    let bin = convertDecimalToBin(num)
+
+    while (bin.length !== 32) 
+        bin = '0' + bin
+
+    return parseInt(bin.slice(0, 15), 2)
+}

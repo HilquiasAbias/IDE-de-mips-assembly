@@ -42,18 +42,30 @@
 
 */
 
-function cleanOnlyComma(str) {
-    return str.includes(',') ? str.slice(0, str.indexOf(',')) : str;
+function convertDecimalToBin(dec) {
+    return dec.toString(2);
 }
 
-const x = '-5'
+function getLowOrder(num) {
+    let bin = convertDecimalToBin(num)
 
-console.log(x);
-console.log(typeof x);
+    while (bin.length !== 32) 
+        bin = '0' + bin
 
-const y = parseInt(x)
+    return parseInt(bin.slice(15), 2)
+}
 
-console.log(y);
-console.log(typeof y);
+function getHighOrder(num) {
+    let bin = convertDecimalToBin(num)
 
-console.log(cleanOnlyComma(x));
+    while (bin.length !== 32) 
+        bin = '0' + bin
+
+    return parseInt(bin.slice(0, 15), 2)
+}
+
+const a = getLowOrder(4651 * 7894)
+const b = getHighOrder(4651 * 7894)
+
+console.log(a);
+console.log(b);

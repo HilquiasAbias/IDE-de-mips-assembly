@@ -28,7 +28,7 @@ export default function operationInstruction(instruction) { // { label: null, fu
 
     if ( whichOrganization(instruction.func) === 'e') {
         return {
-            rd: instruction.values[0].slice( instruction.values[1].indexOf('$'), instruction.values[1].indexOf(')') ),
+            rd: instruction.values[0],
             rt: instruction.values[1],
             sa: parseInt( instruction.values[2] )
         }

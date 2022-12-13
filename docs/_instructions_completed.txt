@@ -1,11 +1,12 @@
 i type = {
     complete: [
-        addi,
-        andi,
-        ori,
-        slti,
-        sltiu,
-        xori
+        addi (org: a),
+        andi (org: a),
+        ori (org: a),
+        slti (org: a),
+        sltiu (org: a),
+        xori (org: a),
+
     ],
     incomplete: [
         addiu, 
@@ -32,27 +33,27 @@ i type = {
 
 r type {
     complete: [
-        add,
-        addu,
-        and,
-        or,
-        nor,
-        slt,
-        sub,
+        add (org: a),
+        addu (org: a),
+        and (org: a),
+        or (org: a),
+        nor (org: a),
+        slt (org: a),
+        sub (org: a),
 
     ],
     incomplete: [
         break,
-        div,
-        divu,
+        div, ?
+        divu, ?
         jalr,
         jr,
         mfhi,
         mflo,
         mthi,
         mtlo,
-        mult,
-        multu,
+        mult, ?
+        multu, ?
         sll,
         sllv,
         sltu,

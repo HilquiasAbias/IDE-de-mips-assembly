@@ -1,4 +1,3 @@
-import instructions from "./instructions.js";
 import { whichOrganization } from "./iTypeManager.js";
 
 export default function operationInstruction(instruction) { // { label: null, func: 'addi', values: ['$2', '$0', '5'] }

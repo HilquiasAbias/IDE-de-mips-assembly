@@ -24,12 +24,12 @@ export default {
     div: { 
         function: '011010', 
         type: 'c', 
-        does: (rs, rt) => { sys.memory.hi = rs % rt; sys.memory.lo = rs / rt; }
+        does: (rs, rt) => [ rs % rt, rs / rt ]
     },
     divu: { 
         function: '011011', 
         type: 'c', 
-        does: (rs, rt) => rs / rt 
+        does: (rs, rt) => [ uInt(rs % rt), uInt(rs / rt) ]
     },
     jalr: { 
         function: '001001', 
@@ -73,7 +73,7 @@ export default {
     multu: { 
         function: '011001', 
         type: 'c', 
-        does: (rs, rt) => rs * rt
+        does: (rs, rt) => uInt(rs * rt)
     },
     nor: { 
         function: '100111', 
