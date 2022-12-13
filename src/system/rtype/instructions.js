@@ -1,5 +1,5 @@
-import sys from '../system/sys.js'
-import { uInt } from '../system/toolkit.js'
+import sys from '../sys.js'
+import { uInt } from '../toolkit.js'
 
 export default {
     add: { 

@@ -1,4 +1,4 @@
-import * as tools from "../system/toolkit.js";
+import { convertBinInstructionToHex } from "../toolkit.js";
 import * as formatting from "./formatting.js";
 import instructions from "./instructions.js";
 import operateInstrucion from "./createOperationInstruction.js";
@@ -23,16 +23,17 @@ export function whichOrganization(op) {
 }
 
 export function formatInstruction(instruction, memorySpace) { // { label: null, func: 'addi', values: ['$2', '$0', '5'] }, 4
-    const binaryInstrution = selectOrganizationType( // '001000000100000000101'
-        instructions[ instruction.func ].type, // i
-        formatting.formatInstructionsInBinary( [ instruction.func, ...instruction.values ] ) // ['001000', '00010', '00000', '00101']
-    );
-
+    const type = instructions[ instruction.func ].type
+    const binaryInstruction = formatting.formatInstructionsInBinary( [ instruction.func, ...instruction.values ] ) // ['001000', '00010', '00000', '00101']
+    const code = convertBinInstructionToHex( selectOrganizationType(type, binaryInstruction) )// '001000000100000000101'
+    const address = tools.formatAddress(memorySpace)
+    const GPR = operateInstrucion(instruction)
+    
     return {
-        address: tools.formatAddress(memorySpace), // 0x00000004
-        hex: tools.convertBinInstructionToHex(binaryInstrution), // 0x00040805
-        do: instructions[ instruction.func ].does, // ( rs, imm) => rs + imm
-        GPR: operateInstrucion(instruction),
+        address, // 0x00000004
+        code, // 0x00040805
+        GPR,
+        does: instructions[ instruction.func ].does, // ( rs, imm) => rs + imm
         typing: {
             type: 'i',
             org: instructions[ instruction.func ].type

@@ -1,8 +1,8 @@
 import memory from "./memory.js";
 import * as tools from "./toolkit.js";
-import { executeTypeI } from '../itype/execution.js'
-import { executeTypeR } from '../rtype/execution.js'
-//import { executeTypeJ } from '../jtype/execution.js'
+import { executeTypeI } from './itype/execution.js'
+import { executeTypeR } from './rtype/execution.js'
+//import { executeTypeJ } from './jtype/execution.js'
 
 const sys = { 
     regs: {
@@ -11,7 +11,7 @@ const sys = {
         $20: 0, $21: 0, $22: 0, $23: 0, $24: 0, $25: 0, $26: 0, $27: 0, $28: 0, $29: 0,
         $30: 0, $31: 0, pc: 4194304, hi: 0, lo: 0
     },
-    memory: memory, // { '0x10010000': 0 }
+    memory,
     addressCount: 0,
     instructions: [],
     regsStackTimeline: [],

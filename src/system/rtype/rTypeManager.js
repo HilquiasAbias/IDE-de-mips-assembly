@@ -1,4 +1,4 @@
-import * as tools from "../system/toolkit.js";
+import * as tools from "../toolkit.js";
 import * as formatting from './formatting.js'
 import instructions from "./instructions.js";
 import operationInstruction from "./createOperationInstruction.js";
@@ -18,8 +18,8 @@ export function isTypeR(fn) {
     return instructions[fn] !== undefined;
 }
 
-export function formatInstruction(instruction, memorySpace) { // ['add', '$13,', '$11,', '$12']
-    console.log(instruction);
+export function formatInstruction(instruction, memorySpace) { // TODO: padronizar com o tipo 'i'
+    console.log(instruction); // ['add', '$13,', '$11,', '$12']
 
     if (instruction.func === 'syscall') return {
         address: tools.formatAddress(memorySpace), // 0x00000004

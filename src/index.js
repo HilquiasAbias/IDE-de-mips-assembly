@@ -1,17 +1,19 @@
-import * as tools from './scripts/system/toolkit.js';
+// import { sys, actionHandler, errorHandler } from './scripts/system' // isso funciona ???
 import sys from './scripts/system/sys.js'
+import { main as errorHandler } from './scripts/system/errorHandlers/main.js'
+import actionHandler from './scripts/system/actionHandler.js'
 
-import * as rType from './scripts/rtype/rTypeManager.js';
-import * as iType from './scripts/itype/iTypeManager.js';
-import * as jType from './scripts/jtype/jTypeManager.js';
+import { isTypeI } from './scripts/itype/iTypeManager.js'
+import { isTypeR } from './scripts/rtype/rTypeManager.js'
+import { isTypeJ } from './scripts/jtype/jTypeManager.js'
 
-const input = document.querySelector('.input');
-const output = document.querySelector('.output');
-const address = document.querySelector('.address');
-const mount = document.querySelector('.mount');
-const run = document.querySelector('.run');
-const step = document.querySelector('.step');
-const back = document.querySelector('.back');
+const input = document.querySelector('.input')
+const output = document.querySelector('.output')
+const address = document.querySelector('.address')
+const mount = document.querySelector('.mount')
+const run = document.querySelector('.run')
+const step = document.querySelector('.step')
+const back = document.querySelector('.back')
 
 mount.addEventListener('click', () => {
     // TODO: Função para receber o input e tratar todos os casos de escrita.
@@ -21,133 +23,137 @@ mount.addEventListener('click', () => {
         sys.Clean()
     }
 
-    const inputInstructions = tools.handleUserInput(input.value)
-    const organizedInstructions = tools.organizeInstructions(inputInstructions)
+    const inputInstructions = actionHandler( 'treatInput' (input.value) )
     
-    console.log(inputInstructions);
-    // console.log(organizedInstructions);
-    
+    inputInstructions.forEach( (instruction, index) => { // [ { label: 'main', func: 'addi', values: ['$2', '$0', '5']}, {...}, {...}, ...]
+        if ( isTypeI( instruction.func ) ) {
+            const formattedInstrucion = actionHandler( 'formatInstructionForTypeI', [ instruction, sys.addressCount ] )
 
-    organizedInstructions.forEach( (instruction, index) => { // [ { label: 'main', func: 'addi', values: ['$2', '$0', '5']}, {...}, {...}, ...]
-        if ( iType.isTypeI( instruction.func ) ) {
-            const res = iType.formatInstruction( instruction, sys.addressCount )
+            sys.instructions.push(formattedInstrucion)
 
-            sys.instructions.push(res);
             sys.viewInformations.push({
-                address: res.address,
-                line: index + 1,
-                hex: res.hex,
-            });
-
-            sys.addressCount += 4
-
-            return
-        }
-        
-        if ( rType.isTypeR( instruction.func ) ) {
-            const res = rType.formatInstruction( instruction, sys.addressCount )
-
-            sys.instructions.push(res);
-            sys.viewInformations.push({
-                address: res.address,
-                hex: res.hex,
+                address: formattedInstrucion.address,
+                hex: formattedInstrucion.hex,
                 line: index + 1
-            });
+            })
 
             sys.addressCount += 4
 
             return
         }
         
-        // if ( jType.isTypeJ( instruction.func ) ) {
-        //     const res = jType.formatInstruction( instruction, sys.addressCount )
+        if ( isTypeR( instruction.func ) ) {
+            const formattedInstrucion = actionHandler( 'formatInstructionForTypeR', [ instruction, sys.addressCount ] )
+
+            sys.instructions.push(formattedInstrucion)
+
+            sys.viewInformations.push({
+                address: formattedInstrucion.address,
+                hex: formattedInstrucion.hex,
+                line: index + 1
+            })
+
+            sys.addressCount += 4
+
+            return
+        }
         
-        //     sys.instructions.push(res);
-        //     sys.viewInformations.push({
-        //         address: res.address,
-        //         hex: res.hex,
-        //         line: index + 1
-        //     });
+        if ( isTypeJ( instruction.func ) ) {
+            const formattedInstrucion = actionHandler( 'formatInstructionForTypeJ', [ instruction, sys.addressCount ] )
 
-        //     sys.addressCount += 4
+            sys.instructions.push(formattedInstrucion)
 
-        //     return
-        // }
+            sys.viewInformations.push({
+                address: formattedInstrucion.address,
+                hex: formattedInstrucion.hex,
+                line: index + 1
+            })
 
-        if (!instruction.values && !instruction.func) {
+            sys.addressCount += 4
+
+            return
+        }
+
+        if (!instruction.values && !instruction.func) { // TODO: tratar melhor este caso do sistema.
             sys.instructions.push(
                 sys.OnlyLabel( instruction, sys.addressCount )
             )
         }
 
-    });
+    })
     
-    console.log(parseInt(sys.instructions[0].address, 16));
+    console.log(parseInt(sys.instructions[0].address, 16))
     sys.memory.pc = tools.convertHexToDecimal( sys.instructions[0].address )
     
-    // sys.viewInformations.forEach()
+    // TODO: enviar dados para montagem da view
     
     sys.initialAssembly = false
     
-    console.log('mounted');
-    console.log(sys);
-});
+    console.log('mounted')
+    console.log(sys)
+})
 
 run.addEventListener('click', () => {
-    console.log('run');
-    console.log(Object.assign( {}, sys ));
+    console.log('run')
+    console.log(Object.assign( {}, sys ))
 
-    if (sys.instructions.length === 0) return; // TODO: Tratar melhor essa joça
-    //if (sys.lastInstructionExecuted !== 0) return; // TODO: Tratar melhor essa joça
+    if (sys.instructions.length === 0) {
+        errorHandler('run', 'tryToRunStepWithoutInstructions')
+    }
+
+    // TODO: definir error e tratar
+    //if (sys.lastInstructionExecuted !== 0) return
     
     sys.instructions.forEach(() => {
-        // if (index <= sys.lastInstructionExecuted) continue;
-
-        //execution.executionFlow( instruction, sys )
+        // action: continueExecutionOfRemainingInstructions
+        // if (index <= sys.lastInstructionExecuted) continue
 
         sys.Execute()
 
         sys.lastInstructionExecuted++
 
         if (sys.lastInstructionExecuted <= sys.instructions.length - 1) {
-            sys.memory.pc = tools.convertHexToDecimal(
-                sys.instructions[ sys.lastInstructionExecuted ].address
-            )
+            const address = sys.instructions[ sys.lastInstructionExecuted ].address
+    
+            sys.regs.pc = tools.convertHexToDecimal(address)
         }
 
-        console.log('run in step ', sys.lastInstructionExecuted);
-        console.log(sys);
+        console.log('run in step ', sys.lastInstructionExecuted)
+        console.log(sys)
     })
-});
+})
 
 step.addEventListener('click', () => {
-    if (sys.instructions.length === 0) return; // TODO: Tratar melhor essa joça
+    if (sys.instructions.length === 0) {
+        errorHandler('step', 'tryToMoveOneStepWithoutInstructions')
+    }
 
     sys.regsStackTimeline.push(
         Object.assign( {}, sys.regs )
-    );
+    )
 
     sys.Execute()
-    //execution.executionFlow( instruction, sys );
     sys.lastInstructionExecuted++
     
     if (sys.lastInstructionExecuted <= sys.instructions.length - 1) {
-        sys.regs.pc = tools.convertHexToDecimal(
-            sys.instructions[ sys.lastInstructionExecuted ].address
-        )
+        const address = sys.instructions[ sys.lastInstructionExecuted ].address
+
+        sys.regs.pc = tools.convertHexToDecimal(address)
     }
 
-    console.log('step ', sys.lastInstructionExecuted);
-    console.log(sys);
-});
+    console.log('step ', sys.lastInstructionExecuted)
+    console.log(sys)
+})
 
 back.addEventListener('click', () => {
-    if (sys.instructions.length === 0) return; // TODO: Tratar melhor essa joça
+    if (sys.instructions.length === 0) {
+        errorHandler('back', 'tryBackOneStepWithoutInstructions')
+    }
 
-    sys.regs = sys.regsStackTimeline.pop();
-    --sys.lastInstructionExecuted;
+    sys.regs = sys.regsStackTimeline.pop()
     sys.regs.pc = tools.convertHexToDecimal(sys.instructions[sys.lastInstructionExecuted].address)
+    --sys.lastInstructionExecuted
 
-    console.log('back ', sys.lastInstructionExecuted);
-    console.log(sys);
+    console.log('back ', sys.lastInstructionExecuted)
+    console.log(sys)
 });

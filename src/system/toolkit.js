@@ -1,6 +1,6 @@
-import { isTypeI } from "../itype/iTypeManager.js";
-import { isTypeR } from "../rtype/rTypeManager.js";
-//import { isTypeJ } from "../jtype/jTypeManager";
+import { isTypeI } from "./itype/iTypeManager.js"
+import { isTypeR } from "./rtype/rTypeManager.js"
+//import { isTypeJ } from "./jtype/jTypeManager"
 
 const addressBase = 4194304
 
