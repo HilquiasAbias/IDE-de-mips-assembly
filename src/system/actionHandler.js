@@ -1,8 +1,8 @@
-import { handleUserInput, organizeInstructions } from "./toolkit"
+import { handleUserInput, organizeInstructions } from "./toolkit.js"
 
-import { formatInstruction as formatI } from './scripts/itype/iTypeManager.js'
-import { formatInstruction as formatR } from './scripts/rtype/rTypeManager.js'
-import { formatInstruction as formatJ } from './scripts/jtype/jTypeManager.js'
+import { formatInstruction as formatI } from './itype/iTypeManager.js'
+import { formatInstruction as formatR } from './rtype/rTypeManager.js'
+// import { formatInstruction as formatJ } from './jtype/jTypeManager.js'
 
 export default (action, data) => {
     if (action === 'treatInput') {
@@ -17,7 +17,7 @@ export default (action, data) => {
         return formatR( data[0], data[1] )
     }
         
-    if (action === 'formatInstructionForTypeJ') {
-        return formatJ( data[0], data[1] )
-    }
+    // if (action === 'formatInstructionForTypeJ') {
+    //     return formatJ( data[0], data[1] )
+    // }
 }

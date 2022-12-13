@@ -1,10 +1,10 @@
-import { convertBinInstructionToHex } from "../toolkit.js";
+import { convertBinInstructionToHex, formatAddress } from "../toolkit.js";
 import * as formatting from "./formatting.js";
 import instructions from "./instructions.js";
 import operateInstrucion from "./createOperationInstruction.js";
 
 function selectOrganizationType(type, arr) { // a, ['addi', '$2', '$0', '5']
-    console.log(arr);
+    //console.log(arr);
 
     if (type === 'a') return formatting.organizationTypeA(arr);
     if (type === 'b') return formatting.organizationTypeB(arr);
@@ -26,7 +26,7 @@ export function formatInstruction(instruction, memorySpace) { // { label: null, 
     const type = instructions[ instruction.func ].type
     const binaryInstruction = formatting.formatInstructionsInBinary( [ instruction.func, ...instruction.values ] ) // ['001000', '00010', '00000', '00101']
     const code = convertBinInstructionToHex( selectOrganizationType(type, binaryInstruction) )// '001000000100000000101'
-    const address = tools.formatAddress(memorySpace)
+    const address = formatAddress(memorySpace)
     const GPR = operateInstrucion(instruction)
     
     return {

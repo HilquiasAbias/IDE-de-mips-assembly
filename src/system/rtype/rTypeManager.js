@@ -18,12 +18,16 @@ export function isTypeR(fn) {
     return instructions[fn] !== undefined;
 }
 
+export function whichOrganization(op) {
+    return instructions[op].type
+}
+
 export function formatInstruction(instruction, memorySpace) { // TODO: padronizar com o tipo 'i'
-    console.log(instruction); // ['add', '$13,', '$11,', '$12']
+    //console.log(instruction); // ['add', '$13,', '$11,', '$12']
 
     if (instruction.func === 'syscall') return {
         address: tools.formatAddress(memorySpace), // 0x00000004
-        hex: '0x0000000c',
+        code: '0x0000000c',
         typing: {
             type: 'r',
             org: instructions[instruction.func].type
@@ -38,8 +42,8 @@ export function formatInstruction(instruction, memorySpace) { // TODO: padroniza
 
     return {
         address: tools.formatAddress(memorySpace), // 0x00000004
-        hex: '0x' + tools.convertBinInstructionToHex(binaryInstrution), // 0x0010356c
-        do: instructions[ instruction.func ].does, // (rs, rt) => rs + rt
+        code: '0x' + tools.convertBinInstructionToHex(binaryInstrution), // 0x0010356c
+        does: instructions[ instruction.func ].does, // (rs, rt) => rs + rt
         registers: operationInstruction(instruction), // {...}
         typing: {
             type: 'r',

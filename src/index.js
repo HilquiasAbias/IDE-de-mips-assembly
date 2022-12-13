@@ -1,11 +1,13 @@
 // import { sys, actionHandler, errorHandler } from './scripts/system' // isso funciona ???
-import sys from './scripts/system/sys.js'
-import { main as errorHandler } from './scripts/system/errorHandlers/main.js'
-import actionHandler from './scripts/system/actionHandler.js'
+import sys from './system/sys.js'
+import errorHandler from './system/errorHandlers/main.js'
+import actionHandler from './system/actionHandler.js'
 
-import { isTypeI } from './scripts/itype/iTypeManager.js'
-import { isTypeR } from './scripts/rtype/rTypeManager.js'
-import { isTypeJ } from './scripts/jtype/jTypeManager.js'
+import { isTypeI } from './system/itype/iTypeManager.js'
+import { isTypeR } from './system/rtype/rTypeManager.js'
+import { isTypeJ } from './system/jtype/jTypeManager.js'
+
+import { convertHexToDecimal } from './system/toolkit.js'
 
 const input = document.querySelector('.input')
 const output = document.querySelector('.output')
@@ -23,7 +25,7 @@ mount.addEventListener('click', () => {
         sys.Clean()
     }
 
-    const inputInstructions = actionHandler( 'treatInput' (input.value) )
+    const inputInstructions = actionHandler( 'treatInput', (input.value) )
     
     inputInstructions.forEach( (instruction, index) => { // [ { label: 'main', func: 'addi', values: ['$2', '$0', '5']}, {...}, {...}, ...]
         if ( isTypeI( instruction.func ) ) {
@@ -33,8 +35,8 @@ mount.addEventListener('click', () => {
 
             sys.viewInformations.push({
                 address: formattedInstrucion.address,
-                hex: formattedInstrucion.hex,
-                line: index + 1
+                code: formattedInstrucion.code,
+                line: index
             })
 
             sys.addressCount += 4
@@ -49,8 +51,8 @@ mount.addEventListener('click', () => {
 
             sys.viewInformations.push({
                 address: formattedInstrucion.address,
-                hex: formattedInstrucion.hex,
-                line: index + 1
+                code: formattedInstrucion.code,
+                line: index
             })
 
             sys.addressCount += 4
@@ -65,8 +67,8 @@ mount.addEventListener('click', () => {
 
             sys.viewInformations.push({
                 address: formattedInstrucion.address,
-                hex: formattedInstrucion.hex,
-                line: index + 1
+                code: formattedInstrucion.code,
+                line: index
             })
 
             sys.addressCount += 4
@@ -82,8 +84,8 @@ mount.addEventListener('click', () => {
 
     })
     
-    console.log(parseInt(sys.instructions[0].address, 16))
-    sys.memory.pc = tools.convertHexToDecimal( sys.instructions[0].address )
+    // console.log(parseInt(sys.instructions[0].address, 16))
+    // sys.memory.pc = convertHexToDecimal( sys.instructions[0].address )
     
     // TODO: enviar dados para montagem da view
     
@@ -98,7 +100,7 @@ run.addEventListener('click', () => {
     console.log(Object.assign( {}, sys ))
 
     if (sys.instructions.length === 0) {
-        errorHandler('run', 'tryToRunStepWithoutInstructions')
+        errorHandler('run', 'tryToRunWithoutInstructions')
     }
 
     // TODO: definir error e tratar
@@ -115,7 +117,7 @@ run.addEventListener('click', () => {
         if (sys.lastInstructionExecuted <= sys.instructions.length - 1) {
             const address = sys.instructions[ sys.lastInstructionExecuted ].address
     
-            sys.regs.pc = tools.convertHexToDecimal(address)
+            sys.regs.pc = convertHexToDecimal(address)
         }
 
         console.log('run in step ', sys.lastInstructionExecuted)
@@ -138,7 +140,7 @@ step.addEventListener('click', () => {
     if (sys.lastInstructionExecuted <= sys.instructions.length - 1) {
         const address = sys.instructions[ sys.lastInstructionExecuted ].address
 
-        sys.regs.pc = tools.convertHexToDecimal(address)
+        sys.regs.pc = convertHexToDecimal(address)
     }
 
     console.log('step ', sys.lastInstructionExecuted)
@@ -151,7 +153,7 @@ back.addEventListener('click', () => {
     }
 
     sys.regs = sys.regsStackTimeline.pop()
-    sys.regs.pc = tools.convertHexToDecimal(sys.instructions[sys.lastInstructionExecuted].address)
+    sys.regs.pc = convertHexToDecimal(sys.instructions[sys.lastInstructionExecuted].address)
     --sys.lastInstructionExecuted
 
     console.log('back ', sys.lastInstructionExecuted)

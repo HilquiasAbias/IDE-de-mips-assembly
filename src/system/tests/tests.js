@@ -38,4 +38,22 @@
 //     addressCount = addressCount + 4
 // }
 
-console.log(parseInt('0x00400000', 16));
+/*
+
+*/
+
+function cleanOnlyComma(str) {
+    return str.includes(',') ? str.slice(0, str.indexOf(',')) : str;
+}
+
+const x = '-5'
+
+console.log(x);
+console.log(typeof x);
+
+const y = parseInt(x)
+
+console.log(y);
+console.log(typeof y);
+
+console.log(cleanOnlyComma(x));

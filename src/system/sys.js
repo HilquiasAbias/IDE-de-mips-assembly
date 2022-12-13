@@ -67,6 +67,8 @@ Object.prototype.OnlyLabel = (instruction, regsSpace) => {
     }
 }
 
+Object.prototype.SetNextOnPc = () => {}
+
 Object.prototype.Execute = () => {
     console.log('Execute()');
     const instruction = sys.instructions.find(
@@ -75,8 +77,9 @@ Object.prototype.Execute = () => {
     console.log(instruction);
     if (instruction.onlyLabel) { console.log('only label'); return; }
 
-    if (instruction.do || instruction.syscall) {
+    if (instruction.does || instruction.syscall) {
         if (instruction.typing.type === "i") {
+            console.log('executeTypeI');
             return executeTypeI(instruction, sys)
         }
     

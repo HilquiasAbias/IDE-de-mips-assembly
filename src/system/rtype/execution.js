@@ -1,21 +1,19 @@
 export function executeTypeR(instruction, sys) {
-    console.log(instruction);
     
-    if (instruction.typing.org === 'a') {
-        sys.memory[ instruction.registers.destinationRegister ] = instruction.do(
-            sys.memory[ instruction.registers.operands.first ], sys.memory[ instruction.registers.operands.second ]
-        );
-    }
+    if (instruction.typing.org === 'a') {}
 
-    if (instruction.typing.org === 'b') {
-        if (instruction.syscall) sys.Call();
-    }
+    if (instruction.typing.org === 'b') {}
+    
+    if (instruction.typing.org === 'c') {}
 
-    // ...
+    if (instruction.typing.org === 'd') {}
 
-    if (instruction.typing.org === 'd') {
-        console.log(sys);
-        
-        sys.memory[instruction.registers.destinationRegister] = instruction.do(sys);
-    }
+    if (instruction.typing.org === 'e') {}
+
+    if (instruction.typing.org === 'f') {}
+
+    if (instruction.typing.org === 'g') {}
+
+    if (instruction.typing.org === 'h') {}
+
 }

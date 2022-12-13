@@ -33,12 +33,12 @@ export default {
     },
     jalr: { 
         function: '001001', 
-        type: 'i', 
+        type: 'h', 
         does: null 
     },
     jr: { 
         function: '001000', 
-        type: 'h', 
+        type: 'g', 
         does: null 
     },
     mfhi: { 
@@ -57,12 +57,12 @@ export default {
     },
     mthi: { 
         function: '010001', 
-        type: 'h', 
+        type: 'g', 
         does: null
     },
     mtlo: { 
         function: '010011', 
-        type: 'h', 
+        type: 'g', 
         does: null
     },
     mult: { 
@@ -87,12 +87,12 @@ export default {
     },
     sll: {
         function: '000000', 
-        type: 'f', 
+        type: 'e', 
         does: (rt, sa) => rt << sa // INCORRETO!
     },
     sllv: { 
         function: '000100', 
-        type: 'g', 
+        type: 'f', 
         does: null
     },
     slt: { 
@@ -107,7 +107,7 @@ export default {
     },
     sra: { 
         function: '000011', 
-        type: 'f', 
+        type: 'e', 
         does: (rt, sa) => rt >> sa
     },
     srav: { 
@@ -117,7 +117,7 @@ export default {
     },
     srl: { 
         function: '000010', 
-        type: 'f', 
+        type: 'e', 
         does: (rt, sa) => rt >> sa
     },
     srlv: { 

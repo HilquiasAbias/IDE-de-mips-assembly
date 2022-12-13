@@ -67,19 +67,19 @@ export function formatInstructionsInBinary(instruction) { // ['addi', '$2', '$0'
     const func = instructions[ instruction.shift() ].function
 
     const cleanedElements = instruction.map((element) => {
-        return tools.convertDecimalToBin( parseInt( tools.cleanElement(element) ) )
+        return tools.convertDecimalToBin( parseInt( tools.cleanElement(element) ) ) // cleanElement
     })
 
-    console.log(lastElement);
-    console.log(func);
-    console.log(cleanedElements);
+    // console.log(lastElement);
+    // console.log(func);
+    // console.log(cleanedElements);
 
-    if (lastElement.includes('(')) {
-        const rs = tools.convertDecimalToBin( parseInt( tools.cleanElement( lastElement.slice( lastElement.indexOf('$'), lastElement.indexOf(')') ) ) ) )
+    if (lastElement.includes('(')) {                        // cleanElement
+        const rs = tools.convertDecimalToBin( parseInt( tools.cleanOnlyComma( lastElement.slice( lastElement.indexOf('$'), lastElement.indexOf(')') ) ) ) )
         const imm = formatImmElement( lastElement.slice(0, lastElement.indexOf('(') ) ) 
 
-        console.log(rs);
-        console.log(imm);
+        // console.log(rs);
+        // console.log(imm);
 
         return [ func, ...tools.completeElementsLength([rs]), ...tools.completeElementsLength(cleanedElements), imm ]
     }

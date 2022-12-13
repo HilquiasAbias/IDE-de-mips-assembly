@@ -1,7 +1,7 @@
-import mountHandler from './mountHandler'
-import runHandler from './runHandler'
-import stepHandler from './stepHandler'
-import backHandler from './backHandler'
+import mountHandler from './mountHandler.js'
+import runHandler from './runHandler.js'
+import stepHandler from './stepHandler.js'
+import backHandler from './backHandler.js'
 
 export default (module, error) => {
     if (module === 'mount'){ 
