@@ -5,7 +5,9 @@ export function executeTypeR(instruction, sys) {
         sys.regs[ instruction.GPR.rd ] = instruction.does( sys.regs[instruction.GPR.rs], sys.regs[instruction.GPR.rt] )
     }
 
-    if (instruction.typing.org === 'b') {}
+    if (instruction.typing.org === 'b') {
+        sys.Call()
+    }
     
     if (instruction.typing.org === 'c') {
         const res = instruction.does( sys.regs[instruction.GPR.rs], sys.regs[instruction.GPR.rt] )

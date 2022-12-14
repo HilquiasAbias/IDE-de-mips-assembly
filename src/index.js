@@ -106,17 +106,15 @@ run.addEventListener('click', () => {
     // TODO: definir error e tratar
     //if (sys.lastInstructionExecuted !== 0) return
     
+    // action: continueExecutionOfRemainingInstructions
+    // if (index <= sys.lastInstructionExecuted) continue
     sys.instructions.forEach(() => {
-        // action: continueExecutionOfRemainingInstructions
-        // if (index <= sys.lastInstructionExecuted) continue
-
         sys.Execute()
-
         sys.lastInstructionExecuted++
 
         if (sys.lastInstructionExecuted <= sys.instructions.length - 1) {
             const address = sys.instructions[ sys.lastInstructionExecuted ].address
-    
+            
             sys.regs.pc = convertHexToDecimal(address)
         }
 
@@ -128,6 +126,7 @@ run.addEventListener('click', () => {
 step.addEventListener('click', () => {
     if (sys.instructions.length === 0) {
         errorHandler('step', 'tryToMoveOneStepWithoutInstructions')
+        return
     }
 
     sys.regsStackTimeline.push(

@@ -71,11 +71,10 @@ Object.prototype.SetNextOnPc = () => {}
 
 Object.prototype.Execute = () => {
     console.log('Execute()');
-    const instruction = sys.instructions.find(
-        instruction => instruction.address === tools.convertDecimalToAddressHex( sys.regs.pc )
-    )
+    const instruction = sys.instructions.find( instruction => instruction.address === tools.convertDecimalToAddressHex( sys.regs.pc ) )
+    //console.log(validAddress);
+    //const instruction = sys.instructions.find( instruction => instruction.address === validAddress.address )
     console.log(instruction);
-    if (instruction.onlyLabel) { console.log('only label'); return; }
 
     if (instruction.does || instruction.syscall) {
         if (instruction.typing.type === "i") {
