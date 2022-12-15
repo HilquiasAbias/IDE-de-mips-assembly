@@ -4,8 +4,12 @@ import { formatInstruction as formatI } from './itype/iTypeManager.js'
 import { formatInstruction as formatR } from './rtype/rTypeManager.js'
 // import { formatInstruction as formatJ } from './jtype/jTypeManager.js'
 
+import mountHandler from "./errorHandlers/mountHandler.js"
+
 export default (action, data) => {
     if (action === 'treatInput') {
+        //if (data === '') mountHandler
+
         return organizeInstructions( handleUserInput(data) )
     }
 

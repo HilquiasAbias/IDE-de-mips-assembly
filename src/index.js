@@ -10,12 +10,13 @@ import { isTypeJ } from './system/jtype/jTypeManager.js'
 import { convertHexToDecimal } from './system/toolkit.js'
 
 const input = document.querySelector('.input')
-const output = document.querySelector('.output')
+//const output = document.querySelector('.output')
 const address = document.querySelector('.address')
 const mount = document.querySelector('.mount')
 const run = document.querySelector('.run')
 const step = document.querySelector('.step')
 const back = document.querySelector('.back')
+
 
 mount.addEventListener('click', () => {
     // TODO: Função para receber o input e tratar todos os casos de escrita.
@@ -91,13 +92,13 @@ mount.addEventListener('click', () => {
     
     sys.initialAssembly = false
     
-    console.log('mounted')
-    console.log(sys)
+    //console.log('mounted')
+    //console.log(sys)
 })
 
 run.addEventListener('click', () => {
-    console.log('run')
-    console.log(Object.assign( {}, sys ))
+    // console.log('run')
+    // console.log(Object.assign( {}, sys ))
 
     if (sys.instructions.length === 0) {
         errorHandler('run', 'tryToRunWithoutInstructions')
@@ -118,8 +119,8 @@ run.addEventListener('click', () => {
             sys.regs.pc = convertHexToDecimal(address)
         }
 
-        console.log('run in step ', sys.lastInstructionExecuted)
-        console.log(sys)
+        // console.log('run in step ', sys.lastInstructionExecuted)
+        // console.log(sys)
     })
 })
 
@@ -142,19 +143,19 @@ step.addEventListener('click', () => {
         sys.regs.pc = convertHexToDecimal(address)
     }
 
-    console.log('step ', sys.lastInstructionExecuted)
-    console.log(sys)
+    // console.log('step ', sys.lastInstructionExecuted)
+    // console.log(sys)
 })
 
 back.addEventListener('click', () => {
     if (sys.instructions.length === 0) {
         errorHandler('back', 'tryBackOneStepWithoutInstructions')
+        return
     }
 
     sys.regs = sys.regsStackTimeline.pop()
     sys.regs.pc = convertHexToDecimal(sys.instructions[sys.lastInstructionExecuted].address)
     --sys.lastInstructionExecuted
 
-    console.log('back ', sys.lastInstructionExecuted)
-    console.log(sys)
+k
 });
