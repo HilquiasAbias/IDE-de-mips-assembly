@@ -42,7 +42,7 @@ export function formatInstruction(instruction, memorySpace) { // TODO: padroniza
 
     return {
         address: tools.formatAddress(memorySpace), // 0x00000004
-        code: '0x' + tools.convertBinInstructionToHex(binaryInstrution), // 0x0010356c
+        code: tools.convertBinInstructionToHex(binaryInstrution), // 0x0010356c
         does: instructions[ instruction.func ].does, // (rs, rt) => rs + rt
         GPR: operationInstruction(instruction), // {...}
         typing: {
