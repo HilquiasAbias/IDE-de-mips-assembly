@@ -1,12 +1,16 @@
-import { getLowOrder, getHighOrder } from "../toolkit.js"
+import { getLowOrder, getHighOrder } from '../../toolkit.js'
 
 export function executeTypeR(instruction, sys) {
     if (instruction.typing.org === 'a') {
         sys.regs[ instruction.GPR.rd ] = instruction.does( sys.regs[instruction.GPR.rs], sys.regs[instruction.GPR.rt] )
+        sys.SetValueInViewRegister(sys.regs[ instruction.GPR.rd ], instruction.GPR.rd)
     }
 
     if (instruction.typing.org === 'b') {
-        sys.Call()
+        if (instruction.syscall)
+            return sys.Call()
+
+        // TODO: fazer execução da instrução break 
     }
     
     if (instruction.typing.org === 'c') {
@@ -15,12 +19,10 @@ export function executeTypeR(instruction, sys) {
         if (instruction.func === 'mult' || instruction.func === 'multu') {
             sys.regs.hi = getHighOrder(res)
             sys.regs.lo = getLowOrder(res)
-
-            return
         }
 
-        sys.regs.hi = res[0]
-        sys.regs.lo = res[1]
+        sys.SetValueInViewRegister('hi', sys.regs.hi)
+        sys.SetValueInViewRegister('lo', sys.regs.lo)
     }
 
     if (instruction.typing.org === 'd') {}

@@ -12,27 +12,52 @@
 }
 
 .main .screen {
-    display: grid;
-    grid-template-columns: .5fr 1fr .5fr;
+    display: flex;
+    justify-content: space-around;
     gap: 60px;
     height: 70vh;
 }
 
-.main .screen .output, .address {
-    display: flex;
-    align-items: flex-start;
-    padding: 0;
-    background-color: white;
-    height: 70vh;
-    width: 300px;
-}
-
-
-.main .screen .address {
+.main .screen .sys {
     padding: 0;
     display: flex;
     flex-direction: column;
     justify-content:start;
+    height: 70vh;
+    width: 300px;
+}
+
+.main .screen .address {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    background-color: white;
+    height: 300px;
+    width: 400px;
+}
+
+.main .screen .address .address-line {
+    width: 300px;
+    margin: 0 0 5px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.main .screen .console {
+    height: 300px;
+    width: 400px;
+    background-color: white;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.registers {
+    background-color: transparent;
+    font-size: 15px;
+    border: none;
+    outline: none;
 }
 
 .input, .address {
@@ -45,6 +70,7 @@
 
 .main .options {
     max-width: 100vw;
+    margin-right: 350px;
 }
 
 .main button {

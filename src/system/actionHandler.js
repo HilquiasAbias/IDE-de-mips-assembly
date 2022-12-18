@@ -1,10 +1,10 @@
 import { handleUserInput, organizeInstructions } from "./toolkit.js"
 
-import { formatInstruction as formatI } from './itype/iTypeManager.js'
-import { formatInstruction as formatR } from './rtype/rTypeManager.js'
-// import { formatInstruction as formatJ } from './jtype/jTypeManager.js'
+import { formatInstruction as formatI } from './ISA/I/manager.js'
+import { formatInstruction as formatR } from './ISA/R/manager.js'
+// import { formatInstruction as formatJ } from './ISA/J/manager.js'
 
-import mountHandler from "./errorHandlers/mountHandler.js"
+import mountHandler from "./errorHandling/mountHandler.js"
 
 export default (action, data) => {
     if (action === 'treatInput') {

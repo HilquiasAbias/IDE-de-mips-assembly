@@ -1,11 +1,11 @@
-// import { sys, actionHandler, errorHandler } from './scripts/system' // isso funciona ???
 import sys from './system/sys.js'
-import errorHandler from './system/errorHandlers/main.js'
+import errorHandler from './system/errorHandling/manager.js'
 import actionHandler from './system/actionHandler.js'
+import { mountView } from './system/view.js'
 
-import { isTypeI } from './system/itype/iTypeManager.js'
-import { isTypeR } from './system/rtype/rTypeManager.js'
-import { isTypeJ } from './system/jtype/jTypeManager.js'
+import { isTypeI } from './system/ISA/I/manager.js'
+import { isTypeR } from './system/ISA/R/manager.js'
+// import { isTypeJ } from './system/ISA/J/manager.js'
 
 import { convertHexToDecimal } from './system/toolkit.js'
 
@@ -17,18 +17,12 @@ const run = document.querySelector('.run')
 const step = document.querySelector('.step')
 const back = document.querySelector('.back')
 
-
 mount.addEventListener('click', () => {
-    // TODO: Função para receber o input e tratar todos os casos de escrita.
-    //       como erros, espaços em branco na mesma linha, espaço em branco entrelinhas, case sensitive, etc...
-
-    if (!sys.initialAssembly) {
-        sys.Clean()
-    }
+    if (!sys.initialAssembly) sys.Clean()
 
     const inputInstructions = actionHandler( 'treatInput', (input.value) )
     
-    inputInstructions.forEach( (instruction, index) => { // [ { label: 'main', func: 'addi', values: ['$2', '$0', '5']}, {...}, {...}, ...]
+    inputInstructions.forEach( (instruction, index) => {
         if ( isTypeI( instruction.func ) ) {
             const formattedInstrucion = actionHandler( 'formatInstructionForTypeI', [ instruction, sys.addressCount ] )
 
@@ -37,7 +31,7 @@ mount.addEventListener('click', () => {
             sys.viewInformations.push({
                 address: formattedInstrucion.address,
                 code: formattedInstrucion.code,
-                line: index
+                line: index + 1
             })
 
             sys.addressCount += 4
@@ -53,7 +47,7 @@ mount.addEventListener('click', () => {
             sys.viewInformations.push({
                 address: formattedInstrucion.address,
                 code: formattedInstrucion.code,
-                line: index
+                line: index + 1
             })
 
             sys.addressCount += 4
@@ -61,21 +55,21 @@ mount.addEventListener('click', () => {
             return
         }
         
-        if ( isTypeJ( instruction.func ) ) {
-            const formattedInstrucion = actionHandler( 'formatInstructionForTypeJ', [ instruction, sys.addressCount ] )
+        // if ( isTypeJ( instruction.func ) ) {
+        //     const formattedInstrucion = actionHandler( 'formatInstructionForTypeJ', [ instruction, sys.addressCount ] )
 
-            sys.instructions.push(formattedInstrucion)
+        //     sys.instructions.push(formattedInstrucion)
 
-            sys.viewInformations.push({
-                address: formattedInstrucion.address,
-                code: formattedInstrucion.code,
-                line: index
-            })
+        //     sys.viewInformations.push({
+        //         address: formattedInstrucion.address,
+        //         code: formattedInstrucion.code,
+        //         line: index + 1
+        //     })
 
-            sys.addressCount += 4
+        //     sys.addressCount += 4
 
-            return
-        }
+        //     return
+        // }
 
         if (!instruction.values && !instruction.func) { // TODO: tratar melhor este caso do sistema.
             sys.instructions.push(
@@ -85,20 +79,21 @@ mount.addEventListener('click', () => {
 
     })
     
-    // console.log(parseInt(sys.instructions[0].address, 16))
-    // sys.memory.pc = convertHexToDecimal( sys.instructions[0].address )
-    
     // TODO: enviar dados para montagem da view
+    mountView( sys.viewInformations )
     
     sys.initialAssembly = false
-    
-    //console.log('mounted')
-    //console.log(sys)
+
+    sys.regs.pc = convertHexToDecimal(sys.instructions[0].address)
+    sys.SetValueInViewRegister(sys.regs.pc, 'pc')
+
+    console.log('mounted')
+    console.log(sys)
 })
 
 run.addEventListener('click', () => {
-    // console.log('run')
-    // console.log(Object.assign( {}, sys ))
+    console.log('run')
+    console.log(Object.assign( {}, sys ))
 
     if (sys.instructions.length === 0) {
         errorHandler('run', 'tryToRunWithoutInstructions')
@@ -117,22 +112,19 @@ run.addEventListener('click', () => {
             const address = sys.instructions[ sys.lastInstructionExecuted ].address
             
             sys.regs.pc = convertHexToDecimal(address)
+            sys.SetValueInViewRegister(sys.regs.pc, 'pc')
         }
 
-        // console.log('run in step ', sys.lastInstructionExecuted)
-        // console.log(sys)
+        console.log('run in step ', sys.lastInstructionExecuted)
+        console.log(sys)
     })
 })
 
 step.addEventListener('click', () => {
-    if (sys.instructions.length === 0) {
-        errorHandler('step', 'tryToMoveOneStepWithoutInstructions')
-        return
-    }
+    if (sys.instructions.length === 0) 
+        return errorHandler('step', 'tryToMoveOneStepWithoutInstructions')
 
-    sys.regsStackTimeline.push(
-        Object.assign( {}, sys.regs )
-    )
+    sys.regsStackTimeline.push( Object.assign( {}, sys.regs ) )
 
     sys.Execute()
     sys.lastInstructionExecuted++
@@ -141,10 +133,11 @@ step.addEventListener('click', () => {
         const address = sys.instructions[ sys.lastInstructionExecuted ].address
 
         sys.regs.pc = convertHexToDecimal(address)
+        sys.SetValueInViewRegister(sys.regs.pc, 'pc')
     }
 
-    // console.log('step ', sys.lastInstructionExecuted)
-    // console.log(sys)
+    console.log('step ', sys.lastInstructionExecuted)
+    console.log(sys)
 })
 
 back.addEventListener('click', () => {
@@ -153,9 +146,11 @@ back.addEventListener('click', () => {
         return
     }
 
+    --sys.lastInstructionExecuted
     sys.regs = sys.regsStackTimeline.pop()
     sys.regs.pc = convertHexToDecimal(sys.instructions[sys.lastInstructionExecuted].address)
-    --sys.lastInstructionExecuted
+    sys.SetValueInViewRegister(sys.regs.pc, 'pc')
 
-k
+    console.log('back ', sys.lastInstructionExecuted)
+    console.log(sys)
 });

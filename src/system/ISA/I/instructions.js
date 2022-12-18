@@ -1,4 +1,4 @@
-import { uInt } from '../toolkit.js'
+import { uInt } from '../../toolkit.js'
 
 export default {
     addi: { 

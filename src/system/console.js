@@ -1,11 +1,7 @@
-const dataInAndOut = document.querySelector('.output')
+const dataInAndOut = document.querySelector('.console')
 
-export const dataOut = (data, type, msg) => {   // TODO: alterar cor da msg de acordo com o tipo
-    if (type === 'error') {
-        const output = document.createElement('div')
-        output.innerHTML = `<br> <p>--- Erro: ${msg} ---</p>`
-        dataInAndOut.appendChild(output)
-    }
+export const dataOut = (data, type, msg) => {
+    if (type === 'error') {}
 
     if (type === 'value') {
         const output = document.createElement('div')
