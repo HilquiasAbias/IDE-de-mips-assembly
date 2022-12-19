@@ -91,20 +91,30 @@ export function structureInstruction(instruction) { // 'main:    addi $2, $0, 5'
 
     instruction = instruction.trim()
 
-    if (instruction.includes(':')) {
-        let aux = instruction.split(':') // ['main:', '   addi $2, $0, 5']
-        properties.label = aux[0]
-        aux = aux[1].trim().split(' ').map(el => el.trim())
-        properties.func = aux.length > 1 ? aux[0] : null
-        properties.values = aux.length > 1 ? cleanInstruction(aux.slice(1)) : null
+    if (instruction.includes(':')) {  // ['main:', '   addi $2, $0, 5']
+        instruction = instruction.split(':')
+        properties.label = instruction[0] // main
+        instruction = instruction[1].trim() // 'addi $2, $0, 5'
     }
 
-    else {
-        properties.label = null
-        let aux = instruction.trim().split(' ').map(el => el.trim())
-        properties.func = aux[0]
-        properties.values =  aux.length > 1 ? cleanInstruction(aux.slice(1)) : null
-    }
+    properties.func = instruction.slice( 0, instruction.indexOf(' ') ) // addi
+    instruction = instruction.slice( instruction.indexOf(' ') ).trim() // '$2, $0, 5' || '0x1010' || 
+    properties.values = instruction.split(' ').map( element => cleanOnlyComma( element.trim() ) )
+
+    // if (instruction.includes(':')) {
+    //     let aux = instruction.split(':') // ['main:', '   addi $2, $0, 5']
+    //     properties.label = aux[0]
+    //     aux = aux[1].trim().split(' ').map(el => el.trim())
+    //     properties.func = aux.length > 1 ? aux[0] : null
+    //     properties.values = aux.length > 1 ? cleanInstruction(aux.slice(1)) : null
+    // }
+
+    // else {
+    //     properties.label = null
+    //     let aux = instruction.trim().split(' ').map(el => el.trim())
+    //     properties.func = aux[0]
+    //     properties.values =  aux.length > 1 ? cleanInstruction(aux.slice(1)) : null
+    // }
 
     return properties // { label: 'main', func: 'addi', values: ['$2', '$0', '5']}
 }

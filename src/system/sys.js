@@ -82,7 +82,9 @@ Object.prototype.OnlyLabel = (instruction, regsSpace) => {
     }
 }
 
-Object.prototype.SetNextOnPc = () => {}
+Object.prototype.SetNextOnPc = () => {
+    sys.regs.pc = convertHexToDecimal(sys.instructions[sys.lastInstructionExecuted].address)
+}
 
 Object.prototype.Execute = () => {
     //console.log('Execute()');
@@ -90,6 +92,10 @@ Object.prototype.Execute = () => {
     //console.log(validAddress);
     //const instruction = sys.instructions.find( instruction => instruction.address === validAddress.address )
     //console.log(instruction);
+
+    if (instruction.onlyLabel) {
+
+    }
 
     if (instruction.does || instruction.syscall) { // instruction.does || instruction.syscall
         if (instruction.typing.type === "i") {
@@ -103,6 +109,8 @@ Object.prototype.Execute = () => {
         if (instruction.typing.type === "j") {
             // return executeTypeJ(instruction, sys)
         }
+
+        //if ()
     }
 }
 

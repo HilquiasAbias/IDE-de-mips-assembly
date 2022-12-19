@@ -21,6 +21,7 @@ mount.addEventListener('click', () => {
     if (!sys.initialAssembly) sys.Clean()
 
     const inputInstructions = actionHandler( 'treatInput', (input.value) )
+    console.log(inputInstructions);
     
     inputInstructions.forEach( (instruction, index) => {
         if ( isTypeI( instruction.func ) ) {
