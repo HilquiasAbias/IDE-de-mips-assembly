@@ -2,7 +2,7 @@ import { handleUserInput, organizeInstructions } from "./toolkit.js"
 
 import { formatInstruction as formatI } from './ISA/I/manager.js'
 import { formatInstruction as formatR } from './ISA/R/manager.js'
-// import { formatInstruction as formatJ } from './ISA/J/manager.js'
+import { formatInstruction as formatJ } from './ISA/J/manager.js'
 
 import mountHandler from "./errorHandling/mountHandler.js"
 
@@ -21,7 +21,7 @@ export default (action, data) => {
         return formatR( data[0], data[1] )
     }
         
-    // if (action === 'formatInstructionForTypeJ') {
-    //     return formatJ( data[0], data[1] )
-    // }
+    if (action === 'formatInstructionForTypeJ') {
+        return formatJ( data[0], data[1] )
+    }
 }

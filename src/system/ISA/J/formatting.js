@@ -1,5 +1,5 @@
-import * as tools from "../toolkit.js";
-import instructions from "./instructions.js";
+import * as tools from "../toolkit.js"
+import instructions from "./instructions.js"
 
 const formatAddress = {
     op: '000000',
@@ -7,18 +7,15 @@ const formatAddress = {
 };
 
 export function organize(arr) {
-    formatAddress.op = arr[0];
-    formatAddress.target = arr[1];
-    return Object.values(formatAddress).join('');
+    formatAddress.op = arr[0]
+    formatAddress.target = arr[1]
+    return Object.values(formatAddress).join('')
 }
 
-export function formatArrayElements(arr) {
-    const cleanedElements = arr.map((element, index) => { // adaptar pro tipo j
-        if (index === 0) return instructions[element].function;
-        else return tools.convertDecimalToBin(
-            Number(tools.cleanElement(element))
-        );
-    });
+export function formatInstructionsInBinary(arr) {
+    const binary = organize(
+        // TODO: 
+    )
 
-    return tools.completeElementsLength(cleanedElements);
+    return 
 }

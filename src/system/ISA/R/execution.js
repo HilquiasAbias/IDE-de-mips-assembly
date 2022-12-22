@@ -10,7 +10,7 @@ export function executeTypeR(instruction, sys) {
         if (instruction.syscall)
             return sys.Call()
 
-        // TODO: fazer execução da instrução break 
+        // TODO: fazer execução da instrução break
     }
     
     if (instruction.typing.org === 'c') {

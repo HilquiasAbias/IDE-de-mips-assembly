@@ -29,7 +29,7 @@ export function formatInstruction(instruction, memorySpace) {
             code: '0x0000000c',
             typing: {
                 type: 'r',
-                org: instructions[instruction.func].type
+                org: 'b' // instructions[instruction.func].type
             },
             syscall: true
         }
