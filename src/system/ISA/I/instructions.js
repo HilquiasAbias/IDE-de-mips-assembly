@@ -1,10 +1,11 @@
+import * as op from './functions.js'
 import { uInt } from '../../toolkit.js'
 
 export default {
     addi: { 
         function: '001000', 
         type: 'a', 
-        does: (rs, imm) => rs + imm
+        does: op.addi
     },
     addiu: { 
         function: '001001', 

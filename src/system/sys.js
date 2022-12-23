@@ -29,11 +29,19 @@ Object.prototype.Text = () => {}
 
 Object.prototype.Word = () => {}
 
-Object.prototype.ToOutput = (data) => {}
+Object.prototype.ToOutput = data => {}
 
 Object.prototype.SetValueInViewRegister = (value, register) => {
     const reg = document.querySelector(`input[name="${register}"]`)
     reg.value = value
+}
+
+
+Object.prototype.GetJumpTarget = instruction => {
+    if (instruction.func === 'j') {
+        const initialAddress = 4194304
+        const target = 
+    }
 }
 
 Object.prototype.Call = () => {

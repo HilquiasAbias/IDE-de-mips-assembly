@@ -7,5 +7,12 @@ export function isTypeJ(op) {
 }
 
 export function formatInstruction(instruction, memorySpace) {
-    
+    const instructionProperties = {
+        GPR: {
+
+        },
+        label: instruction.label,
+        does: (target) => {},
+        
+    }
 }

@@ -25,4 +25,24 @@ aux = completeElementsLength(
 )
 
 const code = '0x' + completeElementsLength( convertBinToHex(func + aux), 8 )
-console.log(code)
+console.log(code);
+
+
+const shiftLeftTwoBitsLogical = value => value >> 2
+
+const completeHexLength = value => { while (value.length !== 8) value = '0' + value }
+
+const completeTargetInstruction = value => { while (value.length !== 26) value = '0' + value }
+
+function getJumpTarget(instruction, line) {
+    if (instruction.func === 'j') {
+        const initialAddress = 4194304
+        const index = (line - 1) * 4
+        const bin = completeTargetInstruction( convertDecimalToBin( shiftLeftTwoBitsLogical( initialAddress + index ) ) )
+        console.log(bin);
+        const code = '0x' + completeHexLength( convertBinToHex( bin ) )
+        return code
+    }
+}
+
+console.log(getJumpTarget( { func: 'j', }, 3 ));
