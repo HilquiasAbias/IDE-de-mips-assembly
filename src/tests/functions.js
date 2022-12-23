@@ -34,6 +34,8 @@ const completeHexLength = value => { while (value.length !== 8) value = '0' + va
 
 const completeTargetInstruction = value => { while (value.length !== 26) value = '0' + value }
 
+console.log(completeTargetInstruction());
+
 function getJumpTarget(instruction, line) {
     if (instruction.func === 'j') {
         const initialAddress = 4194304
