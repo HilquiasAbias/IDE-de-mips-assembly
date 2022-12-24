@@ -1,7 +1,3 @@
-import { isTypeI } from './ISA/I/manager.js'
-import { isTypeR } from './ISA/R/manager.js'
-// import { isTypeJ } from './ISA/J/manager.js'
-
 const addressBase = 4194304
 
 export function convertDecimalToBin(dec) {
@@ -127,4 +123,28 @@ export function getHighOrder(num) {
         bin = '0' + bin
 
     return parseInt(bin.slice(0, 15), 2)
+}
+
+export const shiftLeftTwoBitsLogical = value => value >> 2
+
+export const completeHexLength = value => { 
+    while (value.length !== 8) 
+        value = '0' + value 
+    
+    return value
+}
+
+export const completeTargetInstruction = value => { 
+    while (value.length !== 26) 
+        value = '0' + value 
+    
+    return value
+}
+
+export function getJumpTarget(instruction, index) { // TODO: descobrir se 'jr' e 'jal' formam o code igual ao 'j'
+    if (instruction.func === 'j') {
+        const bin = '000010' + completeTargetInstruction( convertDecimalToBin( shiftLeftTwoBitsLogical( addressBase + index * 4 ) ) )
+        const code = '0x' + completeHexLength( convertBinToHex( bin ) )
+        return code
+    }
 }

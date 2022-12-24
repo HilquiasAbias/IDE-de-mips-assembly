@@ -5,7 +5,7 @@ import { mountView } from './system/view.js'
 
 import { isTypeI } from './system/ISA/I/manager.js'
 import { isTypeR } from './system/ISA/R/manager.js'
-// import { isTypeJ } from './system/ISA/J/manager.js'
+import { isTypeJ } from './system/ISA/J/manager.js'
 
 import { convertHexToDecimal } from './system/toolkit.js'
 
@@ -56,21 +56,21 @@ mount.addEventListener('click', () => {
             return
         }
         
-        // if ( isTypeJ( instruction.func ) ) {
-        //     const formattedInstrucion = actionHandler( 'formatInstructionForTypeJ', [ instruction, sys.addressCount ] )
+        if ( isTypeJ( instruction.func ) ) {
+            const formattedInstrucion = actionHandler( 'formatInstructionForTypeJ', [ instruction, sys.addressCount ], index )
 
-        //     sys.instructions.push(formattedInstrucion)
+            sys.instructions.push(formattedInstrucion)
 
-        //     sys.viewInformations.push({
-        //         address: formattedInstrucion.address,
-        //         code: formattedInstrucion.code,
-        //         line: index + 1
-        //     })
+            sys.viewInformations.push({
+                address: formattedInstrucion.address,
+                code: formattedInstrucion.code,
+                line: index + 1
+            })
 
-        //     sys.addressCount += 4
+            sys.addressCount += 4
 
-        //     return
-        // }
+            return
+        }
 
         if (!instruction.values && !instruction.func) { // TODO: tratar melhor este caso do sistema.
             sys.instructions.push(
