@@ -36,14 +36,6 @@ Object.prototype.SetValueInViewRegister = (value, register) => {
     reg.value = value
 }
 
-
-Object.prototype.GetJumpTarget = instruction => {
-    if (instruction.func === 'j') {
-        const initialAddress = 4194304
-        const target = 
-    }
-}
-
 Object.prototype.Call = () => {
     if (sys.regs.$2 === 1) { // integer to print
         Console.dataOut(sys.regs.$4, 'value', '')

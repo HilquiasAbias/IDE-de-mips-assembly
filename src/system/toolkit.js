@@ -1,4 +1,4 @@
-const addressBase = 4194304
+export const addressBase = 4194304
 
 export function convertDecimalToBin(dec) {
     return dec.toString(2);

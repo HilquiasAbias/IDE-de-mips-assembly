@@ -14,14 +14,14 @@ export default (action, data) => {
     }
 
     if (action === 'formatInstructionForTypeI') {
-        return formatI( data[0], data[1] )
+        return formatI( ...data )
     }
         
     if (action === 'formatInstructionForTypeR') {
-        return formatR( data[0], data[1] )
+        return formatR( ...data )
     }
         
     if (action === 'formatInstructionForTypeJ') {
-        return formatJ( data[0], data[1] )
+        return formatJ( ...data )
     }
 }

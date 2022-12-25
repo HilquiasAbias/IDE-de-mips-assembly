@@ -1,18 +1,28 @@
-import * as tools from "../toolkit.js"
-import * as formatting from "./formatting.js"
+import { formatAddress } from "../../toolkit.js"
+import { formatCodeInstruction } from "./formatting.js"
 import instructions from "./instructions.js"
 
 export function isTypeJ(op) {
     return 'j' === op || op === 'jal'
 }
 
-export function formatInstruction(instruction, memorySpace) {
+export function formatInstruction(instruction, memorySpace, instructionsBeforeLabel) {
+    console.log(instruction)
+    console.log(memorySpace)
+    console.log(instructionsBeforeLabel)
     const instructionProperties = {
-        GPR: {
-
-        },
+        address: formatAddress(memorySpace),
+        code: formatCodeInstruction(instruction, instructionsBeforeLabel-3),
+        target: instruction.values[0],
         label: instruction.label,
-        does: (target) => {},
-        
+        does: instructions[instruction.func].does,
+        type: 'r'
     }
+
+    return instructionProperties
 }
+
+/*
+main:   addi $2, $0, 5
+        j main
+*/

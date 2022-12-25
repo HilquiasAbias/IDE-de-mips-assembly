@@ -65,7 +65,7 @@ export function organizationFromTypeH(arr) {
     return Object.values(formatAddress).join('')
 }
 
-export function formatArrayElements(arr) {
+export function formatInstructionsInBinary(arr) {
     const cleanedElements = arr.map((element, index) => {
         if (index === 0) return instructions[element].function
         else return tools.convertDecimalToBin(

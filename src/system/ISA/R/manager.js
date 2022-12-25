@@ -36,7 +36,7 @@ export function formatInstruction(instruction, memorySpace) {
 
     const binary = selectOrganizationType(
         instructions[ instruction.func ].type,
-        formatting.formatArrayElements( [ instruction.func, ...instruction.values ] )
+        formatting.formatInstructionsInBinary( [ instruction.func, ...instruction.values ] )
     )
 
     return {

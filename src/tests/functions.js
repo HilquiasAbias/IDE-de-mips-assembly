@@ -1,3 +1,5 @@
+const addressBase = 4194304
+
 function convertBinToHex(bin) {
     return parseInt(bin, 2).toString(16);
 }
@@ -22,14 +24,11 @@ const completeTargetInstruction = value => {
     return value
 }
 
-function getJumpTarget(instruction, line) {
+function getJumpTarget(instruction, index) { // TODO: descobrir se 'jr' e 'jal' formam o code igual ao 'j'
     if (instruction.func === 'j') {
-        const initialAddress = 4194304
-        const index = (line - 1) * 4
-        const bin = '000010' + completeTargetInstruction( convertDecimalToBin( shiftLeftTwoBitsLogical( initialAddress + index ) ) )
+        const bin = '000010' + completeTargetInstruction( convertDecimalToBin( shiftLeftTwoBitsLogical( addressBase + index * 4 ) ) )
         const code = '0x' + completeHexLength( convertBinToHex( bin ) )
         return code
     }
 }
-
-console.log(getJumpTarget( { func: 'j', }, 5 ));
+console.log(getJumpTarget( { func: 'j', }, 4 ));
