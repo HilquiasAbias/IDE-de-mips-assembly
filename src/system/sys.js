@@ -3,7 +3,7 @@ import memory from "./memory.js";
 import { convertDecimalToAddressHex, formatAddress, convertHexToDecimal } from "./toolkit.js";
 import { executeTypeI } from './ISA/I/execution.js'
 import { executeTypeR } from './ISA/R/execution.js'
-//import { executeTypeJ } from './ISA/J/execution.js'
+import { executeTypeJ } from './ISA/J/execution.js'
 
 import * as Console from './console.js'
 
@@ -18,8 +18,10 @@ const sys = {
     addressCount: 0,
     instructions: [],
     regsStackTimeline: [],
+    executedInstructionsStack: [],
     viewInformations: [],
-    lastInstructionExecuted: 0,
+    executionInstructionCount: 0,
+    lastInstructionExecuted: 'none',
     initialAssembly: true
 }
 
@@ -97,7 +99,9 @@ Object.prototype.Execute = () => {
 
     }
 
-    if (instruction.does || instruction.syscall) { // instruction.does || instruction.syscall
+    sys.lastInstructionExecuted = instruction
+
+    if (instruction.code) { // instruction.does || instruction.syscall
         if (instruction.typing.type === "i") {
             return executeTypeI(instruction, sys)
         }
@@ -107,11 +111,12 @@ Object.prototype.Execute = () => {
         }
     
         if (instruction.typing.type === "j") {
-            // return executeTypeJ(instruction, sys)
+            return executeTypeJ(instruction, sys)
         }
 
         //if ()
     }
+
 }
 
 Object.prototype.Branch = (instruction, op) => {

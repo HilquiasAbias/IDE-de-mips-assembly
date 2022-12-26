@@ -57,11 +57,16 @@ mount.addEventListener('click', () => {
         }
         
         if ( isTypeJ( instruction.func ) ) {
-            const instructionWithLabel = sys.instructions.find( instru => instru.label === instruction.values[0] )
-            console.log(instructionWithLabel);
-            const instructionsBeforeLabel = sys.viewInformations.find( instru => instru.address === instructionWithLabel.address )
-            console.log(instructionsBeforeLabel);
-            const formattedInstrucion = actionHandler( 'formatInstructionForTypeJ', [ instruction, sys.addressCount, sys.instructions.viewInformations[instructionsBeforeLabel.address].line-1 ] )
+            // const instructionWithLabel = sys.instructions.find( instru => instru.label === instruction.values[0] )
+            // console.log(instructionWithLabel);
+
+            // const currentInstructions = sys.viewInformations.find( instru => instru.address === instructionWithLabel.address )
+            // console.log(currentInstructions);
+
+            // const instructionsBeforeLabel = currentInstructions.line - 1 // sys.instructions.viewInformations[currentInstructions.address].line
+            // console.log(instructionsBeforeLabel);
+
+            const formattedInstrucion = actionHandler( 'formatInstructionForTypeJ', [ instruction, sys.addressCount, index ] )
             console.log(formattedInstrucion);
             sys.instructions.push(formattedInstrucion)
 
@@ -105,22 +110,25 @@ run.addEventListener('click', () => {
     }
 
     // TODO: definir error e tratar
-    //if (sys.lastInstructionExecuted !== 0) return
+    //if (sys.executionInstructionCount !== 0) return
     
     // action: continueExecutionOfRemainingInstructions
-    // if (index <= sys.lastInstructionExecuted) continue
+    // if (index <= sys.executionInstructionCount) continue
     sys.instructions.forEach(() => {
         sys.Execute()
-        sys.lastInstructionExecuted++
+        sys.executionInstructionCount++
+        sys.executedInstructionsStack.push( Object.assign( {}, sys.lastInstructionExecuted ) )
 
-        if (sys.lastInstructionExecuted <= sys.instructions.length - 1) {
-            const address = sys.instructions[ sys.lastInstructionExecuted ].address
+        if (sys.lastInstructionExecuted.typing.type === 'j') return
+
+        if (sys.executionInstructionCount <= sys.instructions.length - 1) {
+            const address = sys.instructions[ sys.executionInstructionCount ].address
             
             sys.regs.pc = convertHexToDecimal(address)
             sys.SetValueInViewRegister(sys.regs.pc, 'pc')
         }
 
-        console.log('run in step ', sys.lastInstructionExecuted)
+        console.log('run in step ', sys.executionInstructionCount)
         console.log(sys)
     })
 })
@@ -129,19 +137,21 @@ step.addEventListener('click', () => {
     if (sys.instructions.length === 0) 
         return errorHandler('step', 'tryToMoveOneStepWithoutInstructions')
 
+    sys.executedInstructionsStack.push( Object.assign( {}, sys.lastInstructionExecuted ) )
     sys.regsStackTimeline.push( Object.assign( {}, sys.regs ) )
-
     sys.Execute()
-    sys.lastInstructionExecuted++
+    sys.executionInstructionCount++
     
-    if (sys.lastInstructionExecuted <= sys.instructions.length - 1) {
-        const address = sys.instructions[ sys.lastInstructionExecuted ].address
+    if (sys.lastInstructionExecuted.typing.type === 'j') return
+
+    if (sys.executionInstructionCount <= sys.instructions.length - 1) {
+        const address = sys.instructions[ sys.executionInstructionCount ].address
 
         sys.regs.pc = convertHexToDecimal(address)
         sys.SetValueInViewRegister(sys.regs.pc, 'pc')
     }
 
-    console.log('step ', sys.lastInstructionExecuted)
+    console.log('step ', sys.executionInstructionCount)
     console.log(sys)
 })
 
@@ -151,11 +161,16 @@ back.addEventListener('click', () => {
         return
     }
 
-    --sys.lastInstructionExecuted
+
+
+    --sys.executionInstructionCount
+    sys.lastInstructionExecuted = sys.executedInstructionsStack.pop()
     sys.regs = sys.regsStackTimeline.pop()
-    sys.regs.pc = convertHexToDecimal(sys.instructions[sys.lastInstructionExecuted].address)
+    sys.regs.pc = convertHexToDecimal(sys.instructions[sys.executionInstructionCount].address)
     sys.SetValueInViewRegister(sys.regs.pc, 'pc')
 
-    console.log('back ', sys.lastInstructionExecuted)
+
+
+    console.log('back ', sys.executionInstructionCount)
     console.log(sys)
 });

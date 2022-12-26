@@ -16,7 +16,10 @@ export function formatInstruction(instruction, memorySpace, instructionsBeforeLa
         target: instruction.values[0],
         label: instruction.label,
         does: instructions[instruction.func].does,
-        type: 'r'
+        func: instruction.func,
+        typing: {
+            type: 'j'
+        }
     }
 
     return instructionProperties
