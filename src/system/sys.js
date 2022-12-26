@@ -83,16 +83,23 @@ Object.prototype.SystemInputTreatement = (input) => {
 
     input.forEach(element => { // TODO: Fazer a instrução que possui rótulo criar um array com este rótulo e um possível onlyLabel
         if (element.onlyLabel === true) {
-            labelForNextInstruction = element.label
+            labelForNextInstruction = element.label[0]
             return
         }
 
-        if (element.label === null) {
-            treatedElement = element
-            treatedElement.label = labelForNextInstruction
+        // if (labelForNextInstruction !== null) {
+        //     element.label.push( labelForNextInstruction )
+        //     return
+        // }
+
+        if (element.label && labelForNextInstruction) {
+            element.label.push(labelForNextInstruction)
             labelForNextInstruction = null
-            treatedInput.push( treatedElement )
-            return
+        }
+
+        if (!element.label && labelForNextInstruction) {
+            element.label = labelForNextInstruction
+            labelForNextInstruction = null
         }
 
         // element.label !== null
@@ -108,7 +115,7 @@ Object.prototype.OnlyLabel = (instruction, regsSpace) => {
     return {
         address: formatAddress(regsSpace), // 0x00000004
         onlyLabel: true,
-        label: instruction.label
+        label: [ instruction.label ]
     }
 }
 

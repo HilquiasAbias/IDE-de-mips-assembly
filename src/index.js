@@ -57,11 +57,11 @@ mount.addEventListener('click', () => {
         }
         
         if ( isTypeJ( instruction.func ) ) {
-            console.log(sys)
-            console.log(instruction)
+            // console.log(sys)
+            // console.log(instruction)
 
-            const instructionWithLabel = sys.instructions.find( instru => instru.label === instruction.values[0] )
-            console.log(instructionWithLabel); // TODO: label: ['test', 'testTwo']
+            // const instructionWithLabel = sys.instructions.find( instru => instru.label === instruction.values[0] )
+            // console.log(instructionWithLabel); // TODO: label: ['test', 'testTwo']
 
             // const currentInstructions = sys.viewInformations.find( instru => instru.address === instructionWithLabel.address )
             // console.log(currentInstructions);

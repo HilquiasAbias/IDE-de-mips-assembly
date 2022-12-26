@@ -115,7 +115,7 @@ export function structureInstruction(instruction) { // 'main:    addi $2, $0, 5'
     instruction = instruction.split(':') // ['main:', '   addi $2, $0, 5']
     //console.log(instruction);
 
-    properties.label = instruction[0].trim() // 'main:'
+    properties.label = [ instruction[0].trim() ] // 'main:'
     if (instruction.length === 1 || instruction[1].trim().length === 0) {
         properties.onlyLabel = true
         return properties

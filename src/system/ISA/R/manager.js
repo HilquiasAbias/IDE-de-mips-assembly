@@ -32,7 +32,8 @@ export function formatInstruction(instruction, memorySpace, index) {
                 type: 'r',
                 org: 'b' // instructions[instruction.func].type
             },
-            syscall: true
+            syscall: true,
+            label: instruction.label
         }
 
     const binary = selectOrganizationType(
