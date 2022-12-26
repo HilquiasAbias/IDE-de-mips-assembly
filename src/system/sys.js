@@ -82,6 +82,11 @@ Object.prototype.SystemInputTreatement = (input) => {
     let treatedElement = null
 
     input.forEach(element => {
+        if (element.onlyLabel === true) {
+            labelForNextInstruction = element.label
+            return
+        }
+
         if (labelForNextInstruction !== null && element.label === null) {
             treatedElement = element
             treatedElement.label = labelForNextInstruction
@@ -90,13 +95,10 @@ Object.prototype.SystemInputTreatement = (input) => {
             return
         }
 
-        if (element.onlyLabel === true) {
-            labelForNextInstruction = element.label
-            return
-        }
 
-        treatedInput.push( treatedElement )
-        console.log(treatedElement)
+
+        treatedInput.push( element )
+        labelForNextInstruction = null
     })
 
     return treatedInput

@@ -108,21 +108,31 @@ export function structureInstruction(instruction) { // 'main:    addi $2, $0, 5'
         instruction = instruction.split(' ').map(element => element.trim())
         properties.func = instruction[0]
         properties.values =  instruction.length > 1 ? cleanInstruction(instruction.slice(1)) : null
-        
+        //console.log(properties);
         return properties
     }
 
     instruction = instruction.split(':') // ['main:', '   addi $2, $0, 5']
-    properties.label = instruction[0].trim() // 'main:'
-    //console.log(properties);
-    if (instruction.length === 2) instruction = twoElementsInLine(instruction[1])
     //console.log(instruction);
-    if (!instruction) {
+
+    properties.label = instruction[0].trim() // 'main:'
+    if (instruction.length === 1 || instruction[1].trim().length === 0) {
         properties.onlyLabel = true
         return properties
     }
 
     instruction = instruction[1].trim() // 'addi $2, $0, 5'
+    //console.log(properties);
+    //console.log(instruction);
+  
+    // instruction = twoElementsInLine(instruction[1])
+    // console.log(instruction);
+    // if (!instruction) {
+    //     properties.onlyLabel = true
+    //     return properties
+    // }
+
+    //instruction = instruction[1].trim() // 'addi $2, $0, 5'
     properties.func = instruction.slice( 0, instruction.indexOf(' ') ) // addi
 
     instruction = instruction.slice( instruction.indexOf(' ') ).trim() // '$2, $0, 5' || '0x1010' || 

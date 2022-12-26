@@ -57,14 +57,17 @@ mount.addEventListener('click', () => {
         }
         
         if ( isTypeJ( instruction.func ) ) {
+            console.log(sys)
+            console.log(instruction)
+
             const instructionWithLabel = sys.instructions.find( instru => instru.label === instruction.values[0] )
-            console.log(instructionWithLabel);
+            console.log(instructionWithLabel); // TODO: label: ['test', 'testTwo']
 
-            const currentInstructions = sys.viewInformations.find( instru => instru.address === instructionWithLabel.address )
-            console.log(currentInstructions);
+            // const currentInstructions = sys.viewInformations.find( instru => instru.address === instructionWithLabel.address )
+            // console.log(currentInstructions);
 
-            const instructionsBeforeLabel = currentInstructions.line - 1 // sys.instructions.viewInformations[currentInstructions.address].line
-            console.log(instructionsBeforeLabel);
+            // const instructionsBeforeLabel = currentInstructions.line - 1 // sys.instructions.viewInformations[currentInstructions.address].line
+            // console.log(instructionsBeforeLabel);
             
 
             const formattedInstrucion = actionHandler( 'formatInstructionForTypeJ', [ instruction, sys.addressCount, index ] )
