@@ -1,16 +1,19 @@
-import { handleUserInput, organizeInstructions } from "./toolkit.js"
+import { handleUserInput, organizeInstructions,  } from "./toolkit.js"
 
 import { formatInstruction as formatI } from './ISA/I/manager.js'
 import { formatInstruction as formatR } from './ISA/R/manager.js'
 import { formatInstruction as formatJ } from './ISA/J/manager.js'
 
 import mountHandler from "./errorHandling/mountHandler.js"
+import sys from "./sys.js"
 
 export default (action, data) => {
     if (action === 'treatInput') {
         //if (data === '') mountHandler
 
-        return organizeInstructions( handleUserInput(data) )
+        const firstTreatement = organizeInstructions( handleUserInput(data) )
+        //return firstTreatement
+        return sys.SystemInputTreatement(firstTreatement)
     }
 
     if (action === 'formatInstructionForTypeI') {

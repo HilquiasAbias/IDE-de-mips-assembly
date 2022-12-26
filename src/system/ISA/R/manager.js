@@ -22,11 +22,12 @@ export function whichOrganization(op) {
     return instructions[op].type
 }
 
-export function formatInstruction(instruction, memorySpace) {
+export function formatInstruction(instruction, memorySpace, index) {
     if (instruction.func === 'syscall') 
         return {
             address: tools.formatAddress(memorySpace),
             code: '0x0000000c',
+            index,
             typing: {
                 type: 'r',
                 org: 'b' // instructions[instruction.func].type
@@ -42,6 +43,7 @@ export function formatInstruction(instruction, memorySpace) {
     return {
         address: tools.formatAddress(memorySpace),
         code: tools.convertBinInstructionToHex(binary),
+        index,
         does: instructions[ instruction.func ].does,
         GPR: operationInstruction(instruction),
         typing: {

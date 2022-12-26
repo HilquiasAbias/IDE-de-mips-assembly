@@ -20,7 +20,7 @@ export function whichOrganization(op) {
     return instructions[op].type
 }
 
-export function formatInstruction(instruction, memorySpace) {
+export function formatInstruction(instruction, memorySpace, index) {
     const binary = formatting.formatInstructionsInBinary( [ instruction.func, ...instruction.values ] )
     const type = instructions[ instruction.func ].type
     const code = convertBinInstructionToHex( selectOrganizationType(type, binary) )
@@ -30,6 +30,7 @@ export function formatInstruction(instruction, memorySpace) {
     return {
         address,
         code,
+        index,
         GPR,
         does: instructions[ instruction.func ].does,
         typing: {

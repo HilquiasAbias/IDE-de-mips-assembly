@@ -6,13 +6,14 @@ export function isTypeJ(op) {
     return 'j' === op || op === 'jal'
 }
 
-export function formatInstruction(instruction, memorySpace, instructionsBeforeLabel) {
+export function formatInstruction(instruction, memorySpace, index) {
     console.log(instruction)
     console.log(memorySpace)
-    console.log(instructionsBeforeLabel)
+    console.log(index)
     const instructionProperties = {
         address: formatAddress(memorySpace),
-        code: formatCodeInstruction(instruction, instructionsBeforeLabel-3),
+        code: formatCodeInstruction(instruction, index),
+        index,
         target: instruction.values[0],
         label: instruction.label,
         does: instructions[instruction.func].does,

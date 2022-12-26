@@ -76,6 +76,32 @@ Object.prototype.Clean = () => {
     sys.lastInstructionExecuted = 0
 }
 
+Object.prototype.SystemInputTreatement = (input) => {
+    const treatedInput = []
+    let labelForNextInstruction = null
+    let treatedElement = null
+
+    input.forEach(element => {
+        if (labelForNextInstruction !== null && element.label === null) {
+            treatedElement = element
+            treatedElement.label = labelForNextInstruction
+            labelForNextInstruction = null
+            treatedInput.push( treatedElement )
+            return
+        }
+
+        if (element.onlyLabel === true) {
+            labelForNextInstruction = element.label
+            return
+        }
+
+        treatedInput.push( treatedElement )
+        console.log(treatedElement)
+    })
+
+    return treatedInput
+}
+
 Object.prototype.OnlyLabel = (instruction, regsSpace) => {
     return {
         address: formatAddress(regsSpace), // 0x00000004
@@ -86,6 +112,10 @@ Object.prototype.OnlyLabel = (instruction, regsSpace) => {
 
 Object.prototype.SetNextOnPc = () => {
     sys.regs.pc = convertHexToDecimal(sys.instructions[sys.lastInstructionExecuted].address)
+}
+
+Object.prototype.FindJumpTarget = (jumpIndex, labelIndex) => {
+
 }
 
 Object.prototype.Execute = () => {

@@ -69,16 +69,33 @@ export function uInt(number) {
 }
 
 export function handleUserInput(input) {
-    return input.split('\n').filter(
+    const t = input.split('\n').filter(
         instruction => instruction.split('').every(el => el === ' ') === false
     )
+    //console.log(t)
+    return t
 }
 
 export function organizeInstructions(instructions) {
-    return instructions.map( instruction => structureInstruction(instruction) )
+    const t = instructions.map( instruction => {
+        const s = structureInstruction(instruction)
+        //console.log(s);
+        return s
+    } )
+    //console.log(t)
+    return t
+}
+
+function twoElementsInLine(instruction) { // '   addi $2, $0, 5' || '' || '  ' 
+    instruction = instruction.trim().split('')
+    if (instruction.every( element => element === '' || element === ' ' ))
+        return null
+
+    return instruction
 }
 
 export function structureInstruction(instruction) { // 'main:    addi $2, $0, 5'
+    //console.log(instruction);
     const properties = {
         label: null,
         func: null,
@@ -96,7 +113,14 @@ export function structureInstruction(instruction) { // 'main:    addi $2, $0, 5'
     }
 
     instruction = instruction.split(':') // ['main:', '   addi $2, $0, 5']
-    properties.label = instruction[0] // main
+    properties.label = instruction[0].trim() // 'main:'
+    //console.log(properties);
+    if (instruction.length === 2) instruction = twoElementsInLine(instruction[1])
+    //console.log(instruction);
+    if (!instruction) {
+        properties.onlyLabel = true
+        return properties
+    }
 
     instruction = instruction[1].trim() // 'addi $2, $0, 5'
     properties.func = instruction.slice( 0, instruction.indexOf(' ') ) // addi

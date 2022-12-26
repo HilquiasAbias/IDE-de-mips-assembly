@@ -25,7 +25,7 @@ mount.addEventListener('click', () => {
     
     inputInstructions.forEach( (instruction, index) => {
         if ( isTypeI( instruction.func ) ) {
-            const formattedInstrucion = actionHandler( 'formatInstructionForTypeI', [ instruction, sys.addressCount ] )
+            const formattedInstrucion = actionHandler( 'formatInstructionForTypeI', [ instruction, sys.addressCount, index ] )
 
             sys.instructions.push(formattedInstrucion)
 
@@ -41,7 +41,7 @@ mount.addEventListener('click', () => {
         }
         
         if ( isTypeR( instruction.func ) ) {
-            const formattedInstrucion = actionHandler( 'formatInstructionForTypeR', [ instruction, sys.addressCount ] )
+            const formattedInstrucion = actionHandler( 'formatInstructionForTypeR', [ instruction, sys.addressCount, index ] )
 
             sys.instructions.push(formattedInstrucion)
 
@@ -57,14 +57,15 @@ mount.addEventListener('click', () => {
         }
         
         if ( isTypeJ( instruction.func ) ) {
-            // const instructionWithLabel = sys.instructions.find( instru => instru.label === instruction.values[0] )
-            // console.log(instructionWithLabel);
+            const instructionWithLabel = sys.instructions.find( instru => instru.label === instruction.values[0] )
+            console.log(instructionWithLabel);
 
-            // const currentInstructions = sys.viewInformations.find( instru => instru.address === instructionWithLabel.address )
-            // console.log(currentInstructions);
+            const currentInstructions = sys.viewInformations.find( instru => instru.address === instructionWithLabel.address )
+            console.log(currentInstructions);
 
-            // const instructionsBeforeLabel = currentInstructions.line - 1 // sys.instructions.viewInformations[currentInstructions.address].line
-            // console.log(instructionsBeforeLabel);
+            const instructionsBeforeLabel = currentInstructions.line - 1 // sys.instructions.viewInformations[currentInstructions.address].line
+            console.log(instructionsBeforeLabel);
+            
 
             const formattedInstrucion = actionHandler( 'formatInstructionForTypeJ', [ instruction, sys.addressCount, index ] )
             console.log(formattedInstrucion);
@@ -115,9 +116,9 @@ run.addEventListener('click', () => {
     // action: continueExecutionOfRemainingInstructions
     // if (index <= sys.executionInstructionCount) continue
     sys.instructions.forEach(() => {
+        sys.executedInstructionsStack.push( Object.assign( {}, sys.lastInstructionExecuted ) )
         sys.Execute()
         sys.executionInstructionCount++
-        sys.executedInstructionsStack.push( Object.assign( {}, sys.lastInstructionExecuted ) )
 
         if (sys.lastInstructionExecuted.typing.type === 'j') return
 
@@ -137,10 +138,10 @@ step.addEventListener('click', () => {
     if (sys.instructions.length === 0) 
         return errorHandler('step', 'tryToMoveOneStepWithoutInstructions')
 
-    sys.executedInstructionsStack.push( Object.assign( {}, sys.lastInstructionExecuted ) )
     sys.regsStackTimeline.push( Object.assign( {}, sys.regs ) )
     sys.Execute()
     sys.executionInstructionCount++
+    sys.executedInstructionsStack.push( Object.assign( {}, sys.lastInstructionExecuted ) )
     
     if (sys.lastInstructionExecuted.typing.type === 'j') return
 
