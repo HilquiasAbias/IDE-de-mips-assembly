@@ -81,13 +81,13 @@ Object.prototype.SystemInputTreatement = (input) => {
     let labelForNextInstruction = null
     let treatedElement = null
 
-    input.forEach(element => {
+    input.forEach(element => { // TODO: Fazer a instrução que possui rótulo criar um array com este rótulo e um possível onlyLabel
         if (element.onlyLabel === true) {
             labelForNextInstruction = element.label
             return
         }
 
-        if (labelForNextInstruction !== null && element.label === null) {
+        if (element.label === null) {
             treatedElement = element
             treatedElement.label = labelForNextInstruction
             labelForNextInstruction = null
@@ -95,7 +95,7 @@ Object.prototype.SystemInputTreatement = (input) => {
             return
         }
 
-
+        // element.label !== null
 
         treatedInput.push( element )
         labelForNextInstruction = null

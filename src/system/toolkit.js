@@ -82,7 +82,7 @@ export function organizeInstructions(instructions) {
         //console.log(s);
         return s
     } )
-    //console.log(t)
+    console.log(t)
     return t
 }
 
