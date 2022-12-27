@@ -79,7 +79,6 @@ Object.prototype.Clean = () => {
 Object.prototype.SystemInputTreatement = (input) => {
     const treatedInput = []
     let labelForNextInstruction = null
-    let treatedElement = null
 
     input.forEach(element => { // TODO: Fazer a instrução que possui rótulo criar um array com este rótulo e um possível onlyLabel
         if (element.onlyLabel === true) {
@@ -97,6 +96,11 @@ Object.prototype.SystemInputTreatement = (input) => {
             labelForNextInstruction = null
         }
 
+        // if (element.label && labelForNextInstruction) {
+        //     element.label = [ element.label, labelForNextInstruction ]
+        //     labelForNextInstruction = null
+        // }
+
         if (!element.label && labelForNextInstruction) {
             element.label = labelForNextInstruction
             labelForNextInstruction = null
@@ -108,7 +112,10 @@ Object.prototype.SystemInputTreatement = (input) => {
         labelForNextInstruction = null
     })
 
-    return treatedInput
+    return treatedInput.map( (element, index) => {
+        element.index = index
+        return element
+    } )
 }
 
 Object.prototype.OnlyLabel = (instruction, regsSpace) => {
@@ -123,8 +130,8 @@ Object.prototype.SetNextOnPc = () => {
     sys.regs.pc = convertHexToDecimal(sys.instructions[sys.lastInstructionExecuted].address)
 }
 
-Object.prototype.FindJumpTarget = (jumpIndex, labelIndex) => {
-
+Object.prototype.FindJumpTarget = (index) => {
+    return sys.instructions[index].address
 }
 
 Object.prototype.Execute = () => {

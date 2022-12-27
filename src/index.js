@@ -22,7 +22,7 @@ mount.addEventListener('click', () => {
 
     const inputInstructions = actionHandler( 'treatInput', (input.value) )
     console.log(inputInstructions);
-    
+
     inputInstructions.forEach( (instruction, index) => {
         if ( isTypeI( instruction.func ) ) {
             const formattedInstrucion = actionHandler( 'formatInstructionForTypeI', [ instruction, sys.addressCount, index ] )
@@ -39,7 +39,7 @@ mount.addEventListener('click', () => {
 
             return
         }
-        
+
         if ( isTypeR( instruction.func ) ) {
             const formattedInstrucion = actionHandler( 'formatInstructionForTypeR', [ instruction, sys.addressCount, index ] )
 
@@ -55,7 +55,7 @@ mount.addEventListener('click', () => {
 
             return
         }
-        
+
         if ( isTypeJ( instruction.func ) ) {
             // console.log(sys)
             // console.log(instruction)
@@ -68,9 +68,24 @@ mount.addEventListener('click', () => {
 
             // const instructionsBeforeLabel = currentInstructions.line - 1 // sys.instructions.viewInformations[currentInstructions.address].line
             // console.log(instructionsBeforeLabel);
-            
 
-            const formattedInstrucion = actionHandler( 'formatInstructionForTypeJ', [ instruction, sys.addressCount, index ] )
+            function test(instruction) {
+                if (instruction.onlyLabel) return false
+                
+            }
+
+            // const target = inputInstructions.find( current => {
+            //     if (current.label) {
+            //         console.log(current)
+            //         if (current.label.includes(instruction.target)) return current
+            //     }
+            // } )
+
+            const target = inputInstructions.find( (current) => current.label && current.label.includes('test') )
+
+
+            console.log(target);
+            const formattedInstrucion = actionHandler( 'formatInstructionForTypeJ', [ instruction, sys.addressCount, index, target ] )
             console.log(formattedInstrucion);
             sys.instructions.push(formattedInstrucion)
 
@@ -92,10 +107,10 @@ mount.addEventListener('click', () => {
         }
 
     })
-    
+
     // TODO: enviar dados para montagem da view
     mountView( sys.viewInformations )
-    
+
     sys.initialAssembly = false
 
     sys.regs.pc = convertHexToDecimal(sys.instructions[0].address)
@@ -115,7 +130,7 @@ run.addEventListener('click', () => {
 
     // TODO: definir error e tratar
     //if (sys.executionInstructionCount !== 0) return
-    
+
     // action: continueExecutionOfRemainingInstructions
     // if (index <= sys.executionInstructionCount) continue
     sys.instructions.forEach(() => {
@@ -127,7 +142,7 @@ run.addEventListener('click', () => {
 
         if (sys.executionInstructionCount <= sys.instructions.length - 1) {
             const address = sys.instructions[ sys.executionInstructionCount ].address
-            
+
             sys.regs.pc = convertHexToDecimal(address)
             sys.SetValueInViewRegister(sys.regs.pc, 'pc')
         }
@@ -138,14 +153,14 @@ run.addEventListener('click', () => {
 })
 
 step.addEventListener('click', () => {
-    if (sys.instructions.length === 0) 
+    if (sys.instructions.length === 0)
         return errorHandler('step', 'tryToMoveOneStepWithoutInstructions')
 
     sys.regsStackTimeline.push( Object.assign( {}, sys.regs ) )
     sys.Execute()
     sys.executionInstructionCount++
     sys.executedInstructionsStack.push( Object.assign( {}, sys.lastInstructionExecuted ) )
-    
+
     if (sys.lastInstructionExecuted.typing.type === 'j') return
 
     if (sys.executionInstructionCount <= sys.instructions.length - 1) {

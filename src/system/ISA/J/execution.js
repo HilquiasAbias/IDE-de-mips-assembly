@@ -1,10 +1,11 @@
 import { convertHexToDecimal } from '../../toolkit.js'
 
 export function executeTypeJ(instruction, sys) {
+    console.log(instruction);
     if (instruction.func === 'j') {
-        const target = sys.instructions.find( instru => { if (checkInstruction(instruction, instru)) return instru } ) // instru.label === instruction.target
-        const value = convertHexToDecimal(target.address)
-        console.log(target);
+        // const target = sys.instructions.find( instru => { if (checkInstruction(instruction, instru)) return instru } ) // instru.label === instruction.target
+        const value = convertHexToDecimal(instruction.address)
+        // console.log(target);
 
         sys.regs.pc = value
         sys.SetValueInViewRegister(value, 'pc')
