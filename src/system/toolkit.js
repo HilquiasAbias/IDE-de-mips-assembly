@@ -69,33 +69,18 @@ export function uInt(number) {
 }
 
 export function handleUserInput(input) {
-    const t = input.split('\n').filter(
+    return input.split('\n').filter(
         instruction => instruction.split('').every(el => el === ' ') === false
     )
-    //console.log(t)
-    return t
 }
 
 export function organizeInstructions(instructions) {
-    const t = instructions.map( instruction => {
-        const s = structureInstruction(instruction)
-        //console.log(s);
-        return s
+    return instructions.map( instruction => {
+        return structureInstruction(instruction)
     } )
-    console.log(t)
-    return t
 }
 
-function twoElementsInLine(instruction) { // '   addi $2, $0, 5' || '' || '  ' 
-    instruction = instruction.trim().split('')
-    if (instruction.every( element => element === '' || element === ' ' ))
-        return null
-
-    return instruction
-}
-
-export function structureInstruction(instruction) { // 'main:    addi $2, $0, 5'
-    //console.log(instruction);
+export function structureInstruction(instruction) {
     const properties = {
         label: null,
         func: null,
@@ -108,38 +93,25 @@ export function structureInstruction(instruction) { // 'main:    addi $2, $0, 5'
         instruction = instruction.split(' ').map(element => element.trim())
         properties.func = instruction[0]
         properties.values =  instruction.length > 1 ? cleanInstruction(instruction.slice(1)) : null
-        //console.log(properties);
+
         return properties
     }
 
-    instruction = instruction.split(':') // ['main:', '   addi $2, $0, 5']
-    //console.log(instruction);
-
-    properties.label = [ instruction[0].trim() ] // 'main:'
+    instruction = instruction.split(':')
+    properties.label = [ instruction[0].trim() ]
     
     if (instruction.length === 1 || instruction[1].trim().length === 0) {
         properties.onlyLabel = true
         return properties
     }
 
-    instruction = instruction[1].trim() // 'addi $2, $0, 5'
-    //console.log(properties);
-    //console.log(instruction);
-  
-    // instruction = twoElementsInLine(instruction[1])
-    // console.log(instruction);
-    // if (!instruction) {
-    //     properties.onlyLabel = true
-    //     return properties
-    // }
+    instruction = instruction[1].trim()
+    properties.func = instruction.slice( 0, instruction.indexOf(' ') )
 
-    //instruction = instruction[1].trim() // 'addi $2, $0, 5'
-    properties.func = instruction.slice( 0, instruction.indexOf(' ') ) // addi
-
-    instruction = instruction.slice( instruction.indexOf(' ') ).trim() // '$2, $0, 5' || '0x1010' || 
+    instruction = instruction.slice( instruction.indexOf(' ') ).trim()
     properties.values = instruction.split(' ').map( element => cleanOnlyComma( element.trim() ) )
 
-    return properties // { label: 'main', func: 'addi', values: ['$2', '$0', '5']}
+    return properties
 }
 
 export function getLowOrder(num) {

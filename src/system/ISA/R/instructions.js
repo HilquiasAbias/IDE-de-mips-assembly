@@ -1,4 +1,3 @@
-import sys from '../../sys.js'
 import { uInt } from '../../toolkit.js'
 
 export default {
@@ -44,16 +43,12 @@ export default {
     mfhi: { 
         function: '010000', 
         type: 'd', 
-        does: () => {
-            console.log(sys);
-            
-            return sys.memory.hi
-        }
+        does: null
     },
     mflo: { 
         function: '010010', 
         type: 'd', 
-        does: (rs) => { rs = sys.memory.lo }
+        does: null
     },
     mthi: { 
         function: '010001', 

@@ -8,18 +8,15 @@ export function isTypeJ(op) {
 }
 
 export function formatInstruction(instruction, memorySpace, index, target) {
-    console.log(instruction)
-    console.log(memorySpace)
-    console.log(index)
     const targetLocal = sys.FindJumpTarget(target.index)
     const instructionProperties = {
         address: formatAddress(memorySpace),
         code: formatCodeInstruction(instruction, target.index),
-        index,
-        target: targetLocal,
-        label: instruction.label,
         does: instructions[instruction.func].does,
+        index,
         func: instruction.func,
+        label: instruction.label,
+        target: targetLocal,
         typing: {
             type: 'j',
         }
@@ -27,8 +24,3 @@ export function formatInstruction(instruction, memorySpace, index, target) {
 
     return instructionProperties
 }
-
-/*
-main:   addi $2, $0, 5
-        j main
-*/

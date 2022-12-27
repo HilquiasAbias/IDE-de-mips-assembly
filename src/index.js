@@ -134,11 +134,10 @@ run.addEventListener('click', () => {
     // action: continueExecutionOfRemainingInstructions
     // if (index <= sys.executionInstructionCount) continue
     sys.instructions.forEach(() => {
-        sys.executedInstructionsStack.push( Object.assign( {}, sys.lastInstructionExecuted ) )
+        sys.executedInstructionsStack.push( Object.assign( {}, sys.instructionExecuted ) )
         sys.Execute()
-        sys.executionInstructionCount++
 
-        if (sys.lastInstructionExecuted.typing.type === 'j') return
+        if (sys.instructionExecuted.typing.type === 'j') return
 
         if (sys.executionInstructionCount <= sys.instructions.length - 1) {
             const address = sys.instructions[ sys.executionInstructionCount ].address
@@ -156,14 +155,22 @@ step.addEventListener('click', () => {
     if (sys.instructions.length === 0)
         return errorHandler('step', 'tryToMoveOneStepWithoutInstructions')
 
+    const instruction = sys.NextInstruction()
+
+    if (!instruction) 
+
     sys.regsStackTimeline.push( Object.assign( {}, sys.regs ) )
-    sys.Execute()
+    sys.Execute(instruction)
     sys.executionInstructionCount++
-    sys.executedInstructionsStack.push( Object.assign( {}, sys.lastInstructionExecuted ) )
+    sys.executedInstructionsStack.push( Object.assign( {}, sys.instructionExecuted ) )
 
-    if (sys.lastInstructionExecuted.typing.type === 'j') return
+/*
+    verificar se a instrução executada é a última, se não for pergar o address da instrução sys.instructions[instruction.index+1] 
+*/
 
-    if (sys.executionInstructionCount <= sys.instructions.length - 1) {
+    if (sys.instructionExecuted.typing.type === 'j') return
+
+    if (sys.executionInstructionCount <= sys.instructions.length - 1) { // última instrução
         const address = sys.instructions[ sys.executionInstructionCount ].address
 
         sys.regs.pc = convertHexToDecimal(address)
@@ -183,7 +190,7 @@ back.addEventListener('click', () => {
 
 
     --sys.executionInstructionCount
-    sys.lastInstructionExecuted = sys.executedInstructionsStack.pop()
+    sys.instructionExecuted = sys.executedInstructionsStack.pop()
     sys.regs = sys.regsStackTimeline.pop()
     sys.regs.pc = convertHexToDecimal(sys.instructions[sys.executionInstructionCount].address)
     sys.SetValueInViewRegister(sys.regs.pc, 'pc')
