@@ -4,6 +4,7 @@ export function executeTypeR(instruction, sys) {
     if (instruction.typing.org === 'a') {
         sys.regs[ instruction.GPR.rd ] = instruction.does( sys.regs[instruction.GPR.rs], sys.regs[instruction.GPR.rt] )
         sys.SetValueInViewRegister(sys.regs[ instruction.GPR.rd ], instruction.GPR.rd)
+        sys.lastViewRegisterChanged = instruction.GPR.rd
     }
 
     if (instruction.typing.org === 'b') {

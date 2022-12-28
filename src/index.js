@@ -108,7 +108,6 @@ mount.addEventListener('click', () => {
 
     })
 
-    // TODO: enviar dados para montagem da view
     mountView( sys.viewInformations )
 
     sys.initialAssembly = false
@@ -124,25 +123,39 @@ run.addEventListener('click', () => {
     console.log('run')
     console.log(Object.assign( {}, sys ))
 
-    if (sys.instructions.length === 0) {
+    if (sys.instructions.length === 0)
         errorHandler('run', 'tryToRunWithoutInstructions')
-    }
 
     // TODO: definir error e tratar
     //if (sys.executionInstructionCount !== 0) return
 
-    // action: continueExecutionOfRemainingInstructions
-    // if (index <= sys.executionInstructionCount) continue
-    sys.instructions.forEach(() => {
-        sys.executedInstructionsStack.push( Object.assign( {}, sys.instructionExecuted ) )
-        sys.Execute()
+    if (sys.instructionExecutedIndex) {
+        sys.instructions.slice( sys.instructionExecutedIndex + 1 ).forEach( instruction => {
+            sys.Execute( instruction )
 
-        if (sys.instructionExecuted.typing.type === 'j') return
+            if (instruction.typing.type === 'j') 
+                return
 
-        if (sys.executionInstructionCount <= sys.instructions.length - 1) {
-            const address = sys.instructions[ sys.executionInstructionCount ].address
+            if (instruction.index < sys.instructions.length) {
+                sys.SetNextInstructionInPc()
+                sys.SetValueInViewRegister(sys.regs.pc, 'pc')
+            }
 
-            sys.regs.pc = convertHexToDecimal(address)
+            console.log('run in step ', sys.executionInstructionCount)
+            console.log(sys)
+        })
+
+        return
+    }
+
+    sys.instructions.forEach(instruction => {
+        sys.Execute( instruction )
+
+        if (instruction.typing.type === 'j') 
+            return
+
+        if (instruction.index < sys.instructions.length) {
+            sys.SetNextInstructionInPc()
             sys.SetValueInViewRegister(sys.regs.pc, 'pc')
         }
 
@@ -152,28 +165,28 @@ run.addEventListener('click', () => {
 })
 
 step.addEventListener('click', () => {
+    // step.setAttribute('disable', '')
+
+    // setTimeout(() => {}, 1000)
+
+    // step.removeAttribute('disable', '')
+
     if (sys.instructions.length === 0)
         return errorHandler('step', 'tryToMoveOneStepWithoutInstructions')
 
     const instruction = sys.NextInstruction()
 
-    if (!instruction) 
+    if (!instruction) {}
 
+    sys.regs.currentIndex = sys.instructionExecutedIndex
     sys.regsStackTimeline.push( Object.assign( {}, sys.regs ) )
-    sys.Execute(instruction)
-    sys.executionInstructionCount++
-    sys.executedInstructionsStack.push( Object.assign( {}, sys.instructionExecuted ) )
+    sys.Execute( instruction )
 
-/*
-    verificar se a instrução executada é a última, se não for pergar o address da instrução sys.instructions[instruction.index+1] 
-*/
+    if (instruction.typing.type === 'j') 
+        return
 
-    if (sys.instructionExecuted.typing.type === 'j') return
-
-    if (sys.executionInstructionCount <= sys.instructions.length - 1) { // última instrução
-        const address = sys.instructions[ sys.executionInstructionCount ].address
-
-        sys.regs.pc = convertHexToDecimal(address)
+    if (instruction.index < sys.instructions.length) {
+        sys.SetNextInstructionInPc()
         sys.SetValueInViewRegister(sys.regs.pc, 'pc')
     }
 
@@ -187,15 +200,11 @@ back.addEventListener('click', () => {
         return
     }
 
-
-
-    --sys.executionInstructionCount
-    sys.instructionExecuted = sys.executedInstructionsStack.pop()
     sys.regs = sys.regsStackTimeline.pop()
-    sys.regs.pc = convertHexToDecimal(sys.instructions[sys.executionInstructionCount].address)
+    sys.instructionExecutedIndex = sys.regs.currentIndex
+    console.log(sys.lastViewRegisterChanged);
+    sys.SetValueInViewRegister(sys.regs[ sys.lastViewRegisterChanged ], sys.lastViewRegisterChanged)
     sys.SetValueInViewRegister(sys.regs.pc, 'pc')
-
-
 
     console.log('back ', sys.executionInstructionCount)
     console.log(sys)

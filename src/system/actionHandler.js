@@ -12,8 +12,7 @@ export default (action, data) => {
         //if (data === '') mountHandler
 
         const firstTreatement = organizeInstructions( handleUserInput(data) )
-        //console.log(firstTreatement)
-        //return firstTreatement
+
         return sys.SystemInputTreatement(firstTreatement)
     }
 

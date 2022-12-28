@@ -33,50 +33,56 @@
 // }
 // console.log(getJumpTarget( { func: 'j', }, 4 ));
 
-const test = [
-    {
-        address: '0x00000008', 
-        hex: '0x0000000c', 
-        typing: {type: 'r', org: 'b'}, 
-        syscall: true,
-        do: null
-    },
-    {
-        address: '0x0000000c', 
-        hex: '0x00422020', 
-        registers: {}, 
-        typing: {}, 
-        do: ['outro']
-    },
-    {
-        address: '0x00000010', 
-        hex: '0x20020001', 
-        registers: {}, 
-        typing: {}, 
-        do: null
-    },
-    {
-        address: '0x00000014', 
-        hex: '0x0000000c', 
-        typing: {}, 
-        syscall: true,
-        do: ['teste']
-    },
-    {
-        address: '0x00000018',
-        hex: '0x2002000a',
-        registers: {},
-        typing: {},
-        do: null
-    },
-]
+// const test = [
+//     {
+//         address: '0x00000008', 
+//         hex: '0x0000000c', 
+//         typing: {type: 'r', org: 'b'}, 
+//         syscall: true,
+//         do: null
+//     },
+//     {
+//         address: '0x0000000c', 
+//         hex: '0x00422020', 
+//         registers: {}, 
+//         typing: {}, 
+//         do: ['outro']
+//     },
+//     {
+//         address: '0x00000010', 
+//         hex: '0x20020001', 
+//         registers: {}, 
+//         typing: {}, 
+//         do: null
+//     },
+//     {
+//         address: '0x00000014', 
+//         hex: '0x0000000c', 
+//         typing: {}, 
+//         syscall: true,
+//         do: ['teste']
+//     },
+//     {
+//         address: '0x00000018',
+//         hex: '0x2002000a',
+//         registers: {},
+//         typing: {},
+//         do: null
+//     },
+// ]
 
-function test(instruction) {
-    if (instruction.onlyLabel) return false
+// function test(instruction) {
+//     if (instruction.onlyLabel) return false
     
-}
+// }
 
-const target = test.find( (current) => current.label && current.label.includes('teste') )
+// const target = test.find( (current) => current.label && current.label.includes('teste') )
 
 
-console.log(target);
+// console.log(target);
+
+const test = ['a', 'b', 'c', 'd', 'e', 'f',]
+
+test.slice(3).forEach( letter => {
+    console.log(letter);
+})

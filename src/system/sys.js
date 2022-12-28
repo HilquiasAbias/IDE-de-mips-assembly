@@ -12,7 +12,7 @@ const sys = {
         $0: 0, $1: 0, $2: 0, $3: 0, $4: 0, $5: 0, $6: 0, $7: 0, $8: 0, $9: 0,
         $10: 0, $11: 0, $12: 0, $13: 0, $14: 0, $15: 0, $16: 0, $17: 0, $18: 0, $19: 0,
         $20: 0, $21: 0, $22: 0, $23: 0, $24: 0, $25: 0, $26: 0, $27: 0, $28: 0, $29: 0,
-        $30: 0, $31: 0, pc: 0, hi: 0, lo: 0
+        $30: 0, $31: 0, pc: 0, hi: 0, lo: 0, currentIndex: null
     },
     memory,
     addressCount: 0,
@@ -21,9 +21,10 @@ const sys = {
     executedInstructionsStack: [],
     viewInformations: [],
     executionInstructionCount: 0,
-    instructionExecuted: 'none',
+    instructionExecuted: null, // 'none'
     instructionExecutedIndex: null,
-    initialAssembly: true
+    initialAssembly: true,
+    lastViewRegisterChanged: null
 }
 
 Object.prototype.Data = () => {}
@@ -74,7 +75,7 @@ Object.prototype.Clean = () => {
     sys.instructions = []
     sys.regsStackTimeline = []
     sys.viewInformations = []
-    sys.lastInstructionExecuted = 0
+    //sys.lastInstructionExecuted = 0
 }
 
 Object.prototype.SystemInputTreatement = (input) => {
@@ -127,8 +128,12 @@ Object.prototype.OnlyLabel = (instruction, regsSpace) => {
     }
 }
 
-Object.prototype.SetNextOnPc = () => {
-    sys.regs.pc = convertHexToDecimal(sys.instructions[sys.lastInstructionExecuted].address)
+Object.prototype.SetNextInstructionInPc = () => {
+    // const instruction = sys.instructions.find( instruction => instruction.index === sys.instructionExecutedIndex + 1 )
+    // sys.regs.pc = convertHexToDecimal( instruction )
+    sys.regs.pc = convertHexToDecimal(
+        sys.instructions.find( instruction => instruction.index === sys.instructionExecutedIndex + 1 ).address
+    )
 }
 
 Object.prototype.FindJumpTarget = (index) => {
@@ -146,8 +151,8 @@ Object.prototype.Execute = (instruction) => {
     
     if (instruction.typing.type === "j") executeTypeJ(instruction, sys)
     
-    sys.lastInstructionExecuted = instruction
-    sys.indexOfLastExecutedStatement = instruction.index
+    sys.instructionExecuted = instruction
+    sys.instructionExecutedIndex = instruction.index
 }
 
 Object.prototype.Branch = (instruction, op) => {
