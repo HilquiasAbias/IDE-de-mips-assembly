@@ -5,8 +5,6 @@ import { executeTypeI } from './ISA/I/execution.js'
 import { executeTypeR } from './ISA/R/execution.js'
 import { executeTypeJ } from './ISA/J/execution.js'
 
-import * as Console from './console.js'
-
 const sys = { 
     regs: {
         $0: 0, $1: 0, $2: 0, $3: 0, $4: 0, $5: 0, $6: 0, $7: 0, $8: 0, $9: 0,
@@ -19,25 +17,10 @@ const sys = {
     instructions: [],
     regsStackTimeline: [],
     executedInstructionsStack: [],
-    viewInformations: [],
     executionInstructionCount: 0,
     instructionExecuted: null, // 'none'
     instructionExecutedIndex: null,
     initialAssembly: true,
-    lastViewRegisterChanged: null
-}
-
-Object.prototype.Data = () => {}
-
-Object.prototype.Text = () => {}
-
-Object.prototype.Word = () => {}
-
-Object.prototype.ToOutput = data => {}
-
-Object.prototype.SetValueInViewRegister = (value, register) => {
-    const reg = document.querySelector(`input[name="${register}"]`)
-    reg.value = value
 }
 
 Object.prototype.Call = () => {
@@ -78,47 +61,6 @@ Object.prototype.Clean = () => {
     //sys.lastInstructionExecuted = 0
 }
 
-Object.prototype.SystemInputTreatement = (input) => {
-    const treatedInput = []
-    let labelForNextInstruction = null
-
-    input.forEach(element => { // TODO: Fazer a instrução que possui rótulo criar um array com este rótulo e um possível onlyLabel
-        if (element.onlyLabel === true) {
-            labelForNextInstruction = element.label[0]
-            return
-        }
-
-        // if (labelForNextInstruction !== null) {
-        //     element.label.push( labelForNextInstruction )
-        //     return
-        // }
-
-        if (element.label && labelForNextInstruction) {
-            element.label.push(labelForNextInstruction)
-            labelForNextInstruction = null
-        }
-
-        // if (element.label && labelForNextInstruction) {
-        //     element.label = [ element.label, labelForNextInstruction ]
-        //     labelForNextInstruction = null
-        // }
-
-        if (!element.label && labelForNextInstruction) {
-            element.label = labelForNextInstruction
-            labelForNextInstruction = null
-        }
-
-        // element.label !== null
-
-        treatedInput.push( element )
-        labelForNextInstruction = null
-    })
-
-    return treatedInput.map( (element, index) => {
-        element.index = index
-        return element
-    } )
-}
 
 Object.prototype.OnlyLabel = (instruction, regsSpace) => {
     return {
@@ -178,7 +120,7 @@ export default sys;
 //         $0: 0, $1: 0, $2: 0, $3: 0, $4: 0, $5: 0, $6: 0, $7: 0, $8: 0, $9: 0,
 //         $10: 0, $11: 0, $12: 0, $13: 0, $14: 0, $15: 0, $16: 0, $17: 0, $18: 0, $19: 0,
 //         $20: 0, $21: 0, $22: 0, $23: 0, $24: 0, $25: 0, $26: 0, $27: 0, $28: 0, $29: 0,
-//         $30: 0, $31: 0, pc: 0, hi: 0, lo: 0
+//         $30: 0, $31: 0, pc: 0, hi: 0, lo: 0, currentIndex: null
 //     },
 //     memory,
 //     addressCount: 0,
@@ -187,9 +129,10 @@ export default sys;
 //     executedInstructionsStack: [],
 //     viewInformations: [],
 //     executionInstructionCount: 0,
-//     lastInstructionExecuted: 'none',
-//     indexOfLastExecutedStatement: null,
-//     initialAssembly: true
+//     instructionExecuted: null, // 'none'
+//     instructionExecutedIndex: null,
+//     initialAssembly: true,
+//     lastViewRegisterChanged: null
 // }
 
 // Object.prototype.Data = () => {}
@@ -200,10 +143,10 @@ export default sys;
 
 // Object.prototype.ToOutput = data => {}
 
-// Object.prototype.SetValueInViewRegister = (value, register) => {
-//     const reg = document.querySelector(`input[name="${register}"]`)
-//     reg.value = value
-// }
+// // Object.prototype.SetValueInViewRegister = (value, register) => {
+// //     const reg = document.querySelector(`input[name="${register}"]`)
+// //     reg.value = value
+// // }
 
 // Object.prototype.Call = () => {
 //     if (sys.regs.$2 === 1) { // integer to print
@@ -240,7 +183,7 @@ export default sys;
 //     sys.instructions = []
 //     sys.regsStackTimeline = []
 //     sys.viewInformations = []
-//     sys.lastInstructionExecuted = 0
+//     //sys.lastInstructionExecuted = 0
 // }
 
 // Object.prototype.SystemInputTreatement = (input) => {
@@ -287,42 +230,37 @@ export default sys;
 
 // Object.prototype.OnlyLabel = (instruction, regsSpace) => {
 //     return {
-//         address: formatAddress(regsSpace), // 0x00000004
+//         address: formatAddress(regsSpace),
 //         onlyLabel: true,
 //         label: [ instruction.label ]
 //     }
 // }
 
-// Object.prototype.SetNextOnPc = () => {
-//     sys.regs.pc = convertHexToDecimal(sys.instructions[sys.lastInstructionExecuted].address)
+// Object.prototype.SetNextInstructionInPc = () => {
+//     // const instruction = sys.instructions.find( instruction => instruction.index === sys.instructionExecutedIndex + 1 )
+//     // sys.regs.pc = convertHexToDecimal( instruction )
+//     sys.regs.pc = convertHexToDecimal(
+//         sys.instructions.find( instruction => instruction.index === sys.instructionExecutedIndex + 1 ).address
+//     )
 // }
 
 // Object.prototype.FindJumpTarget = (index) => {
 //     return sys.instructions[index].address
 // }
 
-// Object.prototype.Execute = () => {
-//     //console.log('Execute()');
-//     const instruction = sys.instructions.find( instruction => instruction.address === convertDecimalToAddressHex( sys.regs.pc ) )
+// Object.prototype.NextInstruction = () => {
+//     return sys.instructions.find( instruction => instruction.address === convertDecimalToAddressHex( sys.regs.pc ) )
+// }
 
-//     sys.lastInstructionExecuted = instruction
-
-//     if (instruction.code) { // instruction.does || instruction.syscall
-//         if (instruction.typing.type === "i") {
-//             return executeTypeI(instruction, sys)
-//         }
+// Object.prototype.Execute = (instruction) => {
+//     if (instruction.typing.type === "i") executeTypeI(instruction, sys)
     
-//         if (instruction.typing.type === "r") {
-//             return executeTypeR(instruction, sys)
-//         }
+//     if (instruction.typing.type === "r") executeTypeR(instruction, sys)
     
-//         if (instruction.typing.type === "j") {
-//             return executeTypeJ(instruction, sys)
-//         }
-
-//         sys.indexOfLastExecutedStatement = instruction.index
-//     }
-
+//     if (instruction.typing.type === "j") executeTypeJ(instruction, sys)
+    
+//     sys.instructionExecuted = instruction
+//     sys.instructionExecutedIndex = instruction.index
 // }
 
 // Object.prototype.Branch = (instruction, op) => {
@@ -333,4 +271,3 @@ export default sys;
 // }
 
 // export default sys;
-
