@@ -9,7 +9,6 @@ import { isTypeJ, formatInstruction as formatJ } from './system/ISA/J/manager.js
 
 import { convertHexToDecimal } from './system/toolkit.js'
 
-const input = document.querySelector('.input')
 //const output = document.querySelector('.output')
 const address = document.querySelector('.address')
 const mount = document.querySelector('.mount')
@@ -18,9 +17,10 @@ const step = document.querySelector('.step')
 const back = document.querySelector('.back')
 
 mount.addEventListener('click', () => {
-    sys.Clean()
-
-    const inputInstructions = view.standardizeInstructionsLabels( view.inputTreatement(input.value) )
+    sys.clean()
+    view.clean()
+    
+    const inputInstructions = view.getInputInstructions()
 
     inputInstructions.forEach( (instruction, index) => {
         if ( isTypeI( instruction.func ) ) {
@@ -130,9 +130,9 @@ run.addEventListener('click', () => {
                 view.setValueInViewRegister(sys.regs.pc, 'pc')
             }
 
-            console.log(sys)
         })
 
+        console.log(sys)
         return
     }
 
@@ -147,8 +147,9 @@ run.addEventListener('click', () => {
             view.setValueInViewRegister(sys.regs.pc, 'pc')
         }
 
-        console.log(sys)
     })
+
+    console.log(sys)
 })
 
 step.addEventListener('click', () => {
@@ -182,7 +183,7 @@ back.addEventListener('click', () => {
 
     sys.regs = sys.regsStackTimeline.pop()
     sys.instructionExecutedIndex = sys.regs.currentIndex
-    console.log(sys.lastViewRegisterChanged);
+
     view.setValueInViewRegister(sys.regs[ sys.lastViewRegisterChanged ], sys.lastViewRegisterChanged)
     view.setValueInViewRegister(sys.regs.pc, 'pc')
 

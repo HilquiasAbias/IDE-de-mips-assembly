@@ -2,6 +2,8 @@ import { structureInstruction } from "./toolkit.js";
 import * as Console from './console.js'
 
 const addressArea = document.querySelector('.address')
+const registers = document.querySelector('.registers').querySelectorAll('input')
+const input = document.querySelector('.input')
 
 const view = {
     linesAttributes: [],
@@ -18,6 +20,14 @@ function createLine(a, b) {
     div.appendChild(spanA)
     div.appendChild(spanB)
     return div
+}
+
+Object.prototype.clean = () => {
+    registers.forEach(register => register.value = 0 )
+}
+
+Object.prototype.getInputInstructions = () => {
+    return view.standardizeInstructionsLabels( view.inputTreatement(input.value) )
 }
 
 Object.prototype.mountView = () => {

@@ -23,7 +23,7 @@ const sys = {
     initialAssembly: true,
 }
 
-Object.prototype.Call = () => {
+Object.prototype.Call = () => { 
     if (sys.regs.$2 === 1) { // integer to print
         Console.dataOut(sys.regs.$4, 'value', '')
         return
@@ -41,13 +41,13 @@ Object.prototype.Call = () => {
     // else if (sys.regs.$2 === 9) // allocate heap regs
     else if (sys.regs.$2 === 10) {
         Console.dataOut(null, 'exit', 'Programa finalizado!')
-        sys.Clean();
+        sys.clean();
     };
 
     // TODO: Completar chamada do sistema
 }
 
-Object.prototype.Clean = () => {
+Object.prototype.clean = () => {
     sys.regs = {
         $0: 0, $1: 0, $2: 0, $3: 0, $4: 0, $5: 0, $6: 0, $7: 0, $8: 0, $9: 0,
         $10: 0, $11: 0, $12: 0, $13: 0, $14: 0, $15: 0, $16: 0, $17: 0, $18: 0, $19: 0,
