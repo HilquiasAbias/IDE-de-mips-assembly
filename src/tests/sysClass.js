@@ -1,9 +1,9 @@
-import memory from "./memory.js";
+import memory from "../system/memory.js";
 // import view from "./viewRegisters.js";
-import { convertDecimalToAddressHex, formatAddress, convertHexToDecimal } from "./toolkit.js";
-import { executeTypeI } from './ISA/I/execution.js'
-import { executeTypeR } from './ISA/R/execution.js'
-import { executeTypeJ } from './ISA/J/execution.js'
+import { convertDecimalToAddressHex, formatAddress, convertHexToDecimal } from "../system/toolkit.js";
+import { executeTypeI } from '../system/ISA/I/execution.js'
+import { executeTypeR } from '../system/ISA/R/execution.js'
+import { executeTypeJ } from '../system/ISA/J/execution.js'
 
 class Sys {
     constructor() {

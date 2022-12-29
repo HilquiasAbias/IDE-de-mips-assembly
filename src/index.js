@@ -20,7 +20,7 @@ const back = document.querySelector('.back')
 mount.addEventListener('click', () => {
     sys.Clean()
 
-    const inputInstructions = view.standardizeInstructionsLabels( view.inputTreatement(input) )
+    const inputInstructions = view.standardizeInstructionsLabels( view.inputTreatement(input.value) )
 
     inputInstructions.forEach( (instruction, index) => {
         if ( isTypeI( instruction.func ) ) {

@@ -21,7 +21,7 @@ function createLine(a, b) {
 }
 
 Object.prototype.mountView = () => {
-    linesAttributes.forEach(attributes => {
+    view.linesAttributes.forEach(attributes => {
         const line = createLine(attributes.address, attributes.code)
         addressArea.appendChild(line)
     });
@@ -93,36 +93,12 @@ export default view
 /*
 
 - para as e/s criar duas divs, uma em cima da outra com apenas o rótulo delas lado a lado para o usuário selecionar
-  qual sessão ver, essa mudança de sessão pode ser feita pelo z-index do css, serão as sessões de logs e console de execução do programa.
+qual sessão ver, essa mudança de sessão pode ser feita pelo z-index do css, serão as sessões de logs e console de execução do programa.
 
-  - no syscall de receber um valor do usuário, pode criar um input e fazer um appendChild na div do console de execução,
-  depois com javascript ou css colocar este input com focus.
+- no syscall de receber um valor do usuário, pode criar um input e fazer um appendChild na div do console de execução,
+depois com javascript ou css colocar este input com focus.
+
+- descobrir como após varios appendChild na div de console ela não quebre a interface com seu espaçamento,
+mas sim que naquela div de console apareça um scroll mantendo seu tamanho original.
 
 */
-
-
-// const addressArea = document.querySelector('.address')
-
-// function createLine(a, b) {
-//     const div = document.createElement('div')
-//     div.classList.add('address-line')
-//     const spanA = document.createElement('span')
-//     const spanB = document.createElement('span')
-//     spanA.innerText = a
-//     spanB.innerText = b
-//     div.appendChild(spanA)
-//     div.appendChild(spanB)
-//     return div
-// }
-
-// export function mountView(instructions) {
-//     instructions.forEach(instruction => {
-//         const line = createLine(instruction.address, instruction.code)
-//         addressArea.appendChild(line)
-//     });
-// }
-
-// export function setValueInViewRegister(value, register) {
-//     const reg = document.querySelector(`input[name="${register}"]`)
-//     reg.value = value
-// }
