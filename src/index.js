@@ -10,8 +10,10 @@ import { isTypeJ, formatInstruction as formatJ } from './system/ISA/J/manager.js
 import { convertHexToDecimal } from './system/toolkit.js'
 
 //const output = document.querySelector('.output')
+const screen = document.querySelector('.screen')
 const address = document.querySelector('.address')
 const mount = document.querySelector('.mount')
+const unmount = document.querySelector('.unmount')
 const run = document.querySelector('.run')
 const step = document.querySelector('.step')
 const back = document.querySelector('.back')
@@ -19,8 +21,13 @@ const back = document.querySelector('.back')
 mount.addEventListener('click', () => {
     sys.clean()
     view.clean()
+
+    view.showPropertiesAfterMount()
+    view.console.dataOut(null, 'comment', 'Código montado, programa iniciado!')
     
     const inputInstructions = view.getInputInstructions()
+
+    if (!inputInstructions) return
 
     inputInstructions.forEach( (instruction, index) => {
         if ( isTypeI( instruction.func ) ) {
@@ -107,6 +114,7 @@ mount.addEventListener('click', () => {
     mountView()
 
     sys.initialAssembly = false
+    sys.empty = false
 
     sys.regs.pc = convertHexToDecimal(sys.instructions[0].address) // TODO: fazer função disso no sys
     view.setValueInViewRegister(sys.regs.pc, 'pc')
@@ -114,9 +122,21 @@ mount.addEventListener('click', () => {
     console.log(sys)
 })
 
+unmount.addEventListener('click', () => {
+    sys.clean()
+    view.clean()
+    screen.style.paddingLeft = '300px'
+    screen.style.gridTemplateColumns = '1fr 1fr'
+    address.style.display = 'none'
+})
+
 run.addEventListener('click', () => {
+    if (sys.empty) return
+
     if (sys.instructions.length === 0)
         errorHandler('run', 'tryToRunWithoutInstructions')
+    
+    
 
     if (sys.instructionExecutedIndex) {
         sys.instructions.slice( sys.instructionExecutedIndex + 1 ).forEach( instruction => {
@@ -153,6 +173,8 @@ run.addEventListener('click', () => {
 })
 
 step.addEventListener('click', () => {
+    if (sys.empty) return
+
     if (sys.instructions.length === 0)
         return errorHandler('step', 'tryToMoveOneStepWithoutInstructions')
 
@@ -176,6 +198,8 @@ step.addEventListener('click', () => {
 })
 
 back.addEventListener('click', () => {
+    if (sys.empty) return
+
     if (sys.instructions.length === 0) {
         errorHandler('back', 'tryBackOneStepWithoutInstructions')
         return

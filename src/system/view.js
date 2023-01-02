@@ -3,6 +3,7 @@ import * as Console from './console.js'
 
 const addressArea = document.querySelector('.address')
 const registers = document.querySelector('.registers').querySelectorAll('input')
+const screen = document.querySelector('.screen')
 const input = document.querySelector('.input')
 
 const view = {
@@ -22,11 +23,22 @@ function createLine(a, b) {
     return div
 }
 
+Object.prototype.console = Console
+
+Object.prototype.showPropertiesAfterMount = () => {
+    screen.style.paddingLeft = '100px'
+    screen.style.gridTemplateColumns = '1fr 1fr 1fr'
+    addressArea.style.display = 'initial'
+}
+
 Object.prototype.clean = () => {
     registers.forEach(register => register.value = 0 )
+    Console.cleanIt()
+    addressArea.innerHTML = ''
 }
 
 Object.prototype.getInputInstructions = () => {
+    if (input.value === '') return null
     return view.standardizeInstructionsLabels( view.inputTreatement(input.value) )
 }
 
@@ -96,6 +108,8 @@ Object.prototype.standardizeInstructionsLabels = (input) => {
         return element
     } )
 }
+
+
 
 export default view
 

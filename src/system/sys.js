@@ -1,4 +1,5 @@
 import memory from "./memory.js";
+import view from "./view.js";
 // import view from "./viewRegisters.js";
 import { convertDecimalToAddressHex, formatAddress, convertHexToDecimal } from "./toolkit.js";
 import { executeTypeI } from './ISA/I/execution.js'
@@ -20,29 +21,56 @@ const sys = {
     executionInstructionCount: 0,
     instructionExecuted: null, // 'none'
     instructionExecutedIndex: null,
-    initialAssembly: true,
+    empty: true
 }
 
 Object.prototype.Call = () => { 
     if (sys.regs.$2 === 1) { // integer to print
-        Console.dataOut(sys.regs.$4, 'value', '')
+        view.console.dataOut(sys.regs.$4, 'value', '')
         return
     }
 
-    else if (sys.regs.$2 === 2) console.log(sys.regs.$4.toFixed(2)); // float to print
-    else if (sys.regs.$2 === 3) console.log(sys.regs.$4.toFixed(1)); // double to print
-    else if (sys.regs.$2 === 5) {
-        sys.regs.$2 = parseInt(prompt());
+    if (sys.regs.$2 === 2) { // float to print
+        console.log(sys.regs.$4.toFixed(2))
+        return
+    }
+
+    if (sys.regs.$2 === 3) { // double to print
+        console.log(sys.regs.$4.toFixed(1))
+    }
+
+    if (sys.regs.$2 === 5) { // $2 contains integer read
+        const input = parseInt(prompt())
+        if (input !== 'number') {
+            alert('teste')
+        }
+        sys.regs.$2 = input
         sys.SetValueInViewRegister(sys.regs.$2, '$2')
-    } // $2 contains integer read
-    else if (sys.regs.$2 === 6) sys.regs.$2 = parseFloat(prompt()); // $2 contains float read
-    else if (sys.regs.$2 === 7) sys.regs.$2 = parseFloat(prompt()); // $2 contains double read
-    else if (sys.regs.$2 === 8) sys.regs.$2 = prompt(); // $2 contains string read
-    // else if (sys.regs.$2 === 9) // allocate heap regs
-    else if (sys.regs.$2 === 10) {
-        Console.dataOut(null, 'exit', 'Programa finalizado!')
-        sys.clean();
-    };
+    }
+
+    if (sys.regs.$2 === 6) { // $2 contains float read
+        sys.regs.$2 = parseFloat(prompt())
+        return
+    }
+
+    if (sys.regs.$2 === 7) { // $2 contains double read
+        sys.regs.$2 = parseFloat(prompt())
+        return
+    }
+
+    if (sys.regs.$2 === 8) { // $2 contains string read
+        sys.regs.$2 = prompt()
+        return
+    }
+
+    // if (sys.regs.$2 === 9) // allocate heap regs
+
+    if (sys.regs.$2 === 10) {
+        view.console.dataOut(null, 'exit', 'Programa finalizado!')
+        sys.clean()
+        view.clean()
+        return
+    }
 
     // TODO: Completar chamada do sistema
 }
