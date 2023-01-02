@@ -6,7 +6,7 @@ import { executeTypeI } from './ISA/I/execution.js'
 import { executeTypeR } from './ISA/R/execution.js'
 import { executeTypeJ } from './ISA/J/execution.js'
 
-const sys = { 
+const sys = {
     regs: {
         $0: 0, $1: 0, $2: 0, $3: 0, $4: 0, $5: 0, $6: 0, $7: 0, $8: 0, $9: 0,
         $10: 0, $11: 0, $12: 0, $13: 0, $14: 0, $15: 0, $16: 0, $17: 0, $18: 0, $19: 0,
@@ -41,11 +41,13 @@ Object.prototype.Call = () => {
 
     if (sys.regs.$2 === 5) { // $2 contains integer read
         const input = parseInt(prompt())
-        if (input !== 'number') {
-            alert('teste')
-        }
+
+        // TODO: tratar input
+
+        // const input = view.console.dataIn()
         sys.regs.$2 = input
-        sys.SetValueInViewRegister(sys.regs.$2, '$2')
+        view.setValueInViewRegister(input, '$2')
+        return
     }
 
     if (sys.regs.$2 === 6) { // $2 contains float read
@@ -67,15 +69,15 @@ Object.prototype.Call = () => {
 
     if (sys.regs.$2 === 10) {
         view.console.dataOut(null, 'exit', 'Programa finalizado!')
-        sys.clean()
-        view.clean()
+        sys.cleanSys()
+        sys.empty = true
         return
     }
 
     // TODO: Completar chamada do sistema
 }
 
-Object.prototype.clean = () => {
+Object.prototype.cleanSys = () => {
     sys.regs = {
         $0: 0, $1: 0, $2: 0, $3: 0, $4: 0, $5: 0, $6: 0, $7: 0, $8: 0, $9: 0,
         $10: 0, $11: 0, $12: 0, $13: 0, $14: 0, $15: 0, $16: 0, $17: 0, $18: 0, $19: 0,
@@ -86,9 +88,7 @@ Object.prototype.clean = () => {
     sys.instructions = []
     sys.regsStackTimeline = []
     sys.viewInformations = []
-    //sys.lastInstructionExecuted = 0
 }
-
 
 Object.prototype.OnlyLabel = (instruction, regsSpace) => {
     return {

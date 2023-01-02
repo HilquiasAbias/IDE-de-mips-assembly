@@ -1,8 +1,9 @@
 import { structureInstruction } from "./toolkit.js";
 import * as Console from './console.js'
 
+const dataInAndOut = document.querySelector('.console')
 const addressArea = document.querySelector('.address')
-const registers = document.querySelector('.registers').querySelectorAll('input')
+const registers = document.querySelector('.registers')
 const screen = document.querySelector('.screen')
 const input = document.querySelector('.input')
 
@@ -26,15 +27,27 @@ function createLine(a, b) {
 Object.prototype.console = Console
 
 Object.prototype.showPropertiesAfterMount = () => {
-    screen.style.paddingLeft = '100px'
+    //screen.style.paddingLeft = '100px'
+    screen.style.justifyContent = 'space-between'
     screen.style.gridTemplateColumns = '1fr 1fr 1fr'
+    screen.style.gap = '60px'
     addressArea.style.display = 'initial'
 }
 
-Object.prototype.clean = () => {
-    registers.forEach(register => register.value = 0 )
+Object.prototype.cleanView = () => {
+    addressArea.innerText = ''
+    const regs = registers.querySelectorAll('input')
+    console.log(regs);
+    console.log(addressArea);
+    regs.forEach(register => register.value = 0 )
     Console.cleanIt()
-    addressArea.innerHTML = ''
+}
+
+Object.prototype.hidePropertiesAfterUnmount = () => {
+    screen.style.justifyContent = 'space-around'
+    screen.style.gridTemplateColumns = '1fr 1fr'
+    addressArea.style.gap = '40px'
+    addressArea.style.display = 'none'
 }
 
 Object.prototype.getInputInstructions = () => {

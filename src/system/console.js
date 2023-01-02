@@ -1,7 +1,9 @@
+import * as user from './userAction.js'
+
 const dataInAndOut = document.querySelector('.console')
 
 export const cleanIt = () => {
-    dataInAndOut.innerHTML = '<div></div>'
+    dataInAndOut.innerText = ''
 }
 
 export const dataOut = (data, type, msg) => {
@@ -38,9 +40,22 @@ export const dataOut = (data, type, msg) => {
 
 export const dataIn = () => {
     const inputLine = document.createElement('input')
-    
-}
+    inputLine.classList.add('data-in-input')
+    dataInAndOut.appendChild(inputLine)
 
-export const clean = () => {
-    dataInAndOut.innerHTML = ''
+    user.utils.freeze()
+
+    inputLine.focus()
+    inputLine.addEventListener('keyup', event => {
+        if (event.key === 'Enter') { // && event.target === inputLine
+            console.log('teste');
+
+            console.log(inputLine.value);
+            
+            //inputLine.disabled = true
+            user.utils.unFreeze()
+            return inputLine.value
+        }
+    })
+
 }

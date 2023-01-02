@@ -15,9 +15,9 @@ body {
     height: 90%;
     padding: 40px 100px 0;
     display: flex;
+    justify-content: space-around;
     grid-template-columns: 1fr 1fr;
-    padding-left: 300px;
-    gap: 30px;
+    gap: 40px;
 }
 
 .screen .address {

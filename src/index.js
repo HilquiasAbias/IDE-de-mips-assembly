@@ -1,7 +1,7 @@
 import sys from './system/sys.js'
 import view from './system/view.js'
 import errorHandler from './system/errorHandling/manager.js'
-import actionHandler from './system/actionHandler.js'
+import * as user from './system/userAction.js'
 
 import { isTypeI, formatInstruction as formatI } from './system/ISA/I/manager.js'
 import { isTypeR, formatInstruction as formatR } from './system/ISA/R/manager.js'
@@ -9,18 +9,9 @@ import { isTypeJ, formatInstruction as formatJ } from './system/ISA/J/manager.js
 
 import { convertHexToDecimal } from './system/toolkit.js'
 
-//const output = document.querySelector('.output')
-const screen = document.querySelector('.screen')
-const address = document.querySelector('.address')
-const mount = document.querySelector('.mount')
-const unmount = document.querySelector('.unmount')
-const run = document.querySelector('.run')
-const step = document.querySelector('.step')
-const back = document.querySelector('.back')
-
-mount.addEventListener('click', () => {
-    sys.clean()
-    view.clean()
+user.mount.addEventListener('click', () => {
+    sys.cleanSys()
+    view.cleanView()
 
     view.showPropertiesAfterMount()
     view.console.dataOut(null, 'comment', 'Código montado, programa iniciado!')
@@ -111,7 +102,7 @@ mount.addEventListener('click', () => {
 
     })
 
-    mountView()
+    view.mountView()
 
     sys.initialAssembly = false
     sys.empty = false
@@ -122,15 +113,13 @@ mount.addEventListener('click', () => {
     console.log(sys)
 })
 
-unmount.addEventListener('click', () => {
-    sys.clean()
-    view.clean()
-    screen.style.paddingLeft = '300px'
-    screen.style.gridTemplateColumns = '1fr 1fr'
-    address.style.display = 'none'
+user.unmount.addEventListener('click', () => {
+    sys.cleanSys()
+    view.cleanView()
+    view.hidePropertiesAfterUnmount()
 })
 
-run.addEventListener('click', () => {
+user.run.addEventListener('click', () => {
     if (sys.empty) return
 
     if (sys.instructions.length === 0)
@@ -172,7 +161,7 @@ run.addEventListener('click', () => {
     console.log(sys)
 })
 
-step.addEventListener('click', () => {
+user.step.addEventListener('click', () => {
     if (sys.empty) return
 
     if (sys.instructions.length === 0)
@@ -197,7 +186,7 @@ step.addEventListener('click', () => {
     console.log(sys)
 })
 
-back.addEventListener('click', () => {
+user.back.addEventListener('click', () => {
     if (sys.empty) return
 
     if (sys.instructions.length === 0) {
