@@ -37,8 +37,6 @@ Object.prototype.showPropertiesAfterMount = () => {
 Object.prototype.cleanView = () => {
     addressArea.innerText = ''
     const regs = registers.querySelectorAll('input')
-    console.log(regs);
-    console.log(addressArea);
     regs.forEach(register => register.value = 0 )
     Console.cleanIt()
 }

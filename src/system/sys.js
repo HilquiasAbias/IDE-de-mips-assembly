@@ -40,11 +40,13 @@ Object.prototype.Call = () => {
     }
 
     if (sys.regs.$2 === 5) { // $2 contains integer read
-        const input = parseInt(prompt())
+        // const input = parseInt(prompt())
 
         // TODO: tratar input
 
-        // const input = view.console.dataIn()
+        const input = getConsoleInputValue()
+        console.log(typeof input);
+
         sys.regs.$2 = input
         view.setValueInViewRegister(input, '$2')
         return
@@ -130,6 +132,18 @@ Object.prototype.Branch = (instruction, op) => {
         sys.regs.pc = convertHexToDecimal(instruction.address)
 
     
+}
+
+async function getConsoleInputValue() {
+    let v
+    
+    await view.console.dataIn().then(res => {
+        v = res
+        return v
+    })
+
+    //while (value !== Number) {}
+
 }
 
 export default sys;

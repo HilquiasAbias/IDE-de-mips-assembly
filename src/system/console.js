@@ -38,24 +38,75 @@ export const dataOut = (data, type, msg) => {
     }
 }
 
-export const dataIn = () => {
-    const inputLine = document.createElement('input')
-    inputLine.classList.add('data-in-input')
-    dataInAndOut.appendChild(inputLine)
+export const dataIn = async () => {
+    const inputLine = createConsoleInput()
+    let data
 
     user.utils.freeze()
 
-    inputLine.focus()
-    inputLine.addEventListener('keyup', event => {
-        if (event.key === 'Enter') { // && event.target === inputLine
-            console.log('teste');
+    // inputLine.addEventListener('keyup', event => {
+    //     if (event.key === 'Enter') { // && event.target === inputLine
+    //         console.log('teste');
 
-            console.log(inputLine.value);
+    //         console.log(inputLine.value);
             
-            //inputLine.disabled = true
-            user.utils.unFreeze()
-            return inputLine.value
-        }
-    })
+    //         //inputLine.disabled = true
+    //         user.utils.unFreeze()
+    //         return inputLine.value
+    //     }
+    // })
 
+    data = await getUserData(inputLine).then(res => res)
+    while (!data) {}
+
+    user.utils.unFreeze()
+
+    return data
 }
+
+function createConsoleInput() {
+    const inputLine = document.createElement('input')
+    inputLine.classList.add('data-in-input')
+    dataInAndOut.appendChild(inputLine)
+    inputLine.focus()
+
+    return inputLine
+}
+
+function getUserData(inputLine) {
+    return new Promise(resolve => {
+        let value
+        
+        inputLine.addEventListener('keyup', event => {
+            if (event.key === 'Enter') { // && event.target === inputLine
+                console.log(inputLine.value)
+                inputLine.disabled = true
+                value = inputLine.value
+            }
+        })
+        console.log(value);
+        if (value) resolve(value)
+    })
+}
+
+// export const dataIn = () => {
+//     const inputLine = document.createElement('input')
+//     inputLine.classList.add('data-in-input')
+//     dataInAndOut.appendChild(inputLine)
+
+//     user.utils.freeze()
+
+//     inputLine.focus()
+//     inputLine.addEventListener('keyup', event => {
+//         if (event.key === 'Enter') { // && event.target === inputLine
+//             console.log('teste');
+
+//             console.log(inputLine.value);
+            
+//             //inputLine.disabled = true
+//             user.utils.unFreeze()
+//             return inputLine.value
+//         }
+//     })
+
+// }

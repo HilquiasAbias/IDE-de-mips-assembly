@@ -124,8 +124,6 @@ user.run.addEventListener('click', () => {
 
     if (sys.instructions.length === 0)
         errorHandler('run', 'tryToRunWithoutInstructions')
-    
-    
 
     if (sys.instructionExecutedIndex) {
         sys.instructions.slice( sys.instructionExecutedIndex + 1 ).forEach( instruction => {

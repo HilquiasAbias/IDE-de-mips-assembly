@@ -84,5 +84,23 @@
 const test = ['a', 'b', 'c', 'd', 'e', 'f',]
 
 test.slice(3).forEach( letter => {
-    console.log(letter);
+    //console.log(letter);
 })
+
+const h1 = document.querySelector('.myValue')
+
+function myAssyncFunction() {
+    return new Promise(resolve => {
+        const input = window.prompt()
+        if (input) resolve(input)
+    })
+}
+
+async function getValue() {
+    const data = await myAssyncFunction()
+    return data
+}
+
+getValue()
+    .then(res => h1.innerText = res)
+    .catch(err => console.log(err))

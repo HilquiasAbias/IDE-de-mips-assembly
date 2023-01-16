@@ -19,32 +19,32 @@ export default {
     beq: { 
         function: '000100', 
         type: 'b', 
-        does: null // (rs, rt) => if (rs === rt) jump(label)
+        does: (rs, rt) => rs === rt
     },
-    bgez: { 
+    bge: { 
         function: '000001', 
         type: 'c', 
-        does: null 
+        does: (rs, rt) => rs >= rt  
     },
-    bgtz: { 
+    bgt: { 
         function: '000111', 
         type: 'd', 
-        does: null 
+        does: (rs, rt) => rs > rt 
     },
-    blez: { 
+    ble: { 
         function: '000110', 
         type: 'd', 
-        does: null 
+        does: (rs, rt) => rs <= rt  
     },
-    bltz: { 
+    blt: { 
         function: '000001', 
         type: 'd', 
-        does: null 
+        does: (rs, rt) => rs < rt  
     },
     bne: { 
         function: '000100', 
         type: 'b', 
-        does: null // (rs, rt) => if (rs !== rt) jump(label)
+        does: (rs, rt) => rs !== rt
     },
 
     /*
