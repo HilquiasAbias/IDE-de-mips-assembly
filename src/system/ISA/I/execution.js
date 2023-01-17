@@ -11,7 +11,7 @@ export function executeTypeI(instruction, sys) {
         sys.lastViewRegisterChanged = instruction.GPR.rt
     }
 
-    if (org === 'b' || org === 'c' || org === 'd') {
+    if (instruction.typing.org === 'b' || instruction.typing.org === 'c' || instruction.typing.org === 'd') {
         
     }
 }

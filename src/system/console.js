@@ -42,7 +42,7 @@ export const dataIn = async () => {
     const inputLine = createConsoleInput()
     let data
 
-    user.utils.freeze()
+    //user.utils.freeze()
 
     // inputLine.addEventListener('keyup', event => {
     //     if (event.key === 'Enter') { // && event.target === inputLine
@@ -56,12 +56,12 @@ export const dataIn = async () => {
     //     }
     // })
 
-    data = await getUserData(inputLine).then(res => res)
-    while (!data) {}
+    // data = await getUserData(inputLine).then(res => res)
+    // while (!data) {}
 
-    user.utils.unFreeze()
+    //user.utils.unFreeze()
 
-    return data
+    return getUserData(inputLine)
 }
 
 function createConsoleInput() {
@@ -78,14 +78,16 @@ function getUserData(inputLine) {
         let value
         
         inputLine.addEventListener('keyup', event => {
-            if (event.key === 'Enter') { // && event.target === inputLine
+            if (event.key === 'Enter') {
                 console.log(inputLine.value)
                 inputLine.disabled = true
                 value = inputLine.value
             }
         })
-        console.log(value);
-        if (value) resolve(value)
+
+        while (value === undefined) {}
+
+        resolve(value)
     })
 }
 
@@ -109,4 +111,47 @@ function getUserData(inputLine) {
 //         }
 //     })
 
+// }
+
+
+// export const dataIn = () => {
+//     let inputData, isSubmit = false
+//     const inputLine = document.createElement('input')
+//     inputLine.classList.add('data-in-input')
+//     dataInAndOut.appendChild(inputLine)
+//     inputLine.focus()
+//     user.utils.freeze()
+
+//     inputLine.addEventListener('keyup', event => {
+//         if (event.key === 'Enter') { // && event.target === inputLine
+//             console.log('teste');
+            
+//             console.log(inputLine.value);
+            
+//             isSubmit = true
+//         }
+//     })
+//     console.log('before while true')
+//     while (true) if (isSubmit) break
+//     console.log('after while true')
+
+//     inputLine.disabled = true
+//     user.utils.unFreeze()
+
+//     return getUserData(inputLine) //inputLine.value
+// }
+
+// function createConsoleInput() {
+//     const inputLine = document.createElement('input')
+//     inputLine.classList.add('data-in-input')
+//     dataInAndOut.appendChild(inputLine)
+
+//     return inputLine
+// }
+
+// function getUserData(inputLine) {
+//     return new Promise(resolve => {
+//         const input = window.prompt()
+//         if (input) resolve(input)
+//     })
 // }

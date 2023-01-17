@@ -1,5 +1,7 @@
 import memory from "./memory.js";
 import view from "./view.js";
+import * as user from './userAction.js'
+
 // import view from "./viewRegisters.js";
 import { convertDecimalToAddressHex, formatAddress, convertHexToDecimal } from "./toolkit.js";
 import { executeTypeI } from './ISA/I/execution.js'
@@ -24,7 +26,7 @@ const sys = {
     empty: true
 }
 
-Object.prototype.Call = () => { 
+Object.prototype.Call = async () => { 
     if (sys.regs.$2 === 1) { // integer to print
         view.console.dataOut(sys.regs.$4, 'value', '')
         return
@@ -43,12 +45,22 @@ Object.prototype.Call = () => {
         // const input = parseInt(prompt())
 
         // TODO: tratar input
+        user.utils.freeze()
 
-        const input = getConsoleInputValue()
-        console.log(typeof input);
+        const input = await view.console.dataIn()
+            .then(res => {
+                console.log(res);
+                sys.regs.$2 = res
+                view.setValueInViewRegister(res, '$2')
+            })
+            .catch(err => console.log(err))
 
-        sys.regs.$2 = input
-        view.setValueInViewRegister(input, '$2')
+        console.log(input);
+        
+        user.utils.unFreeze()
+
+        // sys.regs.$2 = input
+        // view.setValueInViewRegister(input, '$2')
         return
     }
 
