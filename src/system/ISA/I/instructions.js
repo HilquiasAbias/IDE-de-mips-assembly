@@ -1,5 +1,5 @@
-import * as op from './functions.js'
 import { uInt } from '../../toolkit.js'
+import * as op from './functions.js'
 
 export default {
     addi: { 
@@ -7,44 +7,53 @@ export default {
         type: 'a', 
         does: op.addi
     },
+
     addiu: { 
         function: '001001', 
         type: 'a', 
-        does: (rs, imm) => rs + uInt(imm)
+        does: op.addiu
     },
+
     andi: { 
         function: '001100', 
         type: 'a', 
-        does: (rs, imm) => rs & imm },
+        does: op.andi
+    },
+
     beq: { 
         function: '000100', 
         type: 'b', 
-        does: (rs, rt) => rs === rt
+        does: op.beq
     },
+
     bge: { 
         function: '000001', 
         type: 'c', 
-        does: (rs, rt) => rs >= rt  
+        does: op.bge
     },
+
     bgt: { 
         function: '000111', 
         type: 'd', 
-        does: (rs, rt) => rs > rt 
+        does: op.bgt
     },
+
     ble: { 
         function: '000110', 
         type: 'd', 
-        does: (rs, rt) => rs <= rt  
+        does: op.ble
     },
+
     blt: { 
         function: '000001', 
         type: 'd', 
-        does: (rs, rt) => rs < rt  
+        does: op.blt
     },
+
     bne: { 
         function: '000100', 
         type: 'b', 
-        does: (rs, rt) => rs !== rt
+        does: op.bne
     },
 
     /*
@@ -73,7 +82,7 @@ export default {
     ori: { 
         function: '001101', 
         type: 'a', 
-        does: (rs, imm) => rs | imm 
+        does: op.ori
     },
 
     /*
@@ -83,12 +92,12 @@ export default {
     slti: { 
         function: '001010', 
         type: 'a', 
-        does: (rs, imm) => rs < imm ? 1 : 0 
+        does: op.slti
     },
     sltiu: { 
         function: '001011', 
         type: 'a', 
-        does: (rs, imm) => rs < uInt(imm) ? 1 : 0 
+        does: op.sltiu
     },
 
     /*
@@ -100,6 +109,6 @@ export default {
     xori: { 
         function: '001110', 
         type: 'a', 
-        does: (rs, imm) => rs ^ imm 
+        does: op.xori
     }
 }
