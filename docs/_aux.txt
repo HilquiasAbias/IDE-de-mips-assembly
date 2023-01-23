@@ -235,8 +235,60 @@ main:	lui $8, 0x1001
         -> se tiver e '.text' aparecer antes de '.word' ou '.data' deve gerar um erro
 
 
+// console.js
 
+export const dataIn = async () => {
+    const inputLine = createConsoleInput()
 
+    inputLine.focus()
+    const userData = await getUserData(inputLine)
+        .then(res => res)
+        .catch(err => console.log(err))
 
+    return userData
+}
 
+function createConsoleInput() {
+    const inputLine = document.createElement('input')
+    inputLine.classList.add('data-in-input')
+    dataInAndOut.appendChild(inputLine)
 
+    return inputLine
+}
+
+function getUserData(inputLine) {
+    return new Promise(resolve => {
+        let value
+        
+        inputLine.addEventListener('keyup', event => {
+            if (event.key === 'Enter') {
+                value = inputLine.value
+                inputLine.disabled = true
+            }
+        })
+
+        resolve(value)
+    })
+}
+
+// sys.js
+
+async function getDataAndSetInRegister() {
+    // ...
+    if (sys.regs.$2 === 5) {
+        // const input = parseInt(prompt())
+
+        user.utils.freeze()
+
+        const input = await dataIn()
+        
+        user.utils.unFreeze()
+
+        sys.regs.$2 = input
+        view.setValueInViewRegister(input, '$2')
+        return
+    }
+    // ...
+}
+
+sys.regs.$2 está recebendo [object Promise] em vez do valor digitado pelo usuário após pressionar "Enter", identifique o erro

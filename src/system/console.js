@@ -40,35 +40,23 @@ export const dataOut = (data, type, msg) => {
 
 export const dataIn = async () => {
     const inputLine = createConsoleInput()
-    let data
+    inputLine.focus()
 
-    //user.utils.freeze()
+    user.utils.freeze()
 
-    // inputLine.addEventListener('keyup', event => {
-    //     if (event.key === 'Enter') { // && event.target === inputLine
-    //         console.log('teste');
+    const data = await getUserData(inputLine)
+        .then(res => res)
+        .catch(err => console.log(err))
 
-    //         console.log(inputLine.value);
-            
-    //         //inputLine.disabled = true
-    //         user.utils.unFreeze()
-    //         return inputLine.value
-    //     }
-    // })
+    user.utils.unFreeze()
 
-    // data = await getUserData(inputLine).then(res => res)
-    // while (!data) {}
-
-    //user.utils.unFreeze()
-
-    return getUserData(inputLine)
+    return data
 }
 
 function createConsoleInput() {
     const inputLine = document.createElement('input')
     inputLine.classList.add('data-in-input')
     dataInAndOut.appendChild(inputLine)
-    inputLine.focus()
 
     return inputLine
 }
@@ -82,12 +70,9 @@ function getUserData(inputLine) {
                 console.log(inputLine.value)
                 inputLine.disabled = true
                 value = inputLine.value
+                resolve(value)
             }
         })
-
-        while (value === undefined) {}
-
-        resolve(value)
     })
 }
 

@@ -107,8 +107,8 @@ user.mount.addEventListener('click', () => {
     sys.initialAssembly = false
     sys.empty = false
 
-    sys.regs.pc = convertHexToDecimal(sys.instructions[0].address) // TODO: fazer função disso no sys
-    view.setValueInViewRegister(sys.regs.pc, 'pc')
+    sys.regs.especial.pc = convertHexToDecimal(sys.instructions[0].address) // TODO: fazer função disso no sys
+    view.setValueInViewRegister(sys.regs.especial.pc, 'pc')
 
     console.log(sys)
 })
@@ -134,7 +134,7 @@ user.run.addEventListener('click', () => {
 
             if (instruction.index < sys.instructions.length) {
                 sys.SetNextInstructionInPc()
-                view.setValueInViewRegister(sys.regs.pc, 'pc')
+                view.setValueInViewRegister(sys.regs.especial.pc, 'pc')
             }
 
         })
@@ -151,7 +151,7 @@ user.run.addEventListener('click', () => {
 
         if (instruction.index < sys.instructions.length) {
             sys.SetNextInstructionInPc()
-            view.setValueInViewRegister(sys.regs.pc, 'pc')
+            view.setValueInViewRegister(sys.regs.especial.pc, 'pc')
         }
 
     })
@@ -178,7 +178,7 @@ user.step.addEventListener('click', () => {
 
     if (instruction.index < sys.instructions.length) {
         sys.SetNextInstructionInPc()
-        view.setValueInViewRegister(sys.regs.pc, 'pc')
+        view.setValueInViewRegister(sys.regs.especial.pc, 'pc')
     }
 
     console.log(sys)
@@ -196,7 +196,7 @@ user.back.addEventListener('click', () => {
     sys.instructionExecutedIndex = sys.regs.currentIndex
 
     view.setValueInViewRegister(sys.regs[ sys.lastViewRegisterChanged ], sys.lastViewRegisterChanged)
-    view.setValueInViewRegister(sys.regs.pc, 'pc')
+    view.setValueInViewRegister(sys.regs.especial.pc, 'pc')
 
     console.log(sys)
 });
