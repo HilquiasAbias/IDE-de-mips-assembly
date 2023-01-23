@@ -1,6 +1,7 @@
 import { structureInstruction } from "./toolkit.js";
 import * as Console from './console.js'
 
+const codeArea = document.querySelector('.code-area')
 const dataInAndOut = document.querySelector('.console')
 const addressArea = document.querySelector('.address')
 const registers = document.querySelector('.registers')
@@ -9,22 +10,39 @@ const input = document.querySelector('.input')
 
 const view = {
     linesAttributes: [],
+    structuredInstructions: null,
     lastViewRegisterChanged: null,
 }    
 
-function createLine(a, b) {
+function createLine(a, b, c) {
     const div = document.createElement('div')
-    div.classList.add('address-line')
-    const spanA = document.createElement('span')
-    const spanB = document.createElement('span')
-    spanA.innerText = a
-    spanB.innerText = b
-    div.appendChild(spanA)
-    div.appendChild(spanB)
+    div.classList.add('mounted-code-line')
+
+    const address = document.createElement('span')
+    const code = document.createElement('span')
+    const instruction = document.createElement('span')
+
+    address.innerText = a
+    code.innerText = b
+    instruction.innerText = c
+
+    div.appendChild(address)
+    div.appendChild(code)
+    div.appendChild(instruction)
+
     return div
 }
 
 Object.prototype.console = Console
+
+Object.prototype.structureInstructionsToMountView = () => {
+    const instructions = input.value
+        .split('\n')
+        .filter( instruction => instruction.split('').every(el => el === ' ') === false )
+        .map( instruction => instruction.trim() )
+
+    view.structuredInstructions = instructions
+}
 
 Object.prototype.showPropertiesAfterMount = () => {
     //screen.style.paddingLeft = '100px'
@@ -54,10 +72,17 @@ Object.prototype.getInputInstructions = () => {
 }
 
 Object.prototype.mountView = () => {
-    view.linesAttributes.forEach(attributes => {
-        const line = createLine(attributes.address, attributes.code)
-        addressArea.appendChild(line)
-    });
+    codeArea.innerText = ''
+
+    const div = document.createElement('div')
+    div.classList.add('mounted-code-area')
+
+    view.linesAttributes.forEach((attributes, index) => {
+        const line = createLine( attributes.address, attributes.code, view.structuredInstructions[index] )
+        div.appendChild(line)
+    })
+
+    codeArea.appendChild(div)
 }
 
 Object.prototype.setValueInViewRegister = (value, register) => {

@@ -13,7 +13,8 @@ user.mount.addEventListener('click', () => {
     sys.cleanSys()
     view.cleanView()
 
-    view.showPropertiesAfterMount()
+    view.structureInstructionsToMountView()
+    //view.showPropertiesAfterMount()
     view.console.dataOut(null, 'comment', 'Código montado, programa iniciado!')
     
     const inputInstructions = view.getInputInstructions()

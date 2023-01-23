@@ -20,7 +20,26 @@ body {
     gap: 40px;
 }
 
-.screen .address {
+.code-area {
+    height: 600px;
+    width: 50%;
+}
+
+.mounted-code-area {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.mounted-code-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.screen .code-area .address {
     display: flex;
     flex-direction: column;
     padding: 0;
@@ -30,7 +49,7 @@ body {
     display: none;
 }
 
-.screen .address .address-line {
+.screen .code-area .address .address-line {
     width: 300px;
     margin: 0 0 5px 30px;
     display: flex;
@@ -56,11 +75,11 @@ body {
     outline: none;
 }
 
-.input, .address {
+.code-area .input, .address {
     font-size: 16px;
 }
 
-.input {
+.code-area .input {
     min-width: 300px;
 }
 
