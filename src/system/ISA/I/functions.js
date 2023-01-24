@@ -16,6 +16,14 @@ export const blt = (rs, rt) => rs < rt
 
 export const bne = (rs, rt) => rs !== rt
 
+export const bgez = (rs) => rs >= 0
+
+export const bgtz = (rs) => rs > 0 
+
+export const blez = (rs) => rs <= 0  
+
+export const bltz = (rs) => rs < 0 
+
 export const lui = () => {}
 
 export const lw = () => {}

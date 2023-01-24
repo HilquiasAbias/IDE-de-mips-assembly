@@ -174,8 +174,15 @@ user.step.addEventListener('click', () => {
     sys.regsStackTimeline.push( Object.assign( {}, sys.regs ) )
     sys.Execute( instruction )
 
-    if (instruction.typing.type === 'j') 
+    // if (instruction.typing.type === 'j') 
+    //     return
+
+    if (sys.pcChangedAtExecution) {
+        sys.pcChangedAtExecution = false
         return
+    }
+
+    console.log('passou do pcChangedAtExecution');
 
     if (instruction.index < sys.instructions.length) {
         sys.SetNextInstructionInPc()

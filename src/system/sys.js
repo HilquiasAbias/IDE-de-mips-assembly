@@ -36,6 +36,7 @@ const sys = {
     },
     memory,
     addressCount: 0,
+    pcChangedAtExecution: false,
     instructions: [],
     regsStackTimeline: [],
     executedInstructionsStack: [],

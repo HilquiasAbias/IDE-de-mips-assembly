@@ -11,7 +11,6 @@
 
 > #### Tecnologias em uso:
 > 
-> - Node
 > - HTML
 > - CSS
 > - Javascript

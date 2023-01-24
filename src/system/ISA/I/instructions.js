@@ -26,27 +26,27 @@ export default {
         does: op.beq
     },
 
-    bgez: { 
+    bge: { 
         function: '000001', 
-        type: 'c', 
+        type: 'b', 
         does: op.bge
     },
 
-    bgtz: { 
+    bgt: { 
         function: '000111', 
-        type: 'd', 
+        type: 'b', 
         does: op.bgt
     },
 
-    blez: { 
+    ble: { 
         function: '000110', 
-        type: 'd', 
+        type: 'b', 
         does: op.ble
     },
 
-    bltz: { 
+    blt: { 
         function: '000001', 
-        type: 'd', 
+        type: 'b', 
         does: op.blt
     },
 
@@ -54,6 +54,30 @@ export default {
         function: '000100', 
         type: 'b', 
         does: op.bne
+    },
+
+    bgez: { 
+        function: '000001', 
+        type: 'c', 
+        does: op.bgez
+    },
+
+    bgtz: { 
+        function: '000111', 
+        type: 'd', 
+        does: op.bgtz
+    },
+
+    blez: { 
+        function: '000110', 
+        type: 'd', 
+        does: op.blez
+    },
+
+    bltz: { 
+        function: '000001', 
+        type: 'd', 
+        does: op.bltz
     },
 
     /*
