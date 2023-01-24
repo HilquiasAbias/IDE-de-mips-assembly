@@ -69,8 +69,15 @@ Object.prototype.Call = async () => {
         if (!onlyNumbers.test(input))
             // sysError(incorrectIntegerValueInput)
 
+        console.log(sys.regs.general.$2)
+        console.log(input)
+        
         sys.regs.general.$2 = parseInt(input)
         view.setValueInViewRegister(input, '$2')
+
+        console.log(sys.regs.general.$2)
+        console.log(input)
+        console.log(sys)
 
         return
     }
