@@ -4,19 +4,19 @@ addi $8, $0, 5
 addi $9, $0, 8
 
 beqLabel:
-beq $8, $9, bgeLabel 
+beq $8, $9, bgezLabel 
 
-bgeLabel:
-bge $8, $9, bgtLabel
+bgezLabel:
+bgez $8, bgtzLabel
 
-bgtLabel:
-bgt $8, $9, bleLabel
+bgtzLabel:
+bgtz $8, blezLabel
 
-bleLabel:
-ble $8, $9, bltLabel
+blezLabel:
+blez $8, bltzLabel
 
-bltLabel:
-blt $8, $9, bneLabel
+bltzLabel:
+bltz $8, bneLabel
 
 bneLabel:
 bne $8, $9, beqLabel

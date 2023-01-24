@@ -26,25 +26,25 @@ export default {
         does: op.beq
     },
 
-    bge: { 
+    bgez: { 
         function: '000001', 
         type: 'c', 
         does: op.bge
     },
 
-    bgt: { 
+    bgtz: { 
         function: '000111', 
         type: 'd', 
         does: op.bgt
     },
 
-    ble: { 
+    blez: { 
         function: '000110', 
         type: 'd', 
         does: op.ble
     },
 
-    blt: { 
+    bltz: { 
         function: '000001', 
         type: 'd', 
         does: op.blt
