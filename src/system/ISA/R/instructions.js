@@ -1,40 +1,39 @@
-import * as op from './functions.js'
+import { uInt } from '../../core/toolkit.js'
 
 export default {
     add: { 
         function: '100000', 
         type: 'a', 
-        does: op.add
+        does: (rs, rt) => rs + rt // (rd, rs, rt) => rd = rs + rt ???
     },
     addu: { 
         function: '100001', 
         type: 'a', 
-        does: op.addu
+        does: (rs, rt) => uInt(rs + rt)
     },
     and: { 
         function: '100100', 
         type: 'a', 
-        does: op.and
+        does: (rs, rt) => rs & rt 
     },
     break: { 
         function: '001101', 
-        type: 'b',
-        does: op.Break
+        type: 'b' 
     },
     div: { 
         function: '011010', 
         type: 'c', 
-        does: op.div
+        does: (rs, rt) => [ rs % rt, rs / rt ]
     },
     divu: { 
         function: '011011', 
         type: 'c', 
-        does: 
+        does: (rs, rt) => [ uInt(rs % rt), uInt(rs / rt) ]
     },
     jalr: { 
         function: '001001', 
         type: 'h', 
-        does: op.jalr 
+        does: null 
     },
     jr: { 
         function: '001000', 
@@ -131,11 +130,11 @@ export default {
         type: 'a', 
         does: (rs, rt) => rs - rt
     },
-    syscall: { 
-        function: '001100', 
-        type: 'b', 
-        does: null
-    },
+    // syscall: { 
+    //     function: '001100', 
+    //     type: 'b', 
+    //     does: null
+    // },
     xor: { 
         function: '100110', 
         type: 'a', 

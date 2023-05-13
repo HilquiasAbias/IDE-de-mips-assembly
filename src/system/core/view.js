@@ -1,18 +1,18 @@
 import { structureInstruction } from "./toolkit.js";
 import * as Console from './console.js'
 
-const codeArea = document.querySelector('.code-area')
-const dataInAndOut = document.querySelector('.console')
-const addressArea = document.querySelector('.address')
-const registers = document.querySelector('.registers')
-const screen = document.querySelector('.screen')
-const input = document.querySelector('.input')
+const codeArea = document.querySelector('div.textarea-code')
+//const dataInAndOut = document.querySelector('.console')
+const addressArea = document.querySelector('div.textarea-address')
+const registers = document.querySelector('table.table')
+const textareaCode = document.querySelector('textarea.textarea-code')
+const input = document.querySelector('textarea.textarea-code')
 
 const view = {
     linesAttributes: [],
     structuredInstructions: null,
     lastViewRegisterChanged: null,
-}    
+}
 
 function createLine(a, b, c) {
     const div = document.createElement('div')
@@ -26,10 +26,17 @@ function createLine(a, b, c) {
     code.innerText = b
     instruction.innerText = c
 
-    div.appendChild(address)
-    div.appendChild(code)
-    div.appendChild(instruction)
+    div.appendChild(createColumn(address))
+    div.appendChild(createColumn(code))
+    div.appendChild(createColumn(instruction))
 
+    return div
+}
+
+function createColumn(element) {
+    const div = document.createElement('div')
+    div.classList.add('mounted-code-column-element')
+    div.appendChild(element)
     return div
 }
 
@@ -38,81 +45,99 @@ Object.prototype.console = Console
 Object.prototype.structureInstructionsToMountView = () => {
     const instructions = input.value
         .split('\n')
-        .filter( instruction => instruction.split('').every(el => el === ' ') === false )
-        .map( instruction => instruction.trim() )
+        .filter(instruction => instruction.split('').every(el => el === ' ') === false)
+        .map(instruction => instruction.trim())
 
     view.structuredInstructions = instructions
 }
 
-Object.prototype.showPropertiesAfterMount = () => {
-    //screen.style.paddingLeft = '100px'
-    screen.style.justifyContent = 'space-between'
-    screen.style.gridTemplateColumns = '1fr 1fr 1fr'
-    screen.style.gap = '60px'
-    addressArea.style.display = 'initial'
-}
-
 Object.prototype.cleanView = () => {
-    addressArea.innerText = ''
-    const regs = registers.querySelectorAll('input')
-    regs.forEach(register => register.value = 0 )
+    const regs = registers.querySelectorAll('td.table-reg-value')
+    regs.forEach(register => {
+        register.innerText = 0
+        register.parentNode.classList.remove('view-changed-color')
+        register.classList.remove('color-test')
+    })
     Console.cleanIt()
-}
 
-Object.prototype.hidePropertiesAfterUnmount = () => {
-    screen.style.justifyContent = 'space-around'
-    screen.style.gridTemplateColumns = '1fr 1fr'
-    addressArea.style.gap = '40px'
-    addressArea.style.display = 'none'
+    view.linesAttributes = []
+    view.lastViewRegisterChanged = null
+    view.structuredInstructions = null
+
+    codeArea.lastChild.remove()
+    textareaCode.style.display = 'block'
+
+    //addressArea.innerHTML = ''
+    //addressArea.classList.remove('code-area-flex-distance')
 }
 
 Object.prototype.getInputInstructions = () => {
     if (input.value === '') return null
-    return view.standardizeInstructionsLabels( view.inputTreatement(input.value) )
+    return view.standardizeInstructionsLabels(view.inputTreatement(input.value))
 }
 
 Object.prototype.mountView = () => {
-    codeArea.innerText = ''
+    //codeArea.innerText = ''
+
+    textareaCode.style.display = 'none'
 
     const div = document.createElement('div')
     div.classList.add('mounted-code-area')
 
+    const descriptionLine = createLine('Endereço', 'Código', 'Instrução')
+    div.appendChild(descriptionLine)
+
     view.linesAttributes.forEach((attributes, index) => {
-        const line = createLine( attributes.address, attributes.code, view.structuredInstructions[index] )
+        const line = createLine(attributes.address, attributes.code, view.structuredInstructions[index])
         div.appendChild(line)
     })
 
     codeArea.appendChild(div)
 }
 
+Object.prototype.cleanRegisters = () => {
+    const regs = registers.querySelectorAll('td.table-reg-value')
+
+    regs.forEach(register => {
+        const parentRegister = register.parentElement
+        if (parentRegister.classList.contains('view-changed-color'))
+            parentRegister.classList.remove('view-changed-color')
+
+        register.classList.remove('color-test')
+    })
+}
+
 Object.prototype.setValueInViewRegister = (value, register) => {
-    const reg = document.querySelector(`input[name="${register}"]`)
-    reg.value = value
+    //if (register === 'pc' || register === '' || register === 'lo')
+
+    if (register !== 'pc')
+        view.cleanRegisters()
+
+    const reg = registers.querySelector(`td[name="${register}"]`)
+    reg.classList.add('color-test')
+
+    const regLine = reg.parentElement
+    regLine.classList.add('view-changed-color')
+
+    reg.innerText = value
 }
 
-//export function cleanView
+Object.prototype.Data = () => { }
 
-Object.prototype.Data = () => {}
+Object.prototype.Text = () => { }
 
-Object.prototype.Text = () => {}
+Object.prototype.Word = () => { }
 
-Object.prototype.Word = () => {}
-
-Object.prototype.ToOutput = data => {}
-
-Object.prototype.SetValueInViewRegister = (value, register) => {
-    const reg = document.querySelector(`input[name="${register}"]`)
-    reg.value = value
-}
+Object.prototype.ToOutput = data => { }
 
 Object.prototype.inputTreatement = (input) => {
     const instructions = input.split('\n').filter(
         instruction => instruction.split('').every(el => el === ' ') === false
     )
 
-    return instructions.map( instruction => {
+    return instructions.map(instruction => {
         return structureInstruction(instruction)
-    } )
+    })
 }
 
 Object.prototype.standardizeInstructionsLabels = (input) => {
@@ -124,7 +149,7 @@ Object.prototype.standardizeInstructionsLabels = (input) => {
             labelForNextInstruction = element.label[0]
             return
         }
-        
+
         if (element.label && labelForNextInstruction) {
             element.label.push(labelForNextInstruction)
             labelForNextInstruction = null
@@ -135,14 +160,14 @@ Object.prototype.standardizeInstructionsLabels = (input) => {
             labelForNextInstruction = null
         }
 
-        treatedInput.push( element )
+        treatedInput.push(element)
         labelForNextInstruction = null
     })
 
-    return treatedInput.map( (element, index) => {
+    return treatedInput.map((element, index) => {
         element.index = index
         return element
-    } )
+    })
 }
 
 

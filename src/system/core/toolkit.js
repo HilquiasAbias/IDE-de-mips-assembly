@@ -1,4 +1,37 @@
+const baseAddressIncrement = 4
+
 export const addressBase = 4194304
+
+export function copyRegs(regs) {
+    const copy = {}
+    let count = 0
+  
+    for (const reg in regs) {
+      if (Object.hasOwnProperty.call(regs, reg)) {
+        const type = regs[reg]
+
+        if (count === 0) copy.general = Object.assign( {}, type )
+        if (count === 1) copy.floatingPoint = Object.assign( {}, type ) // está copiando por referência, alterar isso posteriormente
+        if (count === 2) copy.especial = Object.assign( {}, type )
+        
+        count++
+      }
+    }
+
+    copy.currentIndex = null
+  
+    return copy
+}
+
+export function findRegValue(reg, regs) {
+    for (const type in regs) {
+        if (Object.hasOwnProperty.call(regs, type)) {
+            const element = regs[type]
+    
+            if (element.hasOwnProperty(reg)) return element[reg]
+        }
+    } 
+}
 
 export function convertDecimalToBin(dec) {
     return dec.toString(2);
@@ -59,7 +92,11 @@ export function convertBinInstructionToHex(binaryInstrution) {
 }
 
 export function formatAddress(addressCount) {
-    let address = (addressBase + addressCount).toString(16)
+    // let address = (addressBase + addressCount).toString(16)
+    // while (address.length != 8) address = '0' + address
+    // return '0x' + address
+
+    let address = (baseAddressIncrement + addressCount).toString(16)
     while (address.length != 8) address = '0' + address
     return '0x' + address
 }

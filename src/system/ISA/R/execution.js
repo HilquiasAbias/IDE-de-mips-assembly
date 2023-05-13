@@ -1,16 +1,16 @@
-import { getLowOrder, getHighOrder } from '../../toolkit.js'
+import { getLowOrder, getHighOrder } from '../../core/toolkit.js'
+import view from '../../core/view.js'
 
 export function executeTypeR(instruction, sys) {
     if (instruction.typing.org === 'a') {
+        console.log('executeTypeR in typing.org === a');
         sys.regs.general[ instruction.GPR.rd ] = instruction.does( sys.regs.general[instruction.GPR.rs], sys.regs.general[instruction.GPR.rt] )
-        sys.SetValueInViewRegister(sys.regs.general[ instruction.GPR.rd ], instruction.GPR.rd)
-        sys.lastViewRegisterChanged = instruction.GPR.rd
+        view.setValueInViewRegister(sys.regs.general[ instruction.GPR.rd ], instruction.GPR.rd)
+        view.lastViewRegisterChanged = instruction.GPR.rd
     }
 
     if (instruction.typing.org === 'b') {
-        if (instruction.syscall)
-            return sys.Call()
-
+        console.log('executeTypeR in typing.org === b');
         // TODO: fazer execução da instrução break
     }
     
@@ -22,8 +22,8 @@ export function executeTypeR(instruction, sys) {
             sys.regs.especial.lo = getLowOrder(res)
         }
 
-        sys.SetValueInViewRegister('hi', sys.regs.especial.hi)
-        sys.SetValueInViewRegister('lo', sys.regs.especial.lo)
+        view.setValueInViewRegister('hi', sys.regs.especial.hi)
+        view.setValueInViewRegister('lo', sys.regs.especial.lo)
     }
 
     if (instruction.typing.org === 'd') {}

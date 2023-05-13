@@ -1,21 +1,21 @@
 iType {
-    type a = op, rt, rs, imm -> 7 instructions
-    type b = op, rs, rt, label -> 2 instructions
-    type c = op, rs, label (rt = 00001) -> 1 instruction
-    type d = op, rs, label (rt = 00000) -> 3 instructions
-    type e = op, rt, imm(rs) -> 10 instructions
-    type f = op, rt, imm -> 1 instruction
+    org a = op, rt, rs, imm -> 7 instructions
+    org b = op, rs, rt, label -> 2 instructions
+    org c = op, rs, label (rt = 00001) -> 1 instruction
+    org d = op, rs, label (rt = 00000) -> 3 instructions
+    org e = op, rt, imm(rs) -> 10 instructions
+    org f = op, rt, imm -> 1 instruction
 }
 
 rType {
-    type a = fn, rd, rs, rt -> 10 instructions
-    type b = fn -> 2 instructions
-    type c = fn, rs, rt -> 4 instructions
-    type d = fn, rd -> 2 instructions
-    type e = fn, rd, rt, sa -> 3 instructions
-    type f = fn, rd, rt, rs -> 3 instructions
-    type g = fn, rs -> 3 instructions
-    type h = fn, rd, rs -> 1 instruction
+    org a = fn, rd, rs, rt -> 10 instructions
+    org b = fn -> 2 instructions
+    org c = fn, rs, rt -> 4 instructions
+    org d = fn, rd -> 2 instructions
+    org e = fn, rd, rt, sa -> 3 instructions
+    org f = fn, rd, rt, rs -> 3 instructions
+    org g = fn, rs -> 3 instructions
+    org h = fn, rd, rs -> 1 instruction
 }
 
 jType {
