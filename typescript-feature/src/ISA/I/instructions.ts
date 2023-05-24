@@ -1,82 +1,82 @@
-import * as op from './functions.js'
+import { uInt } from "../../core/helpers"
 
-export default {
+export const instructions = {
     addi: { 
         function: '001000', 
         type: 'a', 
-        does: op.addi
+        does: (rs: number, imm: number) => rs + imm
     },
 
     addiu: { 
-        function: '001001', 
+        function: '001001',
         type: 'a', 
-        does: op.addiu
+        does: (rs: number, imm: number) => rs + uInt(imm)
     },
 
     andi: { 
         function: '001100', 
         type: 'a', 
-        does: op.andi
+        does: (rs: number, imm: number) => rs & imm
     },
 
     beq: { 
         function: '000100', 
         type: 'b', 
-        does: op.beq
+        does: (rs: number, rt: number) => rs === rt
     },
 
     bge: { 
         function: '000001', 
         type: 'b', 
-        does: op.bge
+        does: (rs: number, rt: number) => rs >= rt
     },
 
     bgt: { 
         function: '000111', 
         type: 'b', 
-        does: op.bgt
+        does: (rs: number, rt: number) => rs > rt 
     },
 
     ble: { 
         function: '000110', 
         type: 'b', 
-        does: op.ble
+        does: (rs: number, rt: number) => rs <= rt 
     },
 
     blt: { 
         function: '000001', 
         type: 'b', 
-        does: op.blt
+        does: (rs: number, rt: number) => rs < rt 
     },
 
     bne: { 
         function: '000100', 
         type: 'b', 
-        does: op.bne
+        does: (rs: number, rt: number) => rs !== rt
     },
 
     bgez: { 
         function: '000001', 
         type: 'c', 
-        does: op.bgez
+        does: (rs: number) => rs >= 0
     },
 
     bgtz: { 
         function: '000111', 
         type: 'd', 
-        does: op.bgtz
+        does: (rs: number) => rs > 0
     },
 
     blez: { 
         function: '000110', 
         type: 'd', 
-        does: op.blez
+        does: (rs: number) => rs <= 0  
     },
 
     bltz: { 
         function: '000001', 
         type: 'd', 
-        does: op.bltz
+        does: (rs: number) => rs < 0 
     },
 
     /*
@@ -105,7 +105,7 @@ export default {
     ori: { 
         function: '001101', 
         type: 'a', 
-        does: op.ori
+        does: (rs: number, imm: number) => rs | imm 
     },
 
     /*
@@ -115,12 +115,12 @@ export default {
     slti: { 
         function: '001010', 
         type: 'a', 
-        does: op.slti
+        does: (rs: number, imm: number) => rs < imm ? 1 : 0 
     },
     sltiu: { 
         function: '001011', 
         type: 'a', 
-        does: op.sltiu
+        does: (rs: number, imm: number) => rs < uInt(imm) ? 1 : 0 
     },
 
     /*
@@ -132,6 +132,6 @@ export default {
     xori: { 
         function: '001110', 
         type: 'a', 
-        does: op.xori
+        does: (rs: number, imm: number) => rs ^ imm 
     }
 }

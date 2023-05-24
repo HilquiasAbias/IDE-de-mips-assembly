@@ -1,8 +1,14 @@
 /* eslint-disable import/extensions */
 
-import errors from './errors/main';
+import { IType } from "./ISA/I/iType";
 
-errors({
-  module: 'back',
-  error: 'back_without_instructions',
-});
+// import errors from './errors/main';
+
+// errors({
+//   module: 'back',
+//   error: 'back_without_instructions',
+// });
+
+const i = new IType()
+
+i.teste()

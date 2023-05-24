@@ -1,3 +1,5 @@
+import { uInt } from '../../core/toolkit.js'
+
 export const addi = (rs, imm) => rs + imm
 
 export const addiu = (rs, imm) => rs + uInt(imm)

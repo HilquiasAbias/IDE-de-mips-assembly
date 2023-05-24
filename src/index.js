@@ -58,6 +58,7 @@ user.mount.addEventListener('click', () => {
     if (!inputInstructions) return
 
     inputInstructions.forEach( (instruction, index) => {
+        console.log(instruction);
         if (instruction.func === 'syscall') {
             sys.createSyscallInstance(instruction, index)
             return
