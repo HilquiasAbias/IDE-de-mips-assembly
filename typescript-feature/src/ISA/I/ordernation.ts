@@ -1,7 +1,9 @@
-import { opcodeFieldExtensionForOrderC, opcodeFieldExtensionForOrderD } from "../../core/helpers";
 import { inputedObjectInstrucion } from "../../core/types";
 
-export function ordernate(instruction: inputedObjectInstrucion) {
+const opcodeFieldExtensionForOrderC = '00001'
+const opcodeFieldExtensionForOrderD = '00000'
+
+export function ordination(instruction: inputedObjectInstrucion) {
   if (instruction.func === 'a') {
     return { 
       rt: instruction.values[0], 
