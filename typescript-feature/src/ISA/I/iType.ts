@@ -2,16 +2,16 @@ import { instructions as Instructions } from "./instructions"; //
 import { ordination } from "./ordernation";
 
 // class version
-export class IType {
+class IType {
   constructor (
     private readonly instructions = Instructions,
     private readonly orderInstruction: Function = ordination,
-    private readonly buildCodeInstruction: Function
+    // private readonly buildCodeInstruction: Function
   ) {}
 
-  isTypeI(op: string) {
-    return this.instructions[op] !== undefined
-  }
+  // isTypeI(op: string) {
+  //   return this.instructions[op] !== undefined
+  // }
 
   buildInstructionScope() {} // formatInstruction
 
@@ -20,13 +20,26 @@ export class IType {
   }
 }
 
+export default new IType();
+
 
 // // factory function version
-// function IType(
-//   instructions: Object,
-//   orderInstruction: Function
-// ) {
+// function IType() {
+//   const instructions = Instructions
+//   const orderInstruction = ordination
 
+//   return {
+//     instructions,
+//     orderInstruction,
+
+//     // isTypeI(op: string) {
+//     //   return instructions[op] !== undefined
+//     // },
+
+//     teste() {
+//       console.log(instructions.addi.function);
+//     }
+//   }
 // }
 
 // export default IType()

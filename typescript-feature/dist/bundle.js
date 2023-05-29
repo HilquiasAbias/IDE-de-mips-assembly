@@ -10,21 +10,39 @@
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.IType = void 0;
-const instructions_1 = __webpack_require__(/*! ./instructions */ "./src/ISA/I/instructions.ts");
-// TODO: fazer um function factory
+const instructions_1 = __webpack_require__(/*! ./instructions */ "./src/ISA/I/instructions.ts"); //  
+const ordernation_1 = __webpack_require__(/*! ./ordernation */ "./src/ISA/I/ordernation.ts");
+// class version
 class IType {
-    constructor(instructions = instructions_1.instructions) {
+    constructor(instructions = instructions_1.instructions, orderInstruction = ordernation_1.ordination) {
         this.instructions = instructions;
+        this.orderInstruction = orderInstruction;
     }
-    isTypeI(op) {
-        return this.instructions[op] !== undefined;
-    }
+    // isTypeI(op: string) {
+    //   return this.instructions[op] !== undefined
+    // }
+    buildInstructionScope() { } // formatInstruction
     teste() {
         console.log(this.instructions.addi.function);
     }
 }
-exports.IType = IType;
+exports["default"] = new IType();
+// // factory function version
+// function IType() {
+//   const instructions = Instructions
+//   const orderInstruction = ordination
+//   return {
+//     instructions,
+//     orderInstruction,
+//     // isTypeI(op: string) {
+//     //   return instructions[op] !== undefined
+//     // },
+//     teste() {
+//       console.log(instructions.addi.function);
+//     }
+//   }
+// }
+// export default IType()
 
 
 /***/ }),
@@ -158,6 +176,65 @@ exports.instructions = {
 
 /***/ }),
 
+/***/ "./src/ISA/I/ordernation.ts":
+/*!**********************************!*\
+  !*** ./src/ISA/I/ordernation.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ordination = void 0;
+const opcodeFieldExtensionForOrderC = '00001';
+const opcodeFieldExtensionForOrderD = '00000';
+function ordination(instruction) {
+    if (instruction.func === 'a') {
+        return {
+            rt: instruction.values[0],
+            rs: instruction.values[1],
+            imm: parseInt(instruction.values[2])
+        };
+    }
+    if (instruction.func === 'b') {
+        return {
+            rt: instruction.values[0],
+            rs: instruction.values[1],
+            label: instruction.values[2]
+        };
+    }
+    if (instruction.func === 'c') {
+        return {
+            rs: instruction.values[0],
+            rt: opcodeFieldExtensionForOrderC,
+            label: instruction.values[1],
+        };
+    }
+    if (instruction.func === 'd') {
+        return {
+            rs: instruction.values[0],
+            rt: opcodeFieldExtensionForOrderD,
+            label: instruction.values[1],
+        };
+    }
+    if (instruction.func === 'e') {
+        return {
+            rs: null,
+            rt: null,
+            imm: null,
+        };
+    }
+    if (instruction.func === 'f') {
+        return {
+            rs: instruction.values[0],
+            imm: parseInt(instruction.values[1])
+        };
+    }
+}
+exports.ordination = ordination;
+
+
+/***/ }),
+
 /***/ "./src/core/helpers.ts":
 /*!*****************************!*\
   !*** ./src/core/helpers.ts ***!
@@ -166,13 +243,69 @@ exports.instructions = {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.opcodeFieldExtensionForOrderD = exports.opcodeFieldExtensionForOrderC = exports.uInt = void 0;
+exports.convertHexToDecimal = exports.convertDecimalToAddressHex = exports.convertDecimalToHex = exports.convertBinToHex = exports.convertDecimalToBin = exports.formatMemoryAddress = exports.uInt = exports.memoryAddressBase = void 0;
+exports.memoryAddressBase = 4194304;
 function uInt(number) {
     return Math.sqrt(Math.pow(number, 2));
 }
 exports.uInt = uInt;
-exports.opcodeFieldExtensionForOrderC = '00001';
-exports.opcodeFieldExtensionForOrderD = '00000';
+function formatMemoryAddress(currentMemoryCount) {
+    const baseAddressIncrement = 4;
+    let address = (baseAddressIncrement + currentMemoryCount).toString(16);
+    while (address.length != 8) {
+        address = '0' + address;
+    }
+    return '0x' + address;
+}
+exports.formatMemoryAddress = formatMemoryAddress;
+function convertDecimalToBin(dec) {
+    return dec.toString(2);
+}
+exports.convertDecimalToBin = convertDecimalToBin;
+function convertBinToHex(bin) {
+    return parseInt(bin, 2).toString(16);
+}
+exports.convertBinToHex = convertBinToHex;
+function convertDecimalToHex(dec) {
+    return dec.toString(16);
+}
+exports.convertDecimalToHex = convertDecimalToHex;
+function convertDecimalToAddressHex(dec) {
+    let hex = dec.toString(16);
+    while (hex.length !== 8) {
+        hex = '0' + hex;
+    }
+    return '0x' + hex;
+}
+exports.convertDecimalToAddressHex = convertDecimalToAddressHex;
+function convertHexToDecimal(hex) {
+    return parseInt(hex, 16);
+}
+exports.convertHexToDecimal = convertHexToDecimal;
+
+
+/***/ }),
+
+/***/ "./src/index.ts":
+/*!**********************!*\
+  !*** ./src/index.ts ***!
+  \**********************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+/* eslint-disable import/extensions */
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const iType_1 = __importDefault(__webpack_require__(/*! ./ISA/I/iType */ "./src/ISA/I/iType.ts"));
+// import errors from './errors/main';
+// errors({
+//   module: 'back',
+//   error: 'back_without_instructions',
+// });
+const i = iType_1.default;
+i.teste();
 
 
 /***/ })
@@ -197,34 +330,19 @@ exports.opcodeFieldExtensionForOrderD = '00000';
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-(() => {
-var exports = __webpack_exports__;
-/*!**********************!*\
-  !*** ./src/index.ts ***!
-  \**********************/
-
-/* eslint-disable import/extensions */
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const iType_1 = __webpack_require__(/*! ./ISA/I/iType */ "./src/ISA/I/iType.ts");
-// import errors from './errors/main';
-// errors({
-//   module: 'back',
-//   error: 'back_without_instructions',
-// });
-const i = new iType_1.IType();
-i.teste();
-
-})();
-
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/index.ts");
+/******/ 	
 /******/ })()
 ;
 //# sourceMappingURL=bundle.js.map

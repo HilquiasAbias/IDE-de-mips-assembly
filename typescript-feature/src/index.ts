@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 
-import { IType } from "./ISA/I/iType";
+import IType from "./ISA/I/iType";
 
 // import errors from './errors/main';
 
@@ -9,6 +9,6 @@ import { IType } from "./ISA/I/iType";
 //   error: 'back_without_instructions',
 // });
 
-const i = new IType()
+const i = IType
 
 i.teste()
