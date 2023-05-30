@@ -1,4 +1,4 @@
-import { uInt } from "../../core/helpers"
+import { uInt } from "../../core/helpers/general"
 
 export const instructions = {
   addi: { 

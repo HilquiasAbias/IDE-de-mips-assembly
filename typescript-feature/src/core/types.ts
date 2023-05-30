@@ -1,4 +1,4 @@
-import { Length } from "class-validator"
+// import { Length } from "class-validator"
 
 export type inputedObjectInstrucion = {
   func: string
@@ -24,6 +24,4 @@ export type ITypeFormatAddress = {
   imm?: string
 }
 
-export type ITypeInstructionValues = ITypeFormatAddress | {
-  func: string
-}
+export type ITypeInstructionValues = ITypeFormatAddress & { func: string }

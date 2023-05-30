@@ -13,7 +13,7 @@ class IType {
   //   return this.instructions[op] !== undefined
   // }
 
-  buildInstructionScope() {} // formatInstruction
+  buildInstructionScope() {} // formatInstruction --> mandar pro convertInstructionValuesInBinary o func já capturado das instructions !!!
 
   teste() {
     console.log(this.instructions.addi.function);
