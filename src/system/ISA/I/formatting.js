@@ -69,8 +69,11 @@ export function formatImmElement(imm) {
 }
 
 export function formatInstructionsInBinary(instruction) { // ['addi', '$2', '$0', '5']      ['lw', '$8', '4($9)']
+    console.log(instruction);
     const lastElement = instruction.pop()
+    console.log(lastElement);
     const func = instructions[ instruction.shift() ].function
+    console.log(func);
 
     const cleanedElements = instruction.map((element) => {
         return tools.convertDecimalToBin( parseInt( tools.cleanElement(element) ) ) // cleanElement
@@ -78,9 +81,9 @@ export function formatInstructionsInBinary(instruction) { // ['addi', '$2', '$0'
 
     // console.log(lastElement);
     // console.log(func);
-    // console.log(cleanedElements);
+    console.log(cleanedElements);
 
-    if (lastElement.includes('(')) {                        // cleanElement
+    if (lastElement.includes('(')) { // lw $4, 0($8)
         const rs = tools.convertDecimalToBin( parseInt( tools.cleanOnlyComma( lastElement.slice( lastElement.indexOf('$'), lastElement.indexOf(')') ) ) ) )
         const imm = formatImmElement( lastElement.slice(0, lastElement.indexOf('(') ) ) 
 

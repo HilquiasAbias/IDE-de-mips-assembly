@@ -46,7 +46,7 @@ user.mount.addEventListener('click', () => {
     view.cleanView()
 
     const test = extrairDiretivas(input.value)
-    console.log(test);
+    //console.log(test);
 
     view.structureInstructionsToMountView()
     //view.showPropertiesAfterMount()

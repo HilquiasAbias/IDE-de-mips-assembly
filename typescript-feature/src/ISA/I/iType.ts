@@ -1,3 +1,4 @@
+import formatting from "./formatting";
 import { instructions as Instructions } from "./instructions"; //  
 import { ordination } from "./ordernation";
 
@@ -6,6 +7,7 @@ class IType {
   constructor (
     private readonly instructions = Instructions,
     private readonly orderInstruction: Function = ordination,
+    private readonly format = formatting
     // private readonly buildCodeInstruction: Function
   ) {}
 
@@ -13,10 +15,15 @@ class IType {
   //   return this.instructions[op] !== undefined
   // }
 
-  buildInstructionScope() {} // formatInstruction --> mandar pro convertInstructionValuesInBinary o func já capturado das instructions !!!
+  buildInstructionScope() {} // formatInstruction --> mandar pro convertInstructionValuesInBinary o opcode já capturado das instructions !!!
 
   teste() {
-    console.log(this.instructions.addi.function);
+    console.log(formatting.convertInstructionValuesInBinary({
+      op: this.instructions.addi.opcode,
+      rs: '$2',
+      rt: '$0',
+      imm: '5'
+    }));
   }
 }
 

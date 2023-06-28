@@ -30,6 +30,11 @@ export function completeBinaryElementsLength(elements: string[]) {
   });
 }
 
+export function completeBinaryElementLength(element: string) {
+  while (element.length < 5) element = '0' + element;
+  return element;
+}
+
 export function completeBinaryImmLength(element: string) {
   while (element.length < 16) element = '0' + element;
   return element;

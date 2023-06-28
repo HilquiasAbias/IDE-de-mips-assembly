@@ -2,79 +2,79 @@ import { uInt } from "../../core/helpers/general"
 
 export const instructions = {
   addi: { 
-    function: '001000', 
+    opcode: '001000', 
     type: 'a', 
     does: (rs: number, imm: number) => rs + imm
   },
 
   addiu: { 
-    function: '001001',
+    opcode: '001001',
     type: 'a', 
     does: (rs: number, imm: number) => rs + uInt(imm)
   },
 
   andi: { 
-    function: '001100', 
+    opcode: '001100', 
     type: 'a', 
     does: (rs: number, imm: number) => rs & imm
   },
 
   beq: { 
-    function: '000100', 
+    opcode: '000100', 
     type: 'b', 
     does: (rs: number, rt: number) => rs === rt
   },
 
   bge: { 
-    function: '000001', 
+    opcode: '000001', 
     type: 'b', 
     does: (rs: number, rt: number) => rs >= rt
   },
 
   bgt: { 
-    function: '000111', 
+    opcode: '000111', 
     type: 'b', 
     does: (rs: number, rt: number) => rs > rt 
   },
 
   ble: { 
-    function: '000110', 
+    opcode: '000110', 
     type: 'b', 
     does: (rs: number, rt: number) => rs <= rt 
   },
 
   blt: { 
-    function: '000001', 
+    opcode: '000001', 
     type: 'b', 
     does: (rs: number, rt: number) => rs < rt 
   },
 
   bne: { 
-    function: '000100', 
+    opcode: '000100', 
     type: 'b', 
     does: (rs: number, rt: number) => rs !== rt
   },
 
   bgez: { 
-    function: '000001', 
+    opcode: '000001', 
     type: 'c', 
     does: (rs: number) => rs >= 0
   },
 
   bgtz: { 
-    function: '000111', 
+    opcode: '000111', 
     type: 'd', 
     does: (rs: number) => rs > 0
   },
 
   blez: { 
-    function: '000110', 
+    opcode: '000110', 
     type: 'd', 
     does: (rs: number) => rs <= 0  
   },
 
   bltz: { 
-    function: '000001', 
+    opcode: '000001', 
     type: 'd', 
     does: (rs: number) => rs < 0 
   },
@@ -87,13 +87,13 @@ export const instructions = {
   */
 
   lui: { 
-    function: '001111', 
+    opcode: '001111', 
     type: 'f', 
     does: null 
   },
 
   lw: {
-    function: '100011',
+    opcode: '100011',
     type: 'e',
     does: null
   },
@@ -103,7 +103,7 @@ export const instructions = {
   */
 
   ori: { 
-    function: '001101', 
+    opcode: '001101', 
     type: 'a', 
     does: (rs: number, imm: number) => rs | imm 
   },
@@ -113,12 +113,12 @@ export const instructions = {
   */
 
   slti: { 
-    function: '001010', 
+    opcode: '001010', 
     type: 'a', 
     does: (rs: number, imm: number) => rs < imm ? 1 : 0 
   },
   sltiu: { 
-    function: '001011', 
+    opcode: '001011', 
     type: 'a', 
     does: (rs: number, imm: number) => rs < uInt(imm) ? 1 : 0 
   },
@@ -130,7 +130,7 @@ export const instructions = {
   */
 
   xori: { 
-    function: '001110', 
+    opcode: '001110', 
     type: 'a', 
     does: (rs: number, imm: number) => rs ^ imm 
   }

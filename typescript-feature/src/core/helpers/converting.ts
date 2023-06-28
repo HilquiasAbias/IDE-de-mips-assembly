@@ -24,15 +24,15 @@ export function convertHexToDecimal(hex: string) {
   return parseInt(hex, 16);
 }
 
-export function convertBinaryInstructionToHex(binaryInstrution: string) {
-  const binaryArrayInstruction = binaryInstrution.split('')
-  const hexArrayInstruction = [];
+// export function convertBinaryInstructionToHex(binaryInstrution: string) {
+//   const binaryArrayInstruction = binaryInstrution.split('')
+//   const hexArrayInstruction = [];
 
-  let i = 0;
-  while (i++ !== 8) {
-    const pieceWithHexLenght = binaryArrayInstruction.splice(0, 4).join('')
-    hexArrayInstruction.push( convertBinToHex(pieceWithHexLenght) );
-  }
+//   let i = 0;
+//   while (i++ !== 8) {
+//     const pieceWithHexLenght: string = binaryArrayInstruction.splice(0, 4).join('')
+//     hexArrayInstruction.push( convertBinToHex(pieceWithHexLenght) );
+//   }
   
-  return '0x' + hexArrayInstruction.join('');
-}
+//   return '0x' + hexArrayInstruction.join('');
+// }

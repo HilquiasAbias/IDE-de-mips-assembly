@@ -22,8 +22,10 @@ export function whichOrganization(op) {
 
 export function formatInstruction(instruction, memorySpace, index) {
     const binary = formatting.formatInstructionsInBinary( [ instruction.func, ...instruction.values ] )
+    console.log(binary);
     const type = instructions[ instruction.func ].type
     const code = convertBinInstructionToHex( selectOrganizationType(type, binary) )
+    console.log(code);
     const address = formatAddress(memorySpace)
     const GPR = operateInstrucion(instruction)
     
