@@ -1,0 +1,30 @@
+export class InstructionsConstants {
+  public static readonly ADDI_FUNCTION = '001000'
+  public static readonly ADDIU_FUNCTION = '001001'
+  public static readonly ANDI_FUNCTION = '001100'
+  public static readonly BEQ_FUNCTION = '000100'
+  public static readonly BGE_FUNCTION = '000001'
+  public static readonly BGT_FUNCTION = '000111'
+  public static readonly BLE_FUNCTION = '000110'
+  public static readonly BLT_FUNCTION = '000001'
+  public static readonly BNE_FUNCTION = '000100'
+  public static readonly BGEZ_FUNCTION = '000001'
+  public static readonly BGTZ_FUNCTION = '000111'
+  public static readonly BLEZ_FUNCTION = '000110'
+  public static readonly BLTZ_FUNCTION = '000001'
+  public static readonly LUI_FUNCTION = '001111'
+  public static readonly LW_FUNCTION = '100011'
+  public static readonly ORI_FUNCTION = '001101'
+  public static readonly SLTI_FUNCTION = '001010'
+  public static readonly SLTIU_FUNCTION = '001011'
+  public static readonly XORI_FUNCTION = '001110'
+}
+
+export class OrganizationTypeConstants {
+  public static readonly A_TYPE = 'a'
+  public static readonly B_TYPE = 'b'
+  public static readonly C_TYPE = 'c'
+  public static readonly D_TYPE = 'd'
+  public static readonly E_TYPE = 'e'
+  public static readonly F_TYPE = 'f'
+}

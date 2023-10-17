@@ -1,81 +1,82 @@
 import { uInt } from "../../core/helpers/general"
+import { InstructionsConstants, OrganizationTypeConstants } from "./constants"
 
 export const instructions = {
   addi: { 
-    function: '001000', 
-    type: 'a', 
+    function: InstructionsConstants.ADDI_FUNCTION, 
+    type: OrganizationTypeConstants.A_TYPE, 
     does: (rs: number, imm: number) => rs + imm
   },
 
   addiu: { 
-    function: '001001',
-    type: 'a', 
+    function: InstructionsConstants.ADDIU_FUNCTION,
+    type: OrganizationTypeConstants.A_TYPE, 
     does: (rs: number, imm: number) => rs + uInt(imm)
   },
 
   andi: { 
-    function: '001100', 
-    type: 'a', 
+    function: InstructionsConstants.ADDIU_FUNCTION, 
+    type: OrganizationTypeConstants.A_TYPE, 
     does: (rs: number, imm: number) => rs & imm
   },
 
   beq: { 
-    function: '000100', 
-    type: 'b', 
+    function: InstructionsConstants.ADDIU_FUNCTION, 
+    type: OrganizationTypeConstants.B_TYPE, 
     does: (rs: number, rt: number) => rs === rt
   },
 
   bge: { 
-    function: '000001', 
-    type: 'b', 
+    function: InstructionsConstants.BGE_FUNCTION, 
+    type: OrganizationTypeConstants.B_TYPE, 
     does: (rs: number, rt: number) => rs >= rt
   },
 
   bgt: { 
-    function: '000111', 
-    type: 'b', 
+    function: InstructionsConstants.BGT_FUNCTION, 
+    type: OrganizationTypeConstants.B_TYPE, 
     does: (rs: number, rt: number) => rs > rt 
   },
 
   ble: { 
-    function: '000110', 
-    type: 'b', 
+    function: InstructionsConstants.BLE_FUNCTION, 
+    type: OrganizationTypeConstants.B_TYPE, 
     does: (rs: number, rt: number) => rs <= rt 
   },
 
   blt: { 
-    function: '000001', 
-    type: 'b', 
+    function: InstructionsConstants.BLT_FUNCTION, 
+    type: OrganizationTypeConstants.B_TYPE, 
     does: (rs: number, rt: number) => rs < rt 
   },
 
   bne: { 
-    function: '000100', 
-    type: 'b', 
+    function: InstructionsConstants.BNE_FUNCTION, 
+    type: OrganizationTypeConstants.B_TYPE, 
     does: (rs: number, rt: number) => rs !== rt
   },
 
   bgez: { 
-    function: '000001', 
-    type: 'c', 
+    function: InstructionsConstants.BGEZ_FUNCTION, 
+    type: OrganizationTypeConstants.C_TYPE, 
     does: (rs: number) => rs >= 0
   },
 
   bgtz: { 
-    function: '000111', 
-    type: 'd', 
+    function: InstructionsConstants.BGTZ_FUNCTION, 
+    type: OrganizationTypeConstants.D_TYPE, 
     does: (rs: number) => rs > 0
   },
 
   blez: { 
-    function: '000110', 
-    type: 'd', 
+    function: InstructionsConstants.BLEZ_FUNCTION, 
+    type: OrganizationTypeConstants.D_TYPE, 
     does: (rs: number) => rs <= 0  
   },
 
   bltz: { 
-    function: '000001', 
-    type: 'd', 
+    function: InstructionsConstants.BLTZ_FUNCTION, 
+    type: OrganizationTypeConstants.D_TYPE, 
     does: (rs: number) => rs < 0 
   },
 
@@ -87,24 +88,25 @@ export const instructions = {
   */
 
   lui: { 
-    function: '001111', 
-    type: 'f', 
+    function: InstructionsConstants.LUI_FUNCTION, 
+    type: OrganizationTypeConstants.F_TYPE, 
     does: null 
   },
 
   lw: {
-    function: '100011',
-    type: 'e',
+    function: InstructionsConstants.LW_FUNCTION,
+    type: OrganizationTypeConstants.E_TYPE,
     does: null
   },
+
   /*
   lw	rt, imm(rs)	100011
   lwc1	rt, imm(rs)	110001
   */
 
   ori: { 
-    function: '001101', 
-    type: 'a', 
+    function: InstructionsConstants.ORI_FUNCTION, 
+    type: OrganizationTypeConstants.A_TYPE, 
     does: (rs: number, imm: number) => rs | imm 
   },
 
@@ -113,13 +115,13 @@ export const instructions = {
   */
 
   slti: { 
-    function: '001010', 
-    type: 'a', 
+    function: InstructionsConstants.SLTI_FUNCTION, 
+    type: OrganizationTypeConstants.A_TYPE, 
     does: (rs: number, imm: number) => rs < imm ? 1 : 0 
   },
   sltiu: { 
-    function: '001011', 
-    type: 'a', 
+    function: InstructionsConstants.SLTIU_FUNCTION, 
+    type: OrganizationTypeConstants.A_TYPE, 
     does: (rs: number, imm: number) => rs < uInt(imm) ? 1 : 0 
   },
 
@@ -130,8 +132,8 @@ export const instructions = {
   */
 
   xori: { 
-    function: '001110', 
-    type: 'a', 
+    function: InstructionsConstants.XORI_FUNCTION, 
+    type: OrganizationTypeConstants.A_TYPE, 
     does: (rs: number, imm: number) => rs ^ imm 
   }
 }
