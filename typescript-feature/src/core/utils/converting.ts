@@ -1,37 +1,37 @@
-export function convertDecimalToBin(dec: number) {
+export function convertDecimalToBinary(dec: number) {
   return dec.toString(2);
 }
 
-export function convertBinToHex(bin: string) {
+export function convertBinToHexadecimal(bin: string) {
   return parseInt(bin, 2).toString(16);
 }
 
-export function convertDecimalToHex(dec: number) {
+export function convertDecimalToHexadecimal(dec: number) {
   return dec.toString(16);
 }
 
-export function convertDecimalToAddressHex(dec: number) {
+export function convertDecimalToHexadecimalAddress(dec: number) {
   let hex = dec.toString(16);
 
   while (hex.length !== 8) {
-      hex = '0' + hex;
+    hex = '0' + hex;
   }
   
   return '0x' + hex;
 }
 
-export function convertHexToDecimal(hex: string) {
+export function convertHexadecimalToDecimal(hex: string) {
   return parseInt(hex, 16);
 }
 
-export function convertBinaryInstructionToHex(binaryInstrution: string) {
+export function convertBinaryInstructionToHexadecimal(binaryInstrution: string) {
   const binaryArrayInstruction = binaryInstrution.split('')
   const hexArrayInstruction = [];
 
   let i = 0;
   while (i++ !== 8) {
     const pieceWithHexLenght = binaryArrayInstruction.splice(0, 4).join('')
-    hexArrayInstruction.push( convertBinToHex(pieceWithHexLenght) );
+    hexArrayInstruction.push( convertBinToHexadecimal(pieceWithHexLenght) );
   }
   
   return '0x' + hexArrayInstruction.join('');

@@ -1,84 +1,84 @@
-import { uInt } from "../../core/helpers/general"
+import { uInt } from "../../core/utils/general"
 import { InstructionsConstants, OrganizationTypeConstants } from "./constants"
 
-export const instructions = {
-  addi: { 
+export class ConstraintsInstructions {
+  public static readonly addi = { 
     function: InstructionsConstants.ADDI_FUNCTION, 
     type: OrganizationTypeConstants.A_TYPE, 
-    does: (rs: number, imm: number) => rs + imm
-  },
+    run: (rs: number, imm: number) => rs + imm
+  }
 
-  addiu: { 
+  public static readonly addiu = { 
     function: InstructionsConstants.ADDIU_FUNCTION,
     type: OrganizationTypeConstants.A_TYPE, 
-    does: (rs: number, imm: number) => rs + uInt(imm)
-  },
+    run: (rs: number, imm: number) => rs + uInt(imm)
+  }
 
-  andi: { 
+  public static readonly andi = { 
     function: InstructionsConstants.ADDIU_FUNCTION, 
     type: OrganizationTypeConstants.A_TYPE, 
-    does: (rs: number, imm: number) => rs & imm
-  },
+    run: (rs: number, imm: number) => rs & imm
+  }
 
-  beq: { 
+  public static readonly beq = { 
     function: InstructionsConstants.ADDIU_FUNCTION, 
     type: OrganizationTypeConstants.B_TYPE, 
-    does: (rs: number, rt: number) => rs === rt
-  },
+    run: (rs: number, rt: number) => rs === rt
+  }
 
-  bge: { 
+  public static readonly bge = { 
     function: InstructionsConstants.BGE_FUNCTION, 
     type: OrganizationTypeConstants.B_TYPE, 
-    does: (rs: number, rt: number) => rs >= rt
-  },
+    run: (rs: number, rt: number) => rs >= rt
+  }
 
-  bgt: { 
+  public static readonly bgt = { 
     function: InstructionsConstants.BGT_FUNCTION, 
     type: OrganizationTypeConstants.B_TYPE, 
-    does: (rs: number, rt: number) => rs > rt 
-  },
+    run: (rs: number, rt: number) => rs > rt 
+  }
 
-  ble: { 
+  public static readonly ble = { 
     function: InstructionsConstants.BLE_FUNCTION, 
     type: OrganizationTypeConstants.B_TYPE, 
-    does: (rs: number, rt: number) => rs <= rt 
-  },
+    run: (rs: number, rt: number) => rs <= rt 
+  }
 
-  blt: { 
+  public static readonly blt = { 
     function: InstructionsConstants.BLT_FUNCTION, 
     type: OrganizationTypeConstants.B_TYPE, 
-    does: (rs: number, rt: number) => rs < rt 
-  },
+    run: (rs: number, rt: number) => rs < rt 
+  }
 
-  bne: { 
+  public static readonly bne = { 
     function: InstructionsConstants.BNE_FUNCTION, 
     type: OrganizationTypeConstants.B_TYPE, 
-    does: (rs: number, rt: number) => rs !== rt
-  },
+    run: (rs: number, rt: number) => rs !== rt
+  }
 
-  bgez: { 
+  public static readonly bgez = { 
     function: InstructionsConstants.BGEZ_FUNCTION, 
     type: OrganizationTypeConstants.C_TYPE, 
-    does: (rs: number) => rs >= 0
-  },
+    run: (rs: number) => rs >= 0
+  }
 
-  bgtz: { 
+  public static readonly bgtz = { 
     function: InstructionsConstants.BGTZ_FUNCTION, 
     type: OrganizationTypeConstants.D_TYPE, 
-    does: (rs: number) => rs > 0
-  },
+    run: (rs: number) => rs > 0
+  }
 
-  blez: { 
+  public static readonly blez = { 
     function: InstructionsConstants.BLEZ_FUNCTION, 
     type: OrganizationTypeConstants.D_TYPE, 
-    does: (rs: number) => rs <= 0  
-  },
+    run: (rs: number) => rs <= 0  
+  }
 
-  bltz: { 
+  public static readonly bltz = { 
     function: InstructionsConstants.BLTZ_FUNCTION, 
     type: OrganizationTypeConstants.D_TYPE, 
-    does: (rs: number) => rs < 0 
-  },
+    run: (rs: number) => rs < 0 
+  }
 
   /*
   lb	rt, imm(rs)	100000	
@@ -87,43 +87,44 @@ export const instructions = {
   lhu	rt, imm(rs)	100101
   */
 
-  lui: { 
+  public static readonly lui = { 
     function: InstructionsConstants.LUI_FUNCTION, 
     type: OrganizationTypeConstants.F_TYPE, 
-    does: null 
-  },
+    run: null 
+  }
 
-  lw: {
+  public static readonly lw = {
     function: InstructionsConstants.LW_FUNCTION,
     type: OrganizationTypeConstants.E_TYPE,
-    does: null
-  },
+    run: null
+  }
 
   /*
   lw	rt, imm(rs)	100011
   lwc1	rt, imm(rs)	110001
   */
 
-  ori: { 
+  public static readonly ori = { 
     function: InstructionsConstants.ORI_FUNCTION, 
     type: OrganizationTypeConstants.A_TYPE, 
-    does: (rs: number, imm: number) => rs | imm 
-  },
+    run: (rs: number, imm: number) => rs | imm 
+  }
 
   /*
   sb	rt, imm(rs)	101000	
   */
 
-  slti: { 
+  public static readonly slti = { 
     function: InstructionsConstants.SLTI_FUNCTION, 
     type: OrganizationTypeConstants.A_TYPE, 
-    does: (rs: number, imm: number) => rs < imm ? 1 : 0 
-  },
-  sltiu: { 
+    run: (rs: number, imm: number) => rs < imm ? 1 : 0 
+  }
+
+  public static readonly sltiu = { 
     function: InstructionsConstants.SLTIU_FUNCTION, 
     type: OrganizationTypeConstants.A_TYPE, 
-    does: (rs: number, imm: number) => rs < uInt(imm) ? 1 : 0 
-  },
+    run: (rs: number, imm: number) => rs < uInt(imm) ? 1 : 0 
+  }
 
   /*
   sh	rt, imm(rs)	101001	
@@ -131,9 +132,9 @@ export const instructions = {
   swc1  rt, imm(rs)	111001
   */
 
-  xori: { 
+  public static readonly xori = { 
     function: InstructionsConstants.XORI_FUNCTION, 
     type: OrganizationTypeConstants.A_TYPE, 
-    does: (rs: number, imm: number) => rs ^ imm 
+    run: (rs: number, imm: number) => rs ^ imm 
   }
 }

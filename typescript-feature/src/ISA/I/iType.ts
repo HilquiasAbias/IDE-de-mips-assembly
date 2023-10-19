@@ -1,10 +1,10 @@
-import { instructions as Instructions } from "./instructions"; //  
+import { ConstraintsInstructions } from "./instructions"; //  
 import { ordination } from "./ordernation";
 
 // class version
 class IType {
   constructor (
-    private readonly instructions = Instructions,
+    private readonly instructions = ConstraintsInstructions,
     private readonly orderInstruction: Function = ordination,
     // private readonly buildCodeInstruction: Function
   ) {}
